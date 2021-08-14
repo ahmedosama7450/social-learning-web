@@ -1,0 +1,27 @@
+{
+  "general-university": "General",
+  "general-college": "General",
+  "colleges": {
+    "1": { "name": "Faculty Of Engineering", "shortName": "engineering" },
+    "2": { "name": "Faculty Of Science", "shortName": "science" },
+    "3": { "name": "Faculty Of Education", "shortName": "education" }
+  },
+  "universities": {
+    "1": { "name": "Cairo University", "shortName": "cairo" },
+    "2": { "name": "Zagazig University", "shortName": "zagazig" }
+  },
+  "years": {
+    "0": { "name": "Preparatory Year", "shortName": "0th" },
+    "1": { "name": "First Year", "shortName": "1st" },
+    "2": { "name": "Second Year", "shortName": "2nd" },
+    "3": { "name": "Third Year", "shortName": "3rd" },
+    "4": { "name": "Fourth Year", "shortName": "4th" },
+    "5": { "name": "Fifth Year", "shortName": "5th" },
+    "6": { "name": "Sixth Year", "shortName": "6th" }
+  },
+  "tags": {
+    "1": "Math",
+    "2": "First Term",
+    "3": "Electrical Dep"
+  }
+}

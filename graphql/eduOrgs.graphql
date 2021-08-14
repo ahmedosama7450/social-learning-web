@@ -1,0 +1,10 @@
+query EduOrgsInfo($cachedVersion: Int) {
+  eduOrgsInfo(cachedVersion: $cachedVersion) {
+    eduOrgs {
+      universities
+      colleges
+      tags
+    }
+    version
+  }
+}

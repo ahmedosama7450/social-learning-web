@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .form-label {
+    @apply text-sm font-medium text-gray-700;
+  }
+}
+
+@layer utilities {
+  .form-normal {
+    @apply text-black border-gray-300 focus:ring-primary focus:border-primary;
+  }
+
+  .form-error {
+    @apply text-red-700 border-red-300 focus:ring-red-300 focus:border-red-300;
+  }
+
+  .form-rounded {
+    @apply rounded;
+  }
+
+  .form-rounded-l {
+    @apply rounded-l;
+  }
+
+  .form-rounded-r {
+    @apply rounded-r;
+  }
+
+  .form-rounded-full {
+    @apply rounded-full;
+  }
+
+  .form-rounded-l-full {
+    @apply rounded-l-full;
+  }
+
+  .form-rounded-r-full {
+    @apply rounded-r-full;
+  }
+}

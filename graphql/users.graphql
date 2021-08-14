@@ -1,0 +1,40 @@
+fragment UserFragment on User {
+  id
+  provider
+  username
+  firstName
+  lastName
+  avatar
+  joinedAt
+  isVerified
+  reputation
+  profile {
+    bio
+    locale
+    university
+    college
+    year
+  }
+}
+
+query Me {
+  me {
+    ...UserFragment
+  }
+}
+
+mutation Login($provider: Provider!, $code: String!) {
+  loginWithProvider(provider: $provider, code: $code) {
+    accessToken
+  }
+}
+
+mutation Logout {
+  logout
+}
+
+mutation CreateProfile($profileCreateInput: ProfileCreateInput!) {
+  createProfile(profileCreateInput: $profileCreateInput) {
+    ...UserFragment
+  }
+}
