@@ -19,8 +19,9 @@ export type DialogReactNode<T = DefaultResultDataType> = (
 ) => React.ReactNode;
 
 export interface BaseDialogProps<T = DefaultResultDataType> {
-  render: DialogReactNode<T>;
+  /** Mostly a button. Invoke ds.toggle() in its onClick listener */
   children: DialogReactNode<T>;
+  content: DialogReactNode<T>;
 
   initialFocus?: React.MutableRefObject<HTMLElement>;
   autoClose?: boolean;
@@ -33,8 +34,8 @@ export interface BaseDialogProps<T = DefaultResultDataType> {
 // TODO Maybe we should accept render as children. It's like if you want to insert a dialog, just wrap it in a dialog tag. so, dialog children will become content, instead
 // TODO Provide a size prop (Examine tailwind new dialog examples)
 export function BaseDialog<T = DefaultResultDataType>({
-  render,
   children,
+  content,
 
   initialFocus,
   autoClose = true,
@@ -55,7 +56,7 @@ export function BaseDialog<T = DefaultResultDataType>({
 
   return (
     <>
-      {render(dialogState)}
+      {children(dialogState)}
       <Transition.Root show={isOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -101,7 +102,7 @@ export function BaseDialog<T = DefaultResultDataType>({
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <div className="inline-block w-full max-w-lg my-8 overflow-hidden text-left align-middle transition-all transform bg-white rounded-lg shadow-xl">
-                {children(dialogState)}
+                {content(dialogState)}
               </div>
             </Transition.Child>
           </div>

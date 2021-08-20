@@ -3,7 +3,7 @@ import {
   BaseDialogProps,
   DefaultResultDataType,
   DialogReactNode,
-} from './BaseDialog';
+} from "./BaseDialog";
 
 export type RegularDialogProps<T = DefaultResultDataType> = {
   header?: DialogReactNode<T>;
@@ -11,20 +11,21 @@ export type RegularDialogProps<T = DefaultResultDataType> = {
 } & BaseDialogProps<T>;
 
 export function RegularDialog<T = DefaultResultDataType>({
-  children,
+  content,
   header,
   footer,
   ...baseProps
 }: RegularDialogProps<T>) {
   return (
-    <BaseDialog {...baseProps}>
-      {(dialogState) => (
+    <BaseDialog
+      {...baseProps}
+      content={(dialogState) => (
         <>
           {header && header(dialogState)}
-          {children && children(dialogState)}
+          {content && content(dialogState)}
           {footer && footer(dialogState)}
         </>
       )}
-    </BaseDialog>
+    />
   );
 }

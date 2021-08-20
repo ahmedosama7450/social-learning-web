@@ -115,7 +115,8 @@ const CreateProfile: NextPage = () => {
                 confirmListener={() => {
                   logout();
                 }}
-                render={(ds) => (
+              >
+                {(ds) => (
                   <Button
                     color="red"
                     roundedFull
@@ -128,7 +129,7 @@ const CreateProfile: NextPage = () => {
                     {t("common:logout")}
                   </Button>
                 )}
-              ></ConfirmationDialog>
+              </ConfirmationDialog>
             </nav>
           </header>
           <main className="max-w-2xl px-3 mx-auto mt-4 sm:px-8">

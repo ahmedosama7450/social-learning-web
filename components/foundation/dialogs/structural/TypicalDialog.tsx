@@ -15,7 +15,7 @@ export type TypicalDialogProps<T = DefaultResultDataType> = {
 } & BaseDialogProps<T>;
 
 export function TypicalDialog<T = DefaultResultDataType>({
-  children,
+  content,
   headerProps,
   footerProps,
   ...baseProps
@@ -35,9 +35,8 @@ export function TypicalDialog<T = DefaultResultDataType>({
           <TypicalDialogFooter {...footerProps} dialogState={dialogState} />
         ))
       }
-    >
-      {(dialogState) => children(dialogState)}
-    </RegularDialog>
+      content={(dialogState) => content(dialogState)}
+    />
   );
 }
 

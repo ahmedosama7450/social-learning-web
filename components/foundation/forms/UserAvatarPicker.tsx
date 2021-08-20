@@ -33,17 +33,6 @@ export const UserAvatarPicker = ({
       <UserAvatar size="7xl" avatar={value} />
 
       <TypicalDialog<string>
-        render={(ds) => (
-          <Button
-            size="xs"
-            color="white"
-            onClick={() => {
-              ds.toggle();
-            }}
-          >
-            {t("common:change")}
-          </Button>
-        )}
         resultDataHandler={{
           resultData: internalValue,
           setResultData: setInternalValue,
@@ -64,8 +53,7 @@ export const UserAvatarPicker = ({
           },
           negativeButton: { text: t("common:cancel") },
         }}
-      >
-        {(ds) => (
+        content={(ds) => (
           <RadioGroup
             value={ds.resultDataHandler!.resultData}
             onChange={ds.resultDataHandler!.setResultData}
@@ -98,6 +86,18 @@ export const UserAvatarPicker = ({
               </RadioGroup.Option>
             ))}
           </RadioGroup>
+        )}
+      >
+        {(ds) => (
+          <Button
+            size="xs"
+            color="white"
+            onClick={() => {
+              ds.toggle();
+            }}
+          >
+            {t("common:change")}
+          </Button>
         )}
       </TypicalDialog>
     </div>

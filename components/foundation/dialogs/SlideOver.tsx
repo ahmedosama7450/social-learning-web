@@ -36,7 +36,7 @@ export function SlideOver<T = DefaultResultDataType>({
   innerCloseButton = false,
 
   children,
-  render,
+  content,
   initialFocus,
   autoClose = true,
   resultDataHandler,
@@ -51,7 +51,7 @@ export function SlideOver<T = DefaultResultDataType>({
 
   return (
     <>
-      {render(dialogState)}
+      {children(dialogState)}
       <Transition.Root show={isOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -151,7 +151,7 @@ export function SlideOver<T = DefaultResultDataType>({
                         "px-4 sm:px-6": header,
                       })}
                     >
-                      {children(dialogState)}
+                      {content(dialogState)}
                     </div>
                   </div>
                 </div>
