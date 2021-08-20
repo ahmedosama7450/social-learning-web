@@ -116,7 +116,7 @@ function TypicalDialogHeader<T = DefaultResultDataType>({
             dialogState.toggle();
           }}
           iconProps={{ hIcon: XIcon, size: "sm" }}
-          color="gray"
+          color="darkGray"
         />
       )}
     </div>

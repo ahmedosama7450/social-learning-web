@@ -9,7 +9,19 @@ import { Size } from "../../../lib/types";
  * TODO This structure works and all but It's got some repetition to it. Here are some alternatives:
  * 1. Using react composition model and generic component (That's what I am thing about doing)
  * 2. Conditionally render component depending on props instead oh having two separate components
+ *
+ * Same goes for IconButton
  */
+
+// TODO Maybe put common button types in a separate file
+export interface BaseButtonProps<T extends "button" | "a"> {
+  innerProps?: React.ComponentPropsWithoutRef<T>;
+  /** This will take precedence over innerProps onClick */
+  onClick?: React.MouseEventHandler<
+    T extends "button" ? HTMLButtonElement : HTMLAnchorElement
+  >;
+  className?: string;
+}
 
 export type ButtonSize = Size | "full";
 
@@ -23,20 +35,17 @@ export type ButtonColor =
 
 type GeneralButtonProps<T extends "button" | "a"> = {
   children: string;
-  innerProps?: React.ComponentPropsWithoutRef<T>;
-  /** This will take precedence over innerProps onClick */
-  onClick?: React.MouseEventHandler<
-    T extends "button" ? HTMLButtonElement : HTMLAnchorElement
-  >;
 
-  className?: string;
   size?: ButtonSize;
   color?: ButtonColor;
   roundedFull?: boolean;
 
   iconProps?: ButtonIconProps;
   uppercaseText?: boolean;
-};
+
+  /** Only works with color=transparent */ // TODO Need use case
+  selected?: boolean;
+} & BaseButtonProps<T>;
 
 export type ButtonProps = GeneralButtonProps<"button">;
 
@@ -52,13 +61,21 @@ export const Button = ({
 
   iconProps,
   uppercaseText = false,
+
+  selected,
 }: ButtonProps) => {
   return (
     <button
       type="button"
       {...innerProps}
       onClick={onClick}
-      className={makeButtonClassName({ className, size, color, roundedFull })}
+      className={makeButtonClassName({
+        className,
+        size,
+        color,
+        roundedFull,
+        selected,
+      })}
     >
       <ButtonChildren
         iconProps={iconProps}
@@ -77,7 +94,7 @@ export type LinkProps = GeneralButtonProps<"a"> & {
   href?: string;
 };
 
-// TODO name isn't great ?
+// TODO Name isn't great ?
 export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
   (
     {
@@ -94,6 +111,8 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
 
       iconProps,
       uppercaseText = false,
+
+      selected,
     },
     ref
   ) => {
@@ -103,7 +122,13 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
         ref={ref}
         href={href}
         onClick={onClick}
-        className={makeButtonClassName({ className, size, color, roundedFull })}
+        className={makeButtonClassName({
+          className,
+          size,
+          color,
+          roundedFull,
+          selected,
+        })}
       >
         <ButtonChildren
           iconProps={iconProps}
@@ -119,15 +144,14 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
 );
 Link.displayName = "Link";
 
-export type NextLinkProps = {
-  linkProps: Omit<LinkProps, "href">;
-} & BaseLinkProps;
+export type NextLinkProps = Omit<LinkProps, "href"> & BaseLinkProps;
 
-// TODO name isn't great ?
-export const NextLink = ({ linkProps, ...baseLinkProps }: NextLinkProps) => {
+// TODO Name isn't great ?
+// TODO Extra props are passed
+export const NextLink = ({ href, ...rest }: NextLinkProps) => {
   return (
-    <BaseLink {...baseLinkProps} passHref>
-      <Link {...linkProps} />
+    <BaseLink href={href} {...rest} passHref>
+      <Link {...rest} />
     </BaseLink>
   );
 };
@@ -141,9 +165,10 @@ function makeButtonClassName({
   size,
   color,
   roundedFull,
+  selected = false,
 }: Pick<
   ReallyGeneralButtonProps,
-  "className" | "size" | "color" | "roundedFull"
+  "className" | "size" | "color" | "roundedFull" | "selected"
 >) {
   return classNames(
     className,
@@ -175,8 +200,9 @@ function makeButtonClassName({
         color === "white",
       "text-primary bg-white hover:bg-primary-50": color === "white-primary",
       "text-white bg-red-600 hover:bg-red-700": color === "red",
-      "text-gray-500 hover:text-gray-900 !shadow-none !p-0":
-        color === "transparent", // TODO Maybe don't use !important
+      [`hover:text-gray-900 !shadow-none !p-0 ${
+        selected ? "text-gray-900" : "text-gray-500"
+      }`]: color === "transparent", // TODO Maybe don't use !important
     }
   );
 }

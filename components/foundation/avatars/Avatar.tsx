@@ -26,7 +26,7 @@ export const Avatar = ({
     <div
       className={classNames(
         className,
-        "inline-block bg-gray-100 overflow-hidden relative",
+        "bg-gray-100 overflow-hidden relative",
         // Size
         {
           "h-4 w-4": size === "xs",
