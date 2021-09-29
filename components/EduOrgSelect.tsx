@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next";
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
 
-import { RegisteredCustomSelectField } from "./foundation/forms";
+import { RegisteredCustomSelectField } from ".";
 import { Divider } from "./foundation/Divider";
 import { EDU_ORGS_GENERAL_OPTION_VALUE } from "../lib/backendValues";
 import { EduOrgs } from "../lib/backendTypes";
@@ -45,16 +45,16 @@ export const EduOrgSelect = ({
   return (
     <div
       className={classNames(className, {
-        "grid sm:grid-cols-2 gap-y-5 gap-x-5 mt-5 grid-cols-1":
+        "grid sm:grid-cols-2 gap-y-5 gap-x-5 grid-cols-1":
           structure === "normal",
-        "space-y-4": structure === "aside",
+        "space-y-3.5": structure === "aside",
       })}
     >
       <RegisteredCustomSelectField
         name="university"
         defaultValue={EDU_ORGS_GENERAL_OPTION_VALUE}
         control={control}
-        label={t("common:university-label")}
+        label={t("edu-orgs:university-label")}
         options={makeUniversitiesOptions(t, eduOrgs.universities)}
         onChange={() => {
           setValue("college", EDU_ORGS_GENERAL_OPTION_VALUE);
@@ -63,15 +63,16 @@ export const EduOrgSelect = ({
         className="col-span-1 sm:col-span-2"
       />
 
-      {structure === "aside" && <Divider />}
+      {/* {structure === "aside" && <Divider />} */}
 
       <RegisteredCustomSelectField
         name="college"
         defaultValue={EDU_ORGS_GENERAL_OPTION_VALUE}
         control={control}
-        label={t("common:college-label")}
+        label={t("edu-orgs:college-label")}
         options={makeCollegesOptions(
           t,
+          eduOrgs.colleges,
           eduOrgs.universities[watchUniversityId]
         )}
         onChange={() => {
@@ -80,13 +81,13 @@ export const EduOrgSelect = ({
         className="col-span-1"
       />
 
-      {structure === "aside" && <Divider />}
+      {/* {structure === "aside" && <Divider />} */}
 
       <RegisteredCustomSelectField
         name="year"
         defaultValue={EDU_ORGS_GENERAL_OPTION_VALUE}
         control={control}
-        label={t("common:year-label")}
+        label={t("edu-orgs:year-label")}
         options={makeYearsOptions(t, eduOrgs.colleges[watchCollegeId])}
         className="col-span-1"
       />

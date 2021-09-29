@@ -2,12 +2,31 @@ import { TFunction } from "next-i18next";
 
 import { CustomSelectFieldOption } from "../components/foundation/forms";
 import { EDU_ORGS_GENERAL_OPTION_VALUE } from "./backendValues";
-import { College, Universities, University } from "./backendTypes";
+import {
+  College,
+  Colleges,
+  EduOrg,
+  EduOrgs,
+  Tags,
+  Universities,
+  University,
+} from "./backendTypes";
+
+export function getEduOrgDisplayName(
+  idOrYear: number | string,
+  useShortNames: boolean,
+  type: "universities" | "colleges" | "years",
+  t: TFunction
+) {
+  return t(
+    `edu-orgs:${type}.${idOrYear}.${useShortNames ? "shortName" : "name"}`
+  );
+}
 
 export function makeUniversitiesOptions(
   t: TFunction,
   universities: Universities,
-  useShortNames?: boolean
+  useShortNames: boolean = false
 ): CustomSelectFieldOption[] {
   return [
     {
@@ -17,10 +36,11 @@ export function makeUniversitiesOptions(
     ...Object.keys(universities).map((universityId) => {
       return {
         value: Number(universityId),
-        text: t(
-          `edu-orgs:universities.${universityId}.${
-            useShortNames ? "shortName" : "name"
-          }`
+        text: getEduOrgDisplayName(
+          universityId,
+          useShortNames,
+          "universities",
+          t
         ),
         imageSrc: `/universities-logos/${universityId}.png`, // logos must match this path
       };
@@ -30,8 +50,9 @@ export function makeUniversitiesOptions(
 
 export function makeCollegesOptions(
   t: TFunction,
+  colleges: Colleges,
   university?: University,
-  useShortNames?: boolean
+  useShortNames: boolean = false
 ): CustomSelectFieldOption[] {
   const collegesOptions: CustomSelectFieldOption[] = [
     {
@@ -40,17 +61,15 @@ export function makeCollegesOptions(
     },
   ];
 
-  if (university) {
-    for (let collegeId of university.collegesIds) {
-      collegesOptions.push({
-        value: collegeId,
-        text: t(
-          `edu-orgs:colleges.${collegeId}.${
-            useShortNames ? "shortName" : "name"
-          }`
-        ),
-      });
-    }
+  const collegesIds = university
+    ? university.collegesIds
+    : Object.keys(colleges);
+
+  for (let collegeId of collegesIds) {
+    collegesOptions.push({
+      value: collegeId,
+      text: getEduOrgDisplayName(collegeId, useShortNames, "colleges", t),
+    });
   }
 
   return collegesOptions;
@@ -59,7 +78,7 @@ export function makeCollegesOptions(
 export function makeYearsOptions(
   t: TFunction,
   college?: College,
-  useShortNames?: boolean
+  useShortNames: boolean = false
 ): CustomSelectFieldOption[] {
   const yearsOptions: CustomSelectFieldOption[] = [
     {
@@ -72,9 +91,7 @@ export function makeYearsOptions(
     for (let year = college.firstYear; year <= college.lastYear; year++) {
       yearsOptions.push({
         value: year,
-        text: t(
-          `edu-orgs:years.${year}.${useShortNames ? "shortName" : "name"}`
-        ),
+        text: getEduOrgDisplayName(year, useShortNames, "years", t),
       });
     }
   }
@@ -82,52 +99,66 @@ export function makeYearsOptions(
   return yearsOptions;
 }
 
-/* export function findExistingTags(
+export function findExistingTags(
   tags: Tags,
   universityId: number,
   collegeId: number,
   year: number
 ): number[] {
-  console.log(universityId, collegeId, year);
   const existingTagsId: number[] = [];
 
-  Object.entries(tags).forEach(([key, value]) => {
-    const tagId = Number(key);
+  Object.entries(tags).forEach(([tagIdString, tag]) => {
+    const tagId = Number(tagIdString);
     if (
-      (!value.eduOrgs || value.eduOrgs.length === 0) &&
+      (!tag.eduOrgs || tag.eduOrgs.length === 0) &&
       universityId == EDU_ORGS_GENERAL_OPTION_VALUE &&
       collegeId == EDU_ORGS_GENERAL_OPTION_VALUE &&
       year == EDU_ORGS_GENERAL_OPTION_VALUE
     ) {
       existingTagsId.push(tagId);
     } else {
-             value.eduOrgs?.forEach((eduOrg) => {
-        eduOrg.universitiesIds.forEach((_universityId) => {
-          eduOrg.collegesIds.forEach((_collegeId) => {
-            eduOrg.years.forEach((_year) => {
-              console.log(_universityId, _collegeId, _year);
-              console.log(universityId, collegeId, year);
-              console.log("equals ??");
-              console.log(
-                universityId == _universityId &&
-                  collegeId == _collegeId &&
-                  year == _year
-              );
-              console.log("\n");
-
+      tag.eduOrgs?.forEach((eduOrg) => {
+        eduOrg.universitiesIds.forEach((tagEduOrgUniversityId) => {
+          eduOrg.collegesIds.forEach((tagEduOrgCollegeId) => {
+            eduOrg.years.forEach((tagEduOrgYear) => {
               if (
-                universityId == _universityId &&
-                collegeId == _collegeId &&
-                year == _year
+                universityId === tagEduOrgUniversityId &&
+                collegeId === tagEduOrgCollegeId &&
+                year === tagEduOrgYear
               ) {
                 existingTagsId.push(tagId);
               }
             });
           });
         });
-      }); 
+      });
     }
   });
 
   return existingTagsId;
-} */
+}
+
+export function displayEduOrg(
+  { universityId, collegeId, year }: EduOrg,
+  t: TFunction
+) {
+  let result: string = "";
+
+  if (universityId) {
+    result += getEduOrgDisplayName(universityId, true, "universities", t);
+  }
+
+  if (collegeId) {
+    result += " - " + getEduOrgDisplayName(collegeId, true, "colleges", t);
+  }
+
+  if (year) {
+    result += " - " + getEduOrgDisplayName(year, true, "years", t);
+  }
+
+  if (result === "") {
+    result = t("edu-orgs:general");
+  }
+
+  return result;
+}

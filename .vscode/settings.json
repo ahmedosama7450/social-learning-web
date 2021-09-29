@@ -1,5 +1,13 @@
 {
-  "cSpell.words": ["ORGS", "borderless", "headlessui", "semibold"],
+  "cSpell.words": [
+    "borderless",
+    "headlessui",
+    "semibold",
+    "Orgs",
+    "heroicons",
+    "osama",
+    "slideover"
+  ],
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",

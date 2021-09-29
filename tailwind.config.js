@@ -12,6 +12,7 @@ module.exports = {
 
       gray: colors.coolGray,
       blueGray: colors.blueGray,
+      trueGray: colors.trueGray,
       black: colors.black,
       white: colors.white,
       red: colors.red,
@@ -24,19 +25,27 @@ module.exports = {
       },
       divider: colors.coolGray[200],
       error: colors.red[500],
+      link: colors.sky[600],
+      linkHover: colors.sky[500],
+
+      aside: "#F7F9F9",
     },
 
     extend: {
       fontFamily: {
-        sans: ["Inter var", ...defaultTheme.fontFamily.sans],
+        sans: ["Open Sans", "sans-serif", ...defaultTheme.fontFamily.sans],
       },
       width: {
         "1/2-screen": "50vw",
         "3/4-screen": "72vw", // TODO rename to be related to slide over
       },
       fontSize: {
-        md: ".9375rem", // TODO I am not sure I need this
+        md: [".9375rem", "1.375rem"], // TODO I am not sure I need this
       },
+
+      /* borderColor: {
+        DEFAULT: colors.coolGray[100],
+      }, */
     },
   },
 

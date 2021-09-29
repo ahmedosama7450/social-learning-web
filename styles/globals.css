@@ -40,4 +40,8 @@
   .form-rounded-r-full {
     @apply rounded-r-full;
   }
+
+  .pseudo-bg {
+    @apply relative isolate before:absolute before:-inset-1.5 before:z-[-10];
+  }
 }

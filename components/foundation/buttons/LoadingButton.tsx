@@ -3,7 +3,7 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 import { Button, ButtonProps } from "./Button";
 
-export type LoadingButtonProps = ButtonProps & {
+export type LoadingButtonProps = ButtonProps<"button"> & {
   loading: boolean;
   loadingTextKey?: string;
 };

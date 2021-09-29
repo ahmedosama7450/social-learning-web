@@ -29,3 +29,7 @@ export type CustomRequired<T, K extends keyof T> = Pick<Required<T>, K> &
  * Type utility to replace O keys in T with N type (which could be a type alias or interface)
  */
 export type Replace<T, O extends keyof T, N> = Omit<T, O> & N;
+
+export type ClickListener<T extends HTMLElement> = React.MouseEventHandler<T>;
+
+export type ButtonClickLister = ClickListener<HTMLButtonElement>;

@@ -115,7 +115,7 @@ export function SlideOver<T = DefaultResultDataType>({
                         })}
                       >
                         <IconButton
-                          iconProps={{ hIcon: XIcon, size: "md" }}
+                          iconProps={{ hIcon: XIcon, size: "lg" }}
                           onClick={() => setOpen(false)}
                           color="lightGray"
                           hoverType="simpleWhite"
@@ -139,7 +139,7 @@ export function SlideOver<T = DefaultResultDataType>({
                         {hasCloseButton && innerCloseButton && (
                           <IconButton
                             onClick={() => setOpen(false)}
-                            iconProps={{ hIcon: XIcon, size: "md" }}
+                            iconProps={{ hIcon: XIcon, size: "lg" }}
                             hoverType="simple"
                             color="gray"
                           />

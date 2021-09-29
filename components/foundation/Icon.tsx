@@ -3,6 +3,7 @@ import { IconProp as FaIconProps } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { Size } from "../../lib/types";
+import { faCaretUp } from "@fortawesome/free-solid-svg-icons";
 
 /**
  * customIcon can be anything but mostly an svg element
@@ -22,7 +23,7 @@ export type IconProps = BaseIconProps & {
 };
 
 export const Icon = (props: IconProps) => {
-  const { size = "md", className } = props;
+  const { size = "lg", className } = props;
 
   if ("hIcon" in props) {
     // Hero icon
@@ -32,11 +33,11 @@ export const Icon = (props: IconProps) => {
           className,
           // Size
           {
-            "w-4 h-4": size === "xs",
-            "h-5 w-5": size === "sm",
-            "h-6 w-6": size === "md",
-            "h-7 w-7": size === "lg",
-            "h-8 w-8": size === "xl",
+            "w-3.5 h-3.5": size === "xs",
+            "h-4 w-4": size === "sm",
+            "h-5 w-5": size === "md",
+            "h-6 w-6": size === "lg",
+            "h-7 w-7": size === "xl",
           }
         )}
       />
@@ -48,6 +49,17 @@ export const Icon = (props: IconProps) => {
       // TODO Font awesome has a lot of properties which you might want to use, maybe
       <FontAwesomeIcon
         icon={props.faIcon}
+        /* className={classNames(
+          className,
+          // Size
+          {
+            "w-4 h-4": size === "xs",
+            "h-5 w-5": size === "sm",
+            "h-6 w-6": size === "md",
+            "h-7 w-7": size === "lg",
+            "h-8 w-8": size === "xl",
+          }
+        )} */
         className={classNames(className, {
           // Size
           "text-[1rem]": size === "xs",
@@ -61,10 +73,9 @@ export const Icon = (props: IconProps) => {
   } else {
     // Custom Icon
     return (
-      <span
+      <div
         className={classNames(
           className,
-          "inline-block",
 
           // Size
           {
@@ -77,7 +88,7 @@ export const Icon = (props: IconProps) => {
         )}
       >
         {props.customIcon}
-      </span>
+      </div>
     );
   }
 };

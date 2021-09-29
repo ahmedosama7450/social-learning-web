@@ -62,10 +62,10 @@ export const BaseField = <T extends BaseFieldType>({
   const inputFieldClassName = classNames(
     "flex-1 w-full sm:text-sm z-10 focus:outline-none",
 
-    filled ? "bg-gray-200 focus:bg-white" : "bg-white",
+    filled ? "bg-blueGray-100 focus:bg-blueGray-50 focus:ring-0" : "bg-white",
 
     {
-      "py-2.5": large,
+      "py-3": large,
       "border-0": borderless,
 
       "pr-7": errorMsg && fieldType === "input" && !trailingAddonProps,

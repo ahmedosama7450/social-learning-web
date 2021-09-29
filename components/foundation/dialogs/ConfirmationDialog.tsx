@@ -2,7 +2,7 @@ import { useTranslation } from "next-i18next";
 import { ExclamationIcon } from "@heroicons/react/outline";
 import { Dialog } from "@headlessui/react";
 
-import { TypicalDialog, BaseDialogProps } from "./structural";
+import { TypicalDialog, BaseDialogProps } from "../..";
 
 export type ConfirmationDialogProps = {
   confirmListener: () => void;

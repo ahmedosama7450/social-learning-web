@@ -120,7 +120,7 @@ const CreateProfile: NextPage = () => {
                   <Button
                     color="red"
                     roundedFull
-                    size="xs"
+                    size="sm"
                     iconProps={{ hIcon: LogoutIcon, isTrailing: true }}
                     onClick={() => {
                       ds.toggle();
@@ -142,7 +142,7 @@ const CreateProfile: NextPage = () => {
             </p>
             <form
               onSubmit={formMethods.handleSubmit(onSubmit)}
-              className="p-3 border rounded shadow-sm sm:p-4"
+              className="p-3 border border-gray-200 rounded shadow-sm sm:p-4"
             >
               <RegisteredUserAvatarPicker
                 name="avatar"
@@ -209,6 +209,7 @@ const CreateProfile: NextPage = () => {
                 eduOrgs={eduOrgs}
                 formMethods={formMethods}
                 structure="normal"
+                className="mt-5"
               />
 
               <LoadingButton

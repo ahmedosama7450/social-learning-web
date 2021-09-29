@@ -5,9 +5,13 @@ import { Controller } from "react-hook-form";
 import classNames from "classnames";
 import { useTranslation } from "next-i18next";
 
-import { Button } from "../buttons";
-import { TypicalDialog } from "../dialogs/structural";
-import { UserAvatar, AVATARS_MAP, DEFAULT_AVATAR } from "../avatars";
+import {
+  Button,
+  TypicalDialog,
+  UserAvatar,
+  AVATARS_MAP,
+  DEFAULT_AVATAR,
+} from "../..";
 import {
   CustomPartial,
   RegisteredControlledFieldProps,
@@ -90,7 +94,7 @@ export const UserAvatarPicker = ({
       >
         {(ds) => (
           <Button
-            size="xs"
+            size="sm"
             color="white"
             onClick={() => {
               ds.toggle();

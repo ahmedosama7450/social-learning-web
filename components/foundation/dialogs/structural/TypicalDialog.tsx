@@ -7,7 +7,7 @@ import {
   DialogState,
 } from "./BaseDialog";
 import { RegularDialog } from "./RegularDialog";
-import { Button, ButtonColor, IconButton } from "../../buttons";
+import { Button, ButtonColor, IconButton } from "../../..";
 
 export type TypicalDialogProps<T = DefaultResultDataType> = {
   headerProps?: TypicalDialogHeaderProps;
@@ -114,7 +114,7 @@ function TypicalDialogHeader<T = DefaultResultDataType>({
           onClick={() => {
             dialogState.toggle();
           }}
-          iconProps={{ hIcon: XIcon, size: "sm" }}
+          iconProps={{ hIcon: XIcon, size: "md" }}
           color="darkGray"
         />
       )}
