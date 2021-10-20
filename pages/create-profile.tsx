@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
-import { LogoutIcon } from "@heroicons/react/solid";
 
 import {
   useCreateProfileMutation,
@@ -12,7 +11,6 @@ import {
   Locale,
   ProfileCreateInput,
 } from "../__generated__/graphql";
-import { EduOrgSelect } from "../components";
 import {
   Logo,
   Button,
@@ -20,13 +18,13 @@ import {
   RegisteredInputField,
   RegisteredTextareaField,
   RegisteredUserAvatarPicker,
-  Icon,
   Loader,
   RedirectLoader,
   Error,
   ConfirmationDialog,
-} from "../components/foundation";
-import { EduOrgsLoader } from "../components/extras";
+  EduOrgsLoader,
+  EduOrgSelect,
+} from "../components";
 import {
   isClient,
   isErrorWithCode,
@@ -120,8 +118,11 @@ const CreateProfile: NextPage = () => {
                   <Button
                     color="red"
                     roundedFull
-                    size="xs"
-                    iconProps={{ hIcon: LogoutIcon, isTrailing: true }}
+                    size="sm"
+                    iconProps={{
+                      icon: "ri:logout-box-r-line",
+                      isTrailing: true,
+                    }}
                     onClick={() => {
                       ds.toggle();
                     }}
@@ -209,6 +210,7 @@ const CreateProfile: NextPage = () => {
                 eduOrgs={eduOrgs}
                 formMethods={formMethods}
                 structure="normal"
+                className="mt-5"
               />
 
               <LoadingButton
