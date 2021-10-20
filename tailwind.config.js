@@ -4,38 +4,42 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
   mode: "jit",
   purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: false,
   theme: {
     colors: {
       transparent: "transparent",
       current: "currentColor",
 
+      primary: {
+        DEFAULT: "#1da1f2",
+        ...colors.sky,
+      },
       gray: colors.coolGray,
-      blueGray: colors.blueGray,
       black: colors.black,
       white: colors.white,
       red: colors.red,
       green: colors.emerald,
       yellow: colors.yellow,
 
-      primary: {
-        DEFAULT: "#1da1f2",
-        ...colors.sky,
-      },
       divider: colors.coolGray[200],
       error: colors.red[500],
+      link: colors.sky[600],
+      linkHover: colors.sky[500],
+      aside: "#F7F9F9",
     },
 
     extend: {
       fontFamily: {
-        sans: ["Inter var", ...defaultTheme.fontFamily.sans],
+        sans: ["Cairo", "sans-serif", ...defaultTheme.fontFamily.sans],
       },
-      width: {
-        "1/2-screen": "50vw",
-        "3/4-screen": "72vw", // TODO rename to be related to slide over
-      },
+
       fontSize: {
-        md: ".9375rem", // TODO I am not sure I need this
+        "2xs": ["0.8125rem", "1rem"],
+        md: [".9375rem", "1.375rem"],
+      },
+
+      borderColor: {
+        DEFAULT: colors.coolGray[200], // Same as divider color
       },
     },
   },
@@ -52,7 +56,7 @@ module.exports = {
 
   plugins: [
     require("@tailwindcss/forms"),
-    require("@tailwindcss/typography"), // TODO not used yet
+    require("@tailwindcss/typography"),
     require("@tailwindcss/aspect-ratio"), // TODO not used yet
     require("@tailwindcss/line-clamp"), // TODO not used yet
   ],

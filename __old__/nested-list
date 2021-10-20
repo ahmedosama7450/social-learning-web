@@ -1,0 +1,74 @@
+export type ListItemElement = {
+  type: "list-item";
+  children: (
+    | FormattedText
+    | NestedListTitleElement
+    | BulletedListElement
+    | NumberedListElement
+  )[];
+};
+
+export type NestedListTitleElement = {
+  type: "nested-list-title";
+  children: FormattedText[];
+};
+
+
+
+
+case "nested-list-title":
+        return <span {...attributes}>{children}</span>;
+
+
+
+            //----------------------
+            // List shortcuts
+            //----------------------
+
+            const { selection } = editor;
+
+            if (
+              isHotkey("tab", event) &&
+              selection &&
+              Range.isCollapsed(selection)
+            ) {
+              const nodeEntry = Editor.above<SlateElement>(editor, {
+                match: (n) => SlateElement.isElement(n),
+              });
+
+              if (nodeEntry) {
+                const [node, path] = nodeEntry;
+                if (node.type === "list-item" && Path.hasPrevious(path)) {
+                  event.preventDefault();
+
+                  Editor.withoutNormalizing(editor, () => {
+                    const previousPath = Path.previous(path);
+
+                    Transforms.wrapNodes(
+                      editor,
+                      {
+                        type: "nested-list-title",
+                        children: [],
+                      },
+                      {
+                        at: previousPath.concat(0),
+                      }
+                    );
+
+                    Transforms.wrapNodes(
+                      editor,
+                      { type: "bulleted-list", children: [] },
+                      { at: path }
+                    );
+
+                    Transforms.moveNodes(editor, {
+                      at: path,
+                      /* match: (n, p) => p.length === path.length + 1, */
+                      to: previousPath.concat(1),
+                    });
+
+                    // Transforms.removeNodes(editor, { at: path });
+                  });
+                }
+              }
+            }
