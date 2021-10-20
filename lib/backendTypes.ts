@@ -23,14 +23,16 @@ export interface Tag {
   description: string;
   type: TagType;
   eduOrgs?: {
-    universitiesIds?: number[];
-    collegesIds?: number[];
-    years?: number[];
+    universitiesIds: number[];
+    collegesIds: number[];
+    years: number[];
   }[];
 }
 
 export type Universities = Record<number, University>;
+
 export type Colleges = Record<number, College>;
+
 export type Tags = Record<number, Tag>;
 
 export type EduOrgs = {
