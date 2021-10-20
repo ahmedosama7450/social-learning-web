@@ -9,20 +9,30 @@ module.exports = {
     colors: {
       transparent: "transparent",
       current: "currentColor",
+      black: colors.black,
+      white: colors.white,
 
       primary: {
         DEFAULT: "#1da1f2",
         ...colors.sky,
       },
-      gray: colors.coolGray,
-      black: colors.black,
-      white: colors.white,
-      red: colors.red,
-      green: colors.emerald,
-      yellow: colors.yellow,
+      gray: {
+        DEFAULT: colors.coolGray[200], // Divider color mostly
+        ...colors.coolGray,
+      },
+      red: {
+        DEFAULT: colors.red[500], // Error color mostly
+        ...colors.red,
+      },
+      green: {
+        DEFAULT: colors.emerald[500],
+        ...colors.emerald,
+      },
+      yellow: {
+        DEFAULT: colors.yellow[500],
+        ...colors.yellow,
+      },
 
-      divider: colors.coolGray[200],
-      error: colors.red[500],
       link: colors.sky[600],
       linkHover: colors.sky[500],
       aside: "#F7F9F9",

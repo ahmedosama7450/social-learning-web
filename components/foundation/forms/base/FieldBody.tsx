@@ -1,0 +1,220 @@
+import classNames from "classnames";
+import { ElementType } from "react";
+
+import { Icon } from "../../..";
+import { MiniSize } from "../../../../lib/types";
+
+export type FieldRoundness = "sm" | "md" | "full";
+
+export type FieldBodyProps = {
+  label?: string;
+  extraText?: string;
+  errorMsg?: string;
+  helperText?: string;
+  greenHelperText?: boolean;
+
+  className?: string;
+  /** Removes shadow */
+  flat?: boolean;
+  borderless?: boolean;
+  /** Adds a background color other than white */
+  filled?: boolean;
+  roundness?: FieldRoundness;
+  size?: MiniSize;
+
+  leadingAddonProps?: FieldAddonProps;
+  trailingAddonProps?: FieldAddonProps;
+};
+
+export const FieldBody = <L,>({
+  label,
+  extraText,
+  errorMsg,
+  helperText,
+  greenHelperText = false,
+
+  className,
+  flat = true,
+  borderless = false,
+  filled = false,
+  roundness = "md",
+  size = "md",
+
+  leadingAddonProps,
+  trailingAddonProps,
+
+  render,
+  /** Error icons don't look good with textarea and select fields, use this to disable it */
+  showErrorIcon,
+  labelAs: LabelAs,
+  labelAsProps,
+}: FieldBodyProps & {
+  render: (className: string) => JSX.Element;
+  showErrorIcon: boolean;
+  labelAs: ElementType;
+  labelAsProps?: L;
+}) => {
+  return (
+    <div className={className}>
+      {label &&
+        (extraText ? (
+          <div className="flex items-center justify-between mb-1">
+            <LabelAs {...labelAsProps} className="form-label">
+              {label}
+            </LabelAs>
+            <span className="text-sm text-gray-400">{extraText}</span>
+          </div>
+        ) : (
+          <LabelAs {...labelAsProps} className="mb-1 form-label">
+            {label}
+          </LabelAs>
+        ))}
+
+      <div
+        className={classNames("relative flex w-full", {
+          "shadow-sm": !flat,
+          "rounded-sm": roundness === "sm",
+          rounded: roundness === "md",
+          "rounded-full": roundness === "full",
+        })}
+      >
+        {leadingAddonProps && (
+          <FieldAddon
+            {...leadingAddonProps}
+            className={classNames(
+              leadingAddonProps.className,
+              leadingAddonProps.isDetached ? "border-r-0" : "left-0",
+              {
+                "rounded-l-sm": roundness === "sm",
+                "rounded-l": roundness === "md",
+                "rounded-l-full": roundness === "full",
+              }
+            )}
+          />
+        )}
+
+        {render(
+          classNames(
+            "flex-1 w-full z-10 py-2 focus:outline-none focus:ring-1",
+
+            filled ? "bg-gray-100 focus:bg-white" : "bg-white ",
+
+            borderless
+              ? "border-none"
+              : `border ${
+                  errorMsg ? "focus:border-red-300" : "focus:border-primary"
+                }`,
+
+            errorMsg
+              ? "text-red-700 border-red-300 focus:ring-red-300"
+              : "text-gray-900 border-gray-300 focus:ring-primary",
+
+            {
+              "text-2xs": size === "sm",
+              "text-sm": size === "md",
+              "text-base": size === "lg",
+
+              "pr-7": showErrorIcon && errorMsg && !trailingAddonProps,
+
+              [roundness === "sm"
+                ? "rounded-sm"
+                : roundness === "full"
+                ? "rounded-full"
+                : "rounded"]:
+                !leadingAddonProps?.isDetached &&
+                !trailingAddonProps?.isDetached,
+
+              [roundness === "sm"
+                ? "rounded-r-sm"
+                : roundness === "full"
+                ? "rounded-r-full"
+                : "rounded-r"]:
+                leadingAddonProps?.isDetached &&
+                !trailingAddonProps?.isDetached,
+
+              [roundness === "sm"
+                ? "rounded-l-sm"
+                : roundness === "full"
+                ? "rounded-l-full"
+                : "rounded-l"]:
+                trailingAddonProps?.isDetached &&
+                !leadingAddonProps?.isDetached,
+            }
+          )
+        )}
+
+        {trailingAddonProps ? (
+          <FieldAddon
+            {...trailingAddonProps}
+            className={classNames(
+              trailingAddonProps.className,
+              trailingAddonProps.isDetached ? "border-l-0" : "right-0",
+              {
+                "rounded-r-sm": roundness === "sm",
+                "rounded-r": roundness === "md",
+                "rounded-r-full": roundness === "full",
+              }
+            )}
+          />
+        ) : (
+          showErrorIcon &&
+          errorMsg && (
+            <FieldAddon
+              addon={
+                <Icon
+                  icon="heroicons-solid:exclamation-circle"
+                  size="md"
+                  className="text-red"
+                />
+              }
+              className="right-0 pr-2"
+            />
+          )
+        )}
+      </div>
+
+      {errorMsg ? (
+        <p className="mt-1.5 text-sm text-red">{errorMsg}</p>
+      ) : (
+        helperText && (
+          <p
+            className={classNames("mt-1.5 text-sm", {
+              "text-gray-500": !greenHelperText,
+              "text-green-600": greenHelperText,
+            })}
+          >
+            {helperText}
+          </p>
+        )
+      )}
+    </div>
+  );
+};
+
+interface FieldAddonProps {
+  addon: React.ReactNode;
+  /** Use this to add left and right padding (pl-3 (pr-3) or pl-2 (pr-2) is mostly fine for icons, px-3 for detached icons) */
+  className?: string;
+  pointerEventsEnabled?: boolean;
+  isDetached?: boolean;
+}
+
+const FieldAddon = ({
+  addon,
+  className,
+  pointerEventsEnabled = false,
+  isDetached = false,
+}: FieldAddonProps) => {
+  return (
+    <div
+      className={classNames(className, {
+        "pointer-events-none": !pointerEventsEnabled,
+        "absolute z-20 inset-y-0 flex items-center": !isDetached,
+        "inline-flex items-center border border-gray-300 bg-gray-50 text-gray-500 text-sm z-0":
+          isDetached,
+      })}
+    >
+      {addon}
+    </div>
+  );
+};
