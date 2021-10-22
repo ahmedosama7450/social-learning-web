@@ -3,5 +3,6 @@
   "logout": "Logout",
   "confirm-title": "Confirmation",
   "confirm-logout": "Are you sure you want to logout",
-  "avatar-picker-title": "Pick an avatar"
+  "avatar-picker-title": "Pick an avatar",
+  "search": "Search..."
 }

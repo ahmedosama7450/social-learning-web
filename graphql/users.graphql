@@ -1,4 +1,4 @@
-fragment UserFragment on User {
+fragment User on User {
   id
   provider
   username
@@ -19,7 +19,7 @@ fragment UserFragment on User {
 
 query Me {
   me {
-    ...UserFragment
+    ...User
   }
 }
 
@@ -35,6 +35,6 @@ mutation Logout {
 
 mutation CreateProfile($profileCreateInput: ProfileCreateInput!) {
   createProfile(profileCreateInput: $profileCreateInput) {
-    ...UserFragment
+    ...User
   }
 }

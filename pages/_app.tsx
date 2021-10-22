@@ -9,6 +9,7 @@ import { appWithTranslation } from "next-i18next";
 import { useApollo } from "../lib/apolloClient";
 
 // Fixes forwardRef typing with generics
+// Also, It breaks using displayName but It's not a big deal :)
 declare module "react" {
   function forwardRef<T, P = {}>(
     render: (props: P, ref: React.Ref<T>) => React.ReactElement | null

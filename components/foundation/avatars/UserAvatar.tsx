@@ -1,29 +1,34 @@
 import { AvatarProps, Avatar } from "./Avatar";
 import { Replace } from "../../../lib/types";
 
-export const UserAvatar = ({
+export type UserAvatarProps = Omit<AvatarProps, "avatarUrl"> & {
   /**
    * This is not a url, but more of an identifier for the avatar
    * If the passed in avatar doesn't exist in avatars map, a default avatar is used
    */
-  avatar = DEFAULT_AVATAR,
+  avatar?: string | null;
+};
+
+export const UserAvatar = ({
+  avatar = DEFAULT_USER_AVATAR,
   ...avatarProps
-}: Replace<AvatarProps, "avatarUrl", { avatar?: string }>) => {
+}: UserAvatarProps) => {
   return (
     <Avatar
       {...avatarProps}
+      // avatars must match this path
       avatarUrl={`/avatars/${
-        avatar in AVATARS_MAP
-          ? AVATARS_MAP[avatar]
-          : AVATARS_MAP[DEFAULT_AVATAR]
+        avatar !== null && avatar in USER_AVATARS_MAP
+          ? USER_AVATARS_MAP[avatar]
+          : USER_AVATARS_MAP[DEFAULT_USER_AVATAR]
       }`}
     />
   );
 };
 
-export const DEFAULT_AVATAR = "0";
+export const DEFAULT_USER_AVATAR = "0";
 
-export const AVATARS_MAP: Record<string, string> = {
-  [DEFAULT_AVATAR]: "default.svg",
+export const USER_AVATARS_MAP: Record<string, string> = {
+  [DEFAULT_USER_AVATAR]: "default.svg",
   "1": "male1.png",
 };

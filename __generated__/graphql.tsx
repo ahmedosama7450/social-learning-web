@@ -31,6 +31,38 @@ export type Scalars = {
 
 
 
+export type Discussion = {
+  __typename?: 'Discussion';
+  id: Scalars['Int'];
+  body: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  university: Scalars['Int'];
+  college: Scalars['Int'];
+  year: Scalars['Int'];
+  tags: Array<Scalars['String']>;
+  upvotesCount: Scalars['Int'];
+  downvotesCount: Scalars['Int'];
+  commentsCount: Scalars['Int'];
+  authorId: Scalars['Int'];
+  author: User;
+};
+
+export type DiscussionConnection = {
+  __typename?: 'DiscussionConnection';
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types */
+  edges: Array<DiscussionEdge>;
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
+  pageInfo: PageInfo;
+};
+
+export type DiscussionEdge = {
+  __typename?: 'DiscussionEdge';
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor */
+  cursor: Scalars['String'];
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
+  node: Discussion;
+};
+
 export type EduOrgs = {
   __typename?: 'EduOrgs';
   universities: Scalars['Json'];
@@ -76,6 +108,19 @@ export type MutationCreateProfileArgs = {
   profileCreateInput: ProfileCreateInput;
 };
 
+/** PageInfo cursor, as defined in https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  /** Used to indicate whether more edges exist following the set defined by the clients arguments. */
+  hasNextPage: Scalars['Boolean'];
+  /** Used to indicate whether more edges exist prior to the set defined by the clients arguments. */
+  hasPreviousPage: Scalars['Boolean'];
+  /** The cursor corresponding to the first nodes in edges. Null if the connection is empty. */
+  startCursor?: Maybe<Scalars['String']>;
+  /** The cursor corresponding to the last nodes in edges. Null if the connection is empty. */
+  endCursor?: Maybe<Scalars['String']>;
+};
+
 export type Profile = {
   __typename?: 'Profile';
   bio: Scalars['String'];
@@ -91,7 +136,7 @@ export type ProfileCreateInput = {
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   /** This is not a url to the avatar but more of a choice that's determined by the frontend */
-  avatar: Scalars['String'];
+  avatar?: Maybe<Scalars['String']>;
   bio: Scalars['String'];
   locale: Locale;
   university: Scalars['Int'];
@@ -108,11 +153,20 @@ export type Query = {
   me: User;
   /** cachedVersion is compared to the current version to decide if we need to send data back or not. the version is always sent back */
   eduOrgsInfo: EduOrgsInfo;
+  discussions: DiscussionConnection;
 };
 
 
 export type QueryEduOrgsInfoArgs = {
   cachedVersion?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryDiscussionsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<Scalars['String']>;
 };
 
 export type User = {
@@ -126,7 +180,7 @@ export type User = {
   /** isActive is false if the user is banned */
   isActive: Scalars['Boolean'];
   /** This is not a url to the avatar but more of a choice that's determined by the frontend */
-  avatar: Scalars['String'];
+  avatar?: Maybe<Scalars['String']>;
   joinedAt: Scalars['DateTime'];
   isVerified: Scalars['Boolean'];
   reputation: Scalars['Int'];
@@ -140,37 +194,14 @@ export type EduOrgsInfoQueryVariables = Exact<{
 }>;
 
 
-export type EduOrgsInfoQuery = (
-  { __typename?: 'Query' }
-  & { eduOrgsInfo: (
-    { __typename?: 'EduOrgsInfo' }
-    & Pick<EduOrgsInfo, 'version'>
-    & { eduOrgs?: Maybe<(
-      { __typename?: 'EduOrgs' }
-      & Pick<EduOrgs, 'universities' | 'colleges' | 'tags'>
-    )> }
-  ) }
-);
+export type EduOrgsInfoQuery = { __typename?: 'Query', eduOrgsInfo: { __typename?: 'EduOrgsInfo', version: number, eduOrgs?: Maybe<{ __typename?: 'EduOrgs', universities: any, colleges: any, tags: any }> } };
 
-export type UserFragmentFragment = (
-  { __typename?: 'User' }
-  & Pick<User, 'id' | 'provider' | 'username' | 'firstName' | 'lastName' | 'avatar' | 'joinedAt' | 'isVerified' | 'reputation'>
-  & { profile?: Maybe<(
-    { __typename?: 'Profile' }
-    & Pick<Profile, 'bio' | 'locale' | 'university' | 'college' | 'year'>
-  )> }
-);
+export type UserFragment = { __typename?: 'User', id: number, provider: Provider, username: string, firstName: string, lastName: string, avatar?: Maybe<string>, joinedAt: any, isVerified: boolean, reputation: number, profile?: Maybe<{ __typename?: 'Profile', bio: string, locale: Locale, university: number, college: number, year: number }> };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = (
-  { __typename?: 'Query' }
-  & { me: (
-    { __typename?: 'User' }
-    & UserFragmentFragment
-  ) }
-);
+export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: number, provider: Provider, username: string, firstName: string, lastName: string, avatar?: Maybe<string>, joinedAt: any, isVerified: boolean, reputation: number, profile?: Maybe<{ __typename?: 'Profile', bio: string, locale: Locale, university: number, college: number, year: number }> } };
 
 export type LoginMutationVariables = Exact<{
   provider: Provider;
@@ -178,37 +209,22 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = (
-  { __typename?: 'Mutation' }
-  & { loginWithProvider: (
-    { __typename?: 'LoginResponse' }
-    & Pick<LoginResponse, 'accessToken'>
-  ) }
-);
+export type LoginMutation = { __typename?: 'Mutation', loginWithProvider: { __typename?: 'LoginResponse', accessToken: string } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LogoutMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'logout'>
-);
+export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 
 export type CreateProfileMutationVariables = Exact<{
   profileCreateInput: ProfileCreateInput;
 }>;
 
 
-export type CreateProfileMutation = (
-  { __typename?: 'Mutation' }
-  & { createProfile: (
-    { __typename?: 'User' }
-    & UserFragmentFragment
-  ) }
-);
+export type CreateProfileMutation = { __typename?: 'Mutation', createProfile: { __typename?: 'User', id: number, provider: Provider, username: string, firstName: string, lastName: string, avatar?: Maybe<string>, joinedAt: any, isVerified: boolean, reputation: number, profile?: Maybe<{ __typename?: 'Profile', bio: string, locale: Locale, university: number, college: number, year: number }> } };
 
-export const UserFragmentFragmentDoc = gql`
-    fragment UserFragment on User {
+export const UserFragmentDoc = gql`
+    fragment User on User {
   id
   provider
   username
@@ -270,10 +286,10 @@ export type EduOrgsInfoQueryResult = Apollo.QueryResult<EduOrgsInfoQuery, EduOrg
 export const MeDocument = gql`
     query Me {
   me {
-    ...UserFragment
+    ...User
   }
 }
-    ${UserFragmentFragmentDoc}`;
+    ${UserFragmentDoc}`;
 
 /**
  * __useMeQuery__
@@ -368,10 +384,10 @@ export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, L
 export const CreateProfileDocument = gql`
     mutation CreateProfile($profileCreateInput: ProfileCreateInput!) {
   createProfile(profileCreateInput: $profileCreateInput) {
-    ...UserFragment
+    ...User
   }
 }
-    ${UserFragmentFragmentDoc}`;
+    ${UserFragmentDoc}`;
 export type CreateProfileMutationFn = Apollo.MutationFunction<CreateProfileMutation, CreateProfileMutationVariables>;
 
 /**

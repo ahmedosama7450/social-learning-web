@@ -2,9 +2,9 @@ import classNames from "classnames";
 import { ElementType } from "react";
 
 import { Icon } from "../../..";
-import { MiniSize } from "../../../../lib/types";
+import { MiniSize, FullMiniSize } from "../../../../lib/types";
 
-export type FieldRoundness = "sm" | "md" | "full";
+export type FieldRoundness = FullMiniSize | "full";
 
 export type FieldBodyProps = {
   label?: string;
@@ -73,8 +73,11 @@ export const FieldBody = <L,>({
       <div
         className={classNames("relative flex w-full", {
           "shadow-sm": !flat,
+
           "rounded-sm": roundness === "sm",
           rounded: roundness === "md",
+          "rounded-md": roundness === "lg",
+          "rounded-xl": roundness === "xl",
           "rounded-full": roundness === "full",
         })}
       >
@@ -87,6 +90,8 @@ export const FieldBody = <L,>({
               {
                 "rounded-l-sm": roundness === "sm",
                 "rounded-l": roundness === "md",
+                "rounded-l-md": roundness === "lg",
+                "rounded-l-xl": roundness === "xl",
                 "rounded-l-full": roundness === "full",
               }
             )}
@@ -97,7 +102,7 @@ export const FieldBody = <L,>({
           classNames(
             "flex-1 w-full z-10 py-2 focus:outline-none focus:ring-1",
 
-            filled ? "bg-gray-100 focus:bg-white" : "bg-white ",
+            filled ? "bg-secondary focus:bg-white" : "bg-white ",
 
             borderless
               ? "border-none"
@@ -118,25 +123,37 @@ export const FieldBody = <L,>({
 
               [roundness === "sm"
                 ? "rounded-sm"
-                : roundness === "full"
-                ? "rounded-full"
-                : "rounded"]:
+                : roundness === "md"
+                ? "rounded"
+                : roundness === "lg"
+                ? "rounded-md"
+                : roundness === "xl"
+                ? "rounded-xl"
+                : "rounded-full"]:
                 !leadingAddonProps?.isDetached &&
                 !trailingAddonProps?.isDetached,
 
               [roundness === "sm"
                 ? "rounded-r-sm"
-                : roundness === "full"
-                ? "rounded-r-full"
-                : "rounded-r"]:
+                : roundness === "md"
+                ? "rounded-r"
+                : roundness === "lg"
+                ? "rounded-r-md"
+                : roundness === "xl"
+                ? "rounded-r-xl"
+                : "rounded-r-full"]:
                 leadingAddonProps?.isDetached &&
                 !trailingAddonProps?.isDetached,
 
               [roundness === "sm"
                 ? "rounded-l-sm"
-                : roundness === "full"
-                ? "rounded-l-full"
-                : "rounded-l"]:
+                : roundness === "md"
+                ? "rounded-l"
+                : roundness === "lg"
+                ? "rounded-l-md"
+                : roundness === "xl"
+                ? "rounded-l-xl"
+                : "rounded-l-full"]:
                 trailingAddonProps?.isDetached &&
                 !leadingAddonProps?.isDetached,
             }
@@ -152,6 +169,8 @@ export const FieldBody = <L,>({
               {
                 "rounded-r-sm": roundness === "sm",
                 "rounded-r": roundness === "md",
+                "rounded-r-md": roundness === "lg",
+                "rounded-r-xl": roundness === "xl",
                 "rounded-r-full": roundness === "full",
               }
             )}

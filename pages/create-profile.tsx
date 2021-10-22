@@ -116,6 +116,7 @@ const CreateProfile: NextPage = () => {
               >
                 {(ds) => (
                   <Button
+                    type="button"
                     color="red"
                     roundedFull
                     size="sm"
@@ -214,6 +215,7 @@ const CreateProfile: NextPage = () => {
               />
 
               <LoadingButton
+                type="button"
                 size="full"
                 className="mt-7"
                 color="primary"

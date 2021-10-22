@@ -26,9 +26,10 @@ export const Avatar = ({
     <div
       className={classNames(
         className,
-        "bg-gray-100 overflow-hidden relative",
-        // Size
+        "bg-secondary overflow-hidden relative",
+
         {
+          // Size
           "h-4 w-4": size === "xs",
           "h-5 w-5": size === "sm",
           "h-6 w-6": size === "md",
@@ -44,18 +45,16 @@ export const Avatar = ({
           "h-20 w-20": size === "8xl",
           "h-24 w-24": size === "9xl",
           "h-28 w-28": size === "10xl",
-        },
 
-        // Rounded
-        roundedFull ? "rounded-full" : "rounded",
-
-        {
           // Border
           "border border-gray-200": !borderless,
 
           // Shadow
           "shadow-sm": !flat,
-        }
+        },
+
+        // Rounded
+        roundedFull ? "rounded-full" : "rounded-md"
       )}
     >
       <Image src={avatarUrl} alt="Avatar" layout="fill" objectFit="cover" />

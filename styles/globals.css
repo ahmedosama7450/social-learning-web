@@ -7,8 +7,13 @@
     @apply block text-sm font-medium text-gray-700 w-max;
   }
 
-  /* After apply this class, use before classes to style the background*/
+  /* After applying this class, use before classes to style the background */
   .pseudo-bg {
     @apply relative isolate before:absolute before:-inset-1.5 before:z-[-10];
+  }
+
+  /* Same as pseudo-bg utility but smaller*/
+  .pseudo-bg-sm {
+    @apply relative isolate before:absolute before:-inset-1 before:z-[-10];
   }
 }

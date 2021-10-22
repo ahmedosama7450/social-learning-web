@@ -16,6 +16,8 @@ module.exports = {
         DEFAULT: "#1da1f2",
         ...colors.sky,
       },
+      secondary: "#F7F9F9",
+
       gray: {
         DEFAULT: colors.coolGray[200], // Divider color mostly
         ...colors.coolGray,
@@ -35,7 +37,6 @@ module.exports = {
 
       link: colors.sky[600],
       linkHover: colors.sky[500],
-      aside: "#F7F9F9",
     },
 
     extend: {
