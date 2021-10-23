@@ -1,33 +1,42 @@
 import { useTranslation } from "react-i18next";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { forwardRef } from "react";
 
 import { Button, ButtonProps } from "./Button";
+import { BaseButtonRef, ButtonType } from "./BaseButton";
 
-export type LoadingButtonProps = ButtonProps & {
+export type LoadingButtonProps<T extends ButtonType> = ButtonProps<T> & {
   loading: boolean;
   loadingTextKey?: string;
 };
 
-export const LoadingButton = ({
-  loading,
-  loadingTextKey = "common:loading",
+export const WrappedLoadingButton = <T extends ButtonType>(
+  {
+    loading,
+    loadingTextKey = "common:loading",
 
-  innerProps,
-  iconProps,
+    innerProps,
+    iconProps,
 
-  ...buttonProps
-}: LoadingButtonProps) => {
+    ...buttonProps
+  }: LoadingButtonProps<T>,
+  ref: BaseButtonRef<T>
+) => {
   const { t } = useTranslation();
 
   return (
+    // @ts-ignore
     <Button
       {...buttonProps}
-      iconProps={
-        !loading ? iconProps : { faIcon: faSpinner, className: "animate-spin" }
-      }
+      ref={ref}
       innerProps={{ ...innerProps, disabled: loading }}
+      iconProps={
+        // TODO do we need animate className ??
+        !loading ? iconProps : { icon: "eos-icons:loading" }
+      }
     >
       {loading ? t(loadingTextKey) : buttonProps.children}
     </Button>
   );
 };
+
+export const LoadingButton = forwardRef(WrappedLoadingButton);

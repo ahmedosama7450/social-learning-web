@@ -1,15 +1,19 @@
 import { useState } from "react";
 import { RadioGroup } from "@headlessui/react";
-import { CheckIcon } from "@heroicons/react/solid";
 import { Controller } from "react-hook-form";
 import classNames from "classnames";
 import { useTranslation } from "next-i18next";
 
-import { Button } from "../buttons";
-import { TypicalDialog } from "../dialogs/structural";
-import { UserAvatar, AVATARS_MAP, DEFAULT_AVATAR } from "../avatars";
 import {
-  CustomPartial,
+  Button,
+  TypicalDialog,
+  UserAvatar,
+  USER_AVATARS_MAP,
+  DEFAULT_USER_AVATAR,
+  Icon,
+} from "../..";
+import {
+  SelectivePartial,
   RegisteredControlledFieldProps,
 } from "../../../lib/types";
 
@@ -59,7 +63,7 @@ export const UserAvatarPicker = ({
             onChange={ds.resultDataHandler!.setResultData}
             className="flex gap-5 px-4 py-6"
           >
-            {Object.keys(AVATARS_MAP).map((avatar) => (
+            {Object.keys(USER_AVATARS_MAP).map((avatar) => (
               <RadioGroup.Option
                 key={avatar}
                 value={avatar}
@@ -69,7 +73,11 @@ export const UserAvatarPicker = ({
                   <>
                     {checked && (
                       <span className="absolute top-0 right-0 z-50 mt-0.5 mr-0.5 transform translate-x-1/2 -translate-y-1/2 bg-white border border-primary-300 rounded-full">
-                        <CheckIcon className="w-4 h-4 text-primary-300 " />
+                        <Icon
+                          icon="ri:check-line"
+                          size="sm"
+                          className="text-primary-300"
+                        />
                       </span>
                     )}
                     <UserAvatar
@@ -90,8 +98,10 @@ export const UserAvatarPicker = ({
       >
         {(ds) => (
           <Button
+            type="button"
             size="xs"
             color="white"
+            flat
             onClick={() => {
               ds.toggle();
             }}
@@ -108,11 +118,11 @@ export type RegisteredUserAvatarPickerProps = Omit<
   UserAvatarPickerProps,
   "value" | "onChange"
 > &
-  CustomPartial<RegisteredControlledFieldProps, "defaultValue">;
+  SelectivePartial<RegisteredControlledFieldProps, "defaultValue">;
 
 export const RegisteredUserAvatarPicker = ({
   name,
-  defaultValue = DEFAULT_AVATAR,
+  defaultValue = DEFAULT_USER_AVATAR,
   control,
   ...userAvatarPickerProps
 }: RegisteredUserAvatarPickerProps) => {

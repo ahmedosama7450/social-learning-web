@@ -20,7 +20,7 @@ export type IconButtonColor =
   | "extraDarkGray";
 
 export type IconButtonProps<T extends ButtonType> = BaseButtonProps<T> & {
-  iconProps: IconProps;
+  iconProps: Omit<IconProps, "className" | "inline">;
 
   roundedFull?: boolean;
   color?: IconButtonColor;

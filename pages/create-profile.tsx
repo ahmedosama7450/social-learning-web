@@ -122,8 +122,8 @@ const CreateProfile: NextPage = () => {
                     size="sm"
                     iconProps={{
                       icon: "ri:logout-box-r-line",
-                      isTrailing: true,
                     }}
+                    isIconTrailing
                     onClick={() => {
                       ds.toggle();
                     }}
@@ -216,8 +216,8 @@ const CreateProfile: NextPage = () => {
 
               <LoadingButton
                 type="button"
-                size="full"
-                className="mt-7"
+                size="lg"
+                className="w-full mt-7"
                 color="primary"
                 loading={createProfileCalled && createProfileLoading}
                 innerProps={{ type: "submit" }}
