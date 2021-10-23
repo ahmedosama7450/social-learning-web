@@ -10,13 +10,18 @@ export type ButtonType = "button" | "a" | "next-link";
 export type BaseButtonProps<T extends ButtonType> = {
   type: T;
 
+  /**
+   * href and onClick are omitted, and provided by the component props for convenience
+   */
   innerProps?: T extends "next-link"
-    ? NextLinkProps
+    ? Omit<NextLinkProps, "href" | "onClick">
     : T extends "a"
-    ? ComponentPropsWithoutRef<"a">
-    : ComponentPropsWithoutRef<"button">;
+    ? Omit<ComponentPropsWithoutRef<"a">, "href" | "onClick">
+    : Omit<ComponentPropsWithoutRef<"button">, "onClick">;
 
-  /** This takes precedence over innerProps.onClick */
+  /**
+   * Shortcut extracted for convenience
+   */
   onClick?: ClickListener<
     T extends "button" ? HTMLButtonElement : HTMLAnchorElement
   >;
@@ -25,6 +30,9 @@ export type BaseButtonProps<T extends ButtonType> = {
 } & (T extends "button"
   ? {}
   : {
+      /**
+       * Shortcut extracted for convenience, only available for `a` and `next-link` types
+       */
       href: T extends "next-link"
         ? LinkProps["href"]
         : T extends "a"

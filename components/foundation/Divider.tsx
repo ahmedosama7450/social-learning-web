@@ -1,18 +1,27 @@
 import classNames from "classnames";
 
+// TODO Refactor codebase to make use of this divider component instead of divs
+
 export const Divider = ({
-  vertical,
+  /**
+   * TODO this works but maybe there is a better way ??!
+   * In case of vertical = true, you need to add a height classNme e.g. "h-6"
+   */
+  vertical = false,
+  light = false,
   className,
 }: {
   vertical?: boolean;
+  light?: boolean;
   className?: string;
 }) => {
   return (
     <div
-      className={classNames(className, "bg-divider", {
-        "w-full h-px ": !vertical,
-        "w-px h-full": vertical,
-      })}
+      className={classNames(
+        className,
+        light ? "bg-gray-100" : "bg-gray-200",
+        vertical ? "w-px" : "w-full h-px"
+      )}
     />
   );
 };

@@ -1,5 +1,4 @@
 import { AvatarProps, Avatar } from "./Avatar";
-import { Replace } from "../../../lib/types";
 
 export type UserAvatarProps = Omit<AvatarProps, "avatarUrl"> & {
   /**

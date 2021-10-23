@@ -1,32 +1,20 @@
 import Link, { LinkProps } from "next/link";
 import { forwardRef } from "react";
 
-export type NextLinkProps = LinkProps &
+/**
+ * `as` was used for dynamic routes before next.js 9.5.3 but isn't needed anymore
+ */
+export type NextLinkProps = Omit<LinkProps, "passHref" | "as"> &
   Omit<React.ComponentPropsWithoutRef<"a">, "href">;
 
 export const NextLink = forwardRef<HTMLAnchorElement, NextLinkProps>(
-  (
-    {
-      href,
-      as,
-      replace,
-      scroll,
-      shallow,
-      passHref,
-      prefetch,
-      locale,
-      ...aProps
-    },
-    ref
-  ) => {
+  ({ href, replace, scroll, shallow, prefetch, locale, ...aProps }, ref) => {
     return (
       <Link
         href={href}
-        as={as}
         replace={replace}
         scroll={scroll}
         shallow={shallow}
-        passHref={passHref}
         prefetch={prefetch}
         locale={locale}
       >
