@@ -58,7 +58,7 @@ const WrappedIconButton = <T extends ButtonType>(
         "block",
 
         // Rounded
-        roundedFull ? "rounded-full" : "rounded",
+        roundedFull ? "rounded-full" : "rounded-md",
 
         {
           // TODO Maybe Add disabled variants

@@ -8,7 +8,7 @@ import { appWithTranslation } from "next-i18next";
 
 import { useApollo } from "../lib/apolloClient";
 
-// Fixes forwardRef typing with generics
+// Fixes forwardRef typing with generics according to https://fettblog.eu/typescript-react-generic-forward-refs/#option-3%3A-augment-forwardref
 // Also, It breaks using displayName but It's not a big deal :)
 declare module "react" {
   function forwardRef<T, P = {}>(

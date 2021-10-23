@@ -7,7 +7,7 @@ export type IconIdentifier = IconifyIconProps["icon"];
 
 export type IconProps = Omit<
   IconifyIconProps,
-  "width" | "height" | "onLoad" | "color"
+  "width" | "height" | "color" | "onLoad"
 > & {
   className?: string;
   size?: Size;

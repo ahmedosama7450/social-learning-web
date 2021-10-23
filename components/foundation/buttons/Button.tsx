@@ -1,277 +1,189 @@
 import classNames from "classnames";
-import BaseLink, { LinkProps as BaseLinkProps } from "next/link";
 import { forwardRef } from "react";
 
-import { Icon, BaseIconProps } from "../Icon";
 import { Size } from "../../../lib/types";
-
-/**
- * TODO This structure works and all but It's got some repetition to it. Here are some alternatives:
- * 1. Using react composition model and generic component (That's what I am thing about doing)
- * 2. Conditionally render component depending on props instead oh having two separate components
- *
- * Same goes for IconButton
- */
-
-// TODO Maybe put common button types in a separate file
-export interface BaseButtonProps<T extends "button" | "a"> {
-  innerProps?: React.ComponentPropsWithoutRef<T>;
-  /** This will take precedence over innerProps onClick */
-  onClick?: React.MouseEventHandler<
-    T extends "button" ? HTMLButtonElement : HTMLAnchorElement
-  >;
-  className?: string;
-}
-
-export type ButtonSize = Size | "full";
+import { Icon, IconProps } from "../Icon";
+import {
+  BaseButton,
+  BaseButtonProps,
+  BaseButtonRef,
+  ButtonType,
+} from "./BaseButton";
 
 export type ButtonColor =
   | "primary"
+  | "primary-bordered"
+  | "primary-white"
   | "secondary"
   | "white"
-  | "white-primary"
   | "red"
-  | "transparent"; // TODO Maybe add transparent-primary, transparent-black, transparent-red
+  | "transparent-primary"
+  | "transparent-gray"
+  | "transparent-darkGray"
+  | "transparent-extraDarkGray"
+  | "transparent-red"
+  | "transparent-link";
 
-type GeneralButtonProps<T extends "button" | "a"> = {
+export type ButtonProps<T extends ButtonType> = BaseButtonProps<T> & {
   children: string;
+  iconProps?: ButtonIconProps;
+  isIconTrailing?: boolean;
 
-  size?: ButtonSize;
+  size?: Size;
+  flat?: boolean;
   color?: ButtonColor;
   roundedFull?: boolean;
-
-  iconProps?: ButtonIconProps;
+  underlineOnHover?: boolean;
   uppercaseText?: boolean;
-
-  /** Only works with color=transparent */ // TODO Need use case
-  selected?: boolean;
-} & BaseButtonProps<T>;
-
-export type ButtonProps = GeneralButtonProps<"button">;
-
-export const Button = ({
-  children,
-  innerProps,
-  onClick,
-
-  className,
-  size = "md",
-  color = "primary",
-  roundedFull = false,
-
-  iconProps,
-  uppercaseText = false,
-
-  selected,
-}: ButtonProps) => {
-  return (
-    <button
-      type="button"
-      {...innerProps}
-      onClick={onClick}
-      className={makeButtonClassName({
-        className,
-        size,
-        color,
-        roundedFull,
-        selected,
-      })}
-    >
-      <ButtonChildren
-        iconProps={iconProps}
-        uppercaseText={uppercaseText}
-        color={color}
-        size={size}
-      >
-        {children}
-      </ButtonChildren>
-    </button>
-  );
 };
 
-export type LinkProps = GeneralButtonProps<"a"> & {
-  /** This will take precedence over innerProps href */
-  href?: string;
-};
+const WrappedButton = <T extends ButtonType>(
+  {
+    children,
+    iconProps,
+    isIconTrailing = false,
 
-// TODO Name isn't great ?
-export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
-  (
-    {
-      href,
-      children,
+    size = "md",
+    flat = false,
+    color = "primary",
+    roundedFull = false,
+    underlineOnHover = false,
+    uppercaseText = false,
 
-      innerProps,
-      onClick,
-
-      className,
-      size = "md",
-      color = "primary",
-      roundedFull = false,
-
-      iconProps,
-      uppercaseText = false,
-
-      selected,
-    },
-    ref
-  ) => {
-    return (
-      <a
-        {...innerProps}
-        ref={ref}
-        href={href}
-        onClick={onClick}
-        className={makeButtonClassName({
-          className,
-          size,
-          color,
-          roundedFull,
-          selected,
-        })}
-      >
-        <ButtonChildren
-          iconProps={iconProps}
-          uppercaseText={uppercaseText}
-          color={color}
-          size={size}
-        >
-          {children}
-        </ButtonChildren>
-      </a>
-    );
-  }
-);
-Link.displayName = "Link";
-
-export type NextLinkProps = Omit<LinkProps, "href"> & BaseLinkProps;
-
-// TODO Name isn't great ?
-// TODO Extra props are passed
-export const NextLink = ({ href, ...rest }: NextLinkProps) => {
-  return (
-    <BaseLink href={href} {...rest} passHref>
-      <Link {...rest} />
-    </BaseLink>
-  );
-};
-
-//-----------------------------------------------------------------------------------
-
-type ReallyGeneralButtonProps = GeneralButtonProps<"button">;
-
-function makeButtonClassName({
-  className,
-  size,
-  color,
-  roundedFull,
-  selected = false,
-}: Pick<
-  ReallyGeneralButtonProps,
-  "className" | "size" | "color" | "roundedFull" | "selected"
->) {
-  return classNames(
     className,
-    "inline-flex items-center justify-center shadow-sm font-medium disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-600",
-
-    // Size
-    {
-      "text-sm px-3 py-2 leading-4": size === "xs",
-      "text-sm px-4 py-2": size === "sm",
-      "text-base px-5 py-3": size === "md",
-      "text-lg px-5 py-3": size === "lg",
-      "text-xl px-6 py-4": size === "xl",
-      "text-lg px-6 py-3 w-full": size === "full",
-    },
-
-    // Rounded
-    roundedFull ? "rounded-full" : "rounded-md",
-
-    // TODO Customize focus-visible for every color
-    // TODO Add disabled variants for all colors just like primary
-    // TODO Review these colors again (We need to support idle, hover, focus-visible, disabled states)
-    // Color
-    {
-      "bg-primary text-white hover:bg-primary-600 disabled:bg-primary-400 disabled:hover:bg-primary-300":
-        color === "primary",
-      "text-primary border border-primary hover:bg-primary-200 disabled:text-primary-400 disabled:hover:text-primary-300":
-        color === "secondary",
-      "text-gray-700 bg-white border border-gray-300 hover:bg-gray-50":
-        color === "white",
-      "text-primary bg-white hover:bg-primary-50": color === "white-primary",
-      "text-white bg-red-600 hover:bg-red-700": color === "red",
-      [`hover:text-gray-900 !shadow-none !p-0 ${
-        selected ? "text-gray-900" : "text-gray-500"
-      }`]: color === "transparent", // TODO Maybe don't use !important
-    }
-  );
-}
-
-const ButtonChildren = ({
-  children,
-  size,
-  color,
-  iconProps,
-  uppercaseText,
-}: Pick<
-  ReallyGeneralButtonProps,
-  "children" | "iconProps" | "size" | "color" | "uppercaseText"
->) => {
+    ...restBaseButtonProps
+  }: ButtonProps<T>,
+  ref: BaseButtonRef<T>
+) => {
   return (
-    <>
-      {iconProps && !iconProps.isTrailing && (
+    // @ts-ignore
+    <BaseButton
+      {...restBaseButtonProps}
+      ref={ref}
+      className={classNames(
+        className,
+        // TODO Experiment with inline icon instead of using flex (I want to see how it will look, flex still works fine)
+        "flex items-center justify-center group gap-2",
+
+        {
+          // Size
+          "text-xs px-3 py-2": size === "xs",
+          "text-sm px-4 py-2": size === "sm",
+          "text-base px-5 py-2.5": size === "md",
+          "text-lg px-5 py-2.5": size === "lg",
+          "text-xl px-6 py-3": size === "xl",
+
+          // Flat
+          "shadow-sm": !flat,
+
+          // TODO Add disabled variants for all colors just like primary and primary-bordered
+          // Color
+          // color handles text, background, border colors including idle, hover, disabled, focus-visible(handled by BaseButton) states
+          "text-white bg-primary hover:bg-primary-600 disabled:bg-primary-400 disabled:hover:bg-primary-300":
+            color === "primary",
+
+          "text-primary border border-primary hover:bg-primary-100 disabled:text-primary-400 disabled:hover:text-primary-300":
+            color === "primary-bordered",
+
+          "text-primary bg-white hover:bg-primary-50":
+            color === "primary-white",
+
+          "text-gray-700 bg-secondary hover:bg-secondary-dark":
+            color === "secondary",
+
+          "text-gray-700 bg-white border border-gray-300 hover:bg-gray-50":
+            color === "white",
+
+          "text-white bg-red-600 hover:bg-red-700": color === "red",
+
+          "shadow-none px-0 py-0 text-primary hover:text-primary-600":
+            color === "transparent-primary",
+
+          "shadow-none px-0 py-0 text-gray-500 hover:text-gray-700":
+            color === "transparent-gray",
+
+          "shadow-none px-0 py-0 text-gray-600 hover:text-gray-800":
+            color === "transparent-darkGray",
+
+          "shadow-none px-0 py-0 text-gray-700 hover:text-gray-900":
+            color === "transparent-extraDarkGray",
+
+          "shadow-none px-0 py-0 text-red-600 hover:text-red-700":
+            color === "transparent-red",
+
+          "shadow-none px-0 py-0 text-link hover:text-linkHover":
+            color === "transparent-link",
+        },
+
+        // Rounded
+        roundedFull ? "rounded-full" : "rounded-md"
+      )}
+    >
+      {iconProps && !isIconTrailing && (
         <ButtonIcon size={size} color={color} {...iconProps} />
       )}
 
       <span
-        className={classNames({
+        className={classNames("font-medium", {
           "uppercase tracking-wide": uppercaseText,
+          "hover:underline": underlineOnHover,
         })}
       >
         {children}
       </span>
 
-      {iconProps && iconProps.isTrailing && (
+      {iconProps && isIconTrailing && (
         <ButtonIcon size={size} color={color} {...iconProps} />
       )}
-    </>
+    </BaseButton>
   );
 };
 
-type ButtonIconProps = BaseIconProps & {
-  isTrailing?: boolean;
-  className?: string;
-};
+export const Button = forwardRef(WrappedButton);
+
+type ButtonIconProps = Omit<IconProps, "className" | "size" | "inline">;
 
 const ButtonIcon = ({
   size,
   color,
 
-  isTrailing = false,
-  className,
-  ...baseIconProps
-}: Pick<ReallyGeneralButtonProps, "size" | "color"> & ButtonIconProps) => {
+  ...iconProps
+}: Pick<ButtonProps<"button">, "size" | "color"> & ButtonIconProps) => {
   return (
     <Icon
-      size={
-        size === "full" ? "sm" : size === "xl" || size === "lg" ? "md" : size
-      }
-      className={classNames(
-        className,
-
-        isTrailing ? "ml-2" : "mr-2",
-
+      {...iconProps}
+      size={size === "xl" ? "lg" : size}
+      className={classNames({
         // Color
-        {
-          "text-white": color === "primary" || color === "red",
-          "text-primary": color === "secondary",
-          "text-gray-500":
-            color === "white" ||
-            color === "white-primary" ||
-            color === "transparent",
-        }
-      )}
-      {...baseIconProps}
+        "text-white": color === "primary" || color === "red",
+
+        "text-primary group-hover:text-primary-600":
+          color === "primary-bordered" ||
+          color === "primary-white" ||
+          color === "transparent-primary",
+
+        "text-gray-500 group-hover:text-gray-600":
+          color === "white" ||
+          color === "secondary" ||
+          color === "transparent-gray" ||
+          color === "transparent-darkGray" ||
+          color === "transparent-extraDarkGray",
+
+        "text-red-500 group-hover:text-red-600": color === "transparent-red",
+
+        "text-link group-hover:text-linkHover": color === "transparent-link",
+      })}
     />
   );
 };
+
+// Padding
+/* [`${
+            size === "xs" ? "px-3 py-2" : size === "sm" ? "px-4 py-2" : "dds"
+          }`]:
+            color === "primary" ||
+            color === "primary-bordered" ||
+            color === "primary-white" ||
+            color === "secondary" ||
+            color === "white" ||
+            color === "red", */

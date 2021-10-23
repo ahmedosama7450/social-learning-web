@@ -16,7 +16,10 @@ module.exports = {
         DEFAULT: "#1da1f2",
         ...colors.sky,
       },
-      secondary: "#F7F9F9",
+      secondary: {
+        DEFAULT: "#F7F9F9",
+        dark: "#EFF3F4",
+      },
 
       gray: {
         DEFAULT: colors.coolGray[200], // Divider color mostly
