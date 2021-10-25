@@ -13,7 +13,7 @@ import {
 export type ButtonColor =
   | "primary"
   | "primary-bordered"
-  | "primary-white"
+  | "primary-white" // TODO Rename to primary-inverted
   | "secondary"
   | "white"
   | "red"

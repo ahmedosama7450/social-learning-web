@@ -1,4 +1,3 @@
-import { XIcon } from "@heroicons/react/solid";
 import { Dialog } from "@headlessui/react";
 
 import {
@@ -7,7 +6,7 @@ import {
   DialogState,
 } from "./BaseDialog";
 import { RegularDialog } from "./RegularDialog";
-import { Button, ButtonColor, IconButton } from "../../buttons";
+import { Button, ButtonColor, IconButton } from "../../..";
 
 export type TypicalDialogProps<T = DefaultResultDataType> = {
   headerProps?: TypicalDialogHeaderProps;
@@ -62,6 +61,7 @@ function TypicalDialogFooter<T = DefaultResultDataType>({
     <div className="flex justify-end gap-3 px-4 py-3 bg-gray-50">
       {negativeButton && (
         <Button
+          type="button"
           onClick={() => {
             if (negativeButton.listener) {
               negativeButton.listener(dialogState);
@@ -79,6 +79,7 @@ function TypicalDialogFooter<T = DefaultResultDataType>({
 
       {positiveButton && (
         <Button
+          type="button"
           onClick={() => {
             positiveButton.listener(dialogState);
           }}
@@ -111,10 +112,11 @@ function TypicalDialogHeader<T = DefaultResultDataType>({
 
       {hasCloseButton && (
         <IconButton
+          type="button"
           onClick={() => {
             dialogState.toggle();
           }}
-          iconProps={{ hIcon: XIcon, size: "sm" }}
+          iconProps={{ icon: "ri:close-line", size: "md" }}
           color="darkGray"
         />
       )}

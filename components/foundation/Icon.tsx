@@ -18,28 +18,12 @@ export const Icon = ({ size = "lg", ...rest }: IconProps) => {
     <IconifyIcon
       {...rest}
       height={classNames({
-        "0.875rem": size === "xs",
-        "1rem": size === "sm",
-        "1.25rem": size === "md",
-        "1.5rem": size === "lg",
-        "1.75rem": size === "xl",
+        "0.875rem": size === "xs", // h-3.5
+        "1rem": size === "sm", // h-4
+        "1.25rem": size === "md", // h-5
+        "1.5rem": size === "lg", // h-6
+        "1.75rem": size === "xl", // h-7
       })}
     />
   );
 };
-
-/*
-<props.hIcon
-  className={classNames(
-    className,
-    // Size
-    {
-      "w-3.5 h-3.5": size === "xs",
-      "h-4 w-4": size === "sm",
-      "h-5 w-5": size === "md",
-      "h-6 w-6": size === "lg",
-      "h-7 w-7": size === "xl",
-    }
-  )}
-/>
-*/

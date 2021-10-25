@@ -42,6 +42,11 @@ module.exports = {
       linkHover: colors.sky[500],
     },
 
+    screens: {
+      xs: "512px",
+      ...defaultTheme.screens,
+    },
+
     extend: {
       fontFamily: {
         sans: ["Cairo", "sans-serif", ...defaultTheme.fontFamily.sans],
@@ -54,6 +59,10 @@ module.exports = {
 
       borderColor: {
         DEFAULT: colors.coolGray[200], // Same as divider color
+      },
+
+      spacing: {
+        13: "3.25rem",
       },
     },
   },

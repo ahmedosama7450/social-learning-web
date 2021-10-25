@@ -4,5 +4,18 @@
   "confirm-title": "Confirmation",
   "confirm-logout": "Are you sure you want to logout",
   "avatar-picker-title": "Pick an avatar",
-  "search": "Search..."
+  "search": "Search...",
+  "edit": "Edit",
+
+  "sidebar": {
+    "items": {
+      "home": "Home",
+      "explore": "Explore",
+      "spaces": "Spaces",
+      "rooms": "Rooms",
+      "tournaments": "Tournaments",
+      "bookmarks": "Bookmarks",
+      "profile": "Profile"
+    }
+  }
 }

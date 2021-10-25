@@ -7,31 +7,66 @@ import {
   Logo,
   SearchBar,
   DetailedUserAvatar,
+  SlideOver,
+  Sidebar,
 } from ".";
+import { PropsWithClassName } from "../lib/types";
 import { UserFragment } from "../__generated__/graphql";
 
 export interface NavbarProps {
   title: string;
   user: UserFragment;
-  className?: string;
 }
 
-export const Navbar = ({ title, user, className }: NavbarProps) => {
+export const Navbar = ({
+  title,
+  user,
+  className,
+}: PropsWithClassName<NavbarProps>) => {
   return (
     <div className={classNames(className, "flex items-center justify-between")}>
       <div className="flex items-center">
-        {/*TODO Put w-56 in a css variable */}
-        <div className="hidden w-56 lg:block">
-          <Logo className="w-max" />
+        {/* Logo when screen size > xl 
+            Width is set so that It aligns with the complete sidebar
+        */}
+        <div className="hidden xl:w-[var(--sidebar-width)] xl:block">
+          <Logo className="max-w-max" />
         </div>
-        <Logo collapseIntoIcon className="block lg:hidden" />
 
-        <div className="ml-4 text-xl font-semibold text-gray-500">{title}</div>
+        {/* Logo when screen size < xl
+            - On xs, a width is set and the logo is aligned horizontally in the center,
+            so that It aligns with the collapsed sidebar
+
+            - Before xs, nothing needs to be done because there the sidebar is hidden
+        */}
+        <div className="xs:flex xs:justify-center xs:w-[var(--collapsed-sidebar-width)] xl:hidden">
+          <SlideOver
+            header={() => <Logo />}
+            headerDivider
+            innerCloseButton
+            content={() => (
+              <Sidebar responsive={false} className="mt-1.5 mb-1" />
+            )}
+          >
+            {(ds) => (
+              <Logo
+                className="max-w-max"
+                collapseIntoIcon
+                onClick={() => ds.toggle()}
+              />
+            )}
+          </SlideOver>
+        </div>
+
+        {/* When sidebar shows starting from xs, the title is aligned with layout content */}
+        <div className="ml-2.5 text-xl font-semibold text-gray-600 xs:ml-[var(--sidebar-margin-right)]">
+          {title}
+        </div>
       </div>
 
-      <div className="flex items-center gap-3 sm:gap-4 md:gap-5">
-        <SearchBar className="hidden sm:block sm:w-60 md:w-80 lg:w-96" />
-        <SearchBar collapseIntoIcon className="block sm:hidden" />
+      {/* On md, the search bar shows, so we decrease the gap to give it more space */}
+      <div className="flex items-center gap-3 xs:gap-4 md:gap-3 lg:gap-5">
+        <SearchBar />
 
         {/*TODO Will be turned into a reputation dropdown */}
         <IconButton
@@ -60,7 +95,7 @@ export const Navbar = ({ title, user, className }: NavbarProps) => {
           type="button"
           className="flex items-center gap-3 rounded-sm pseudo-bg-sm before:rounded-sm hover:before:ring-1 hover:before:ring-gray"
         >
-          <DetailedUserAvatar hideDetailsOnMobile user={user} />
+          <DetailedUserAvatar hideDetailsBelowXs user={user} />
 
           <Icon
             className="flex-shrink-0 hidden text-gray-500 sm:block"

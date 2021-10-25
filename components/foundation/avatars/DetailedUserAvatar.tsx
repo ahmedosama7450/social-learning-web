@@ -6,13 +6,14 @@ import { UserFragment } from "../../../__generated__/graphql";
 export type DetailedUserAvatarProps = {
   user: UserFragment;
   className?: string;
-  hideDetailsOnMobile?: boolean;
+  /** Hide details when screen size is less than xs breakpoint */
+  hideDetailsBelowXs?: boolean;
 };
 
 export const DetailedUserAvatar = ({
   user,
   className,
-  hideDetailsOnMobile = false,
+  hideDetailsBelowXs: hideDetailsBelowXs = false,
 }: DetailedUserAvatarProps) => {
   return (
     <div className={classNames(className, "flex items-center gap-1.5")}>
@@ -25,7 +26,7 @@ export const DetailedUserAvatar = ({
 
       <div
         className={classNames("flex-grow w-20 text-left", {
-          "hidden sm:block": hideDetailsOnMobile,
+          "hidden xs:block": hideDetailsBelowXs,
         })}
       >
         <div className="text-xs font-semibold text-gray-800 truncate">

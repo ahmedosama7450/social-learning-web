@@ -2,13 +2,16 @@ import classNames from "classnames";
 import { useTranslation } from "next-i18next";
 
 import { BaseButton } from "..";
+import { ClickListener } from "../../lib/types";
 
 // TODO Make a better logo (Better icon, Better name)
 
 export const Logo = ({
+  onClick,
   collapseIntoIcon = false,
   className,
 }: {
+  onClick?: ClickListener<HTMLButtonElement>;
   collapseIntoIcon?: boolean;
   className?: string;
 }) => {
@@ -16,8 +19,9 @@ export const Logo = ({
 
   return (
     <BaseButton
-      type="next-link"
-      href="/"
+      type={onClick ? "button" : "next-link"}
+      href={onClick ? undefined : "/"}
+      onClick={onClick}
       className={classNames(className, "flex items-center gap-1.5")}
     >
       <svg

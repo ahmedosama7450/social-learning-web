@@ -1,6 +1,5 @@
 import React, { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { XIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 
 import {
@@ -13,6 +12,8 @@ import { IconButton } from "../buttons/IconButton";
 
 // TODO You might want to check out tailwind ecommerce slide overs
 // TODO Mobile bottom sheet ??
+
+// TODO Increase width, pluse add max width
 
 export type SlideOverProps<T = DefaultResultDataType> = {
   header?: DialogReactNode<T>;
@@ -95,7 +96,7 @@ export function SlideOver<T = DefaultResultDataType>({
                 <div
                   className={classNames("relative max-w-md", {
                     "w-screen": fullScreen,
-                    "w-3/4-screen": !fullScreen,
+                    "w-[72vw]": !fullScreen,
                   })}
                 >
                   {hasCloseButton && !innerCloseButton && (
@@ -115,7 +116,8 @@ export function SlideOver<T = DefaultResultDataType>({
                         })}
                       >
                         <IconButton
-                          iconProps={{ hIcon: XIcon, size: "md" }}
+                          type="button"
+                          iconProps={{ icon: "ri:close-line", size: "lg" }}
                           onClick={() => setOpen(false)}
                           color="lightGray"
                           hoverType="simpleWhite"
@@ -126,7 +128,7 @@ export function SlideOver<T = DefaultResultDataType>({
                   <div className="h-full overflow-y-auto bg-white shadow-xl">
                     {header && (
                       <div
-                        className={classNames("px-4 sm:px-6 pt-6 pb-5", {
+                        className={classNames("px-3 sm:px-6 py-5", {
                           "border-b": headerDivider,
                           "flex justify-between items-center":
                             hasCloseButton && innerCloseButton,
@@ -138,8 +140,9 @@ export function SlideOver<T = DefaultResultDataType>({
                         </Dialog.Title>
                         {hasCloseButton && innerCloseButton && (
                           <IconButton
+                            type="button"
                             onClick={() => setOpen(false)}
-                            iconProps={{ hIcon: XIcon, size: "md" }}
+                            iconProps={{ icon: "ri:close-line", size: "lg" }}
                             hoverType="simple"
                             color="gray"
                           />
@@ -148,7 +151,7 @@ export function SlideOver<T = DefaultResultDataType>({
                     )}
                     <div
                       className={classNames("relative", {
-                        "px-4 sm:px-6": header,
+                        "px-3 sm:px-6": header,
                       })}
                     >
                       {content(dialogState)}

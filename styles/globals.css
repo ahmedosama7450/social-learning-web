@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --sidebar-width: theme("spacing.56");
+    --collapsed-sidebar-width: theme("spacing.13");
+    --navbar-height: theme("spacing.12");
+
+    --navbar-margin-bottom: theme("spacing.3");
+    --sidebar-margin-right: theme("spacing.4");
+  }
+
+  body {
+    @apply overflow-y-scroll;
+  }
+}
+
 @layer utilities {
   .form-label {
     @apply block text-sm font-medium text-gray-700 w-max;
@@ -15,5 +30,17 @@
   /* Same as pseudo-bg utility but smaller*/
   .pseudo-bg-sm {
     @apply relative isolate before:absolute before:-inset-1 before:z-[-10];
+  }
+
+  /* 
+    - We set a new max width on layout breaking changes at:
+    => xs when collapsed sidebar shows
+    => lg when there is room for things like asides in the main content
+    => xl when complete sidebar shows
+
+    - A convenient padding is added when needed
+  */
+  .layout-boundary {
+    @apply px-3 mx-auto xs:max-w-2xl xs:px-4 sm:px-8 lg:max-w-6xl lg:px-12 xl:max-w-7xl xl:px-1;
   }
 }
