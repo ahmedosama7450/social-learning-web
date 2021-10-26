@@ -35,6 +35,9 @@ export type Colleges = Record<number, College>;
 
 export type Tags = Record<number, Tag>;
 
+/**
+ * This is not a direct type from the backend, because each field is sent as json(any) and this is what the json eventually looks like
+ */
 export type EduOrgs = {
   universities: Universities;
   colleges: Colleges;
