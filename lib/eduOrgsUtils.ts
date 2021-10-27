@@ -42,7 +42,7 @@ export function makeUniversitiesOptions(
 export function makeCollegesOptions(
   t: TFunction,
   colleges: Colleges,
-  university?: University,
+  university: University | undefined,
   useShortNames: boolean = false
 ): CustomSelectFieldOption[] {
   const collegesOptions: CustomSelectFieldOption[] = [
@@ -68,7 +68,7 @@ export function makeCollegesOptions(
 
 export function makeYearsOptions(
   t: TFunction,
-  college?: College,
+  college: College | undefined,
   useShortNames: boolean = false
 ): CustomSelectFieldOption[] {
   const yearsOptions: CustomSelectFieldOption[] = [

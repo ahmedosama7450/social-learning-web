@@ -163,7 +163,7 @@ export const CustomSelectField = ({
           trailingAddonProps={{
             addon: (
               <Icon
-                icon="ri:arrow-drop-down-fill"
+                icon="ri:arrow-down-s-line"
                 size="md"
                 className="text-gray-400"
               />

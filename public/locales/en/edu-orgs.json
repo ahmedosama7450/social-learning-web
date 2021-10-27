@@ -32,5 +32,9 @@
     "2": "First Term",
     "3": "Electrical Dep",
     "4": "Electronics"
-  }
+  },
+
+  "tags-empty-state": "no tags exist in the selected educational organization",
+  "no-selected-tags-empty-state": "no selected tags",
+  "no-more-tags-to-add-empty-state": "no more tags to add"
 }
