@@ -1,3 +1,12 @@
 {
-  "title": "Home"
+  "title": "Home",
+
+  "post-discussion-title": "Make Discussion",
+  "post-discussion-desc": "Go for a discussion if you want to discuss something",
+
+  "post-question-title": "Ask Question",
+  "post-question-desc": "Go for a question if you want to ask a question",
+
+  "post-article-title": "Write Article",
+  "post-article-desc": "Go for an article if you want to write an article"
 }

@@ -23,8 +23,8 @@ module.exports = {
 
       // TODO Maybe just include both cool gray and blue gray making cool gray the default gray
       gray: {
-        DEFAULT: colors.blueGray[200], // Divider color mostly
-        ...colors.blueGray,
+        DEFAULT: colors.coolGray[200], // Divider color mostly
+        ...colors.coolGray,
       },
       red: {
         DEFAULT: colors.red[500], // Error color mostly
@@ -59,7 +59,7 @@ module.exports = {
       },
 
       borderColor: {
-        DEFAULT: colors.blueGray[200], // Same as divider color
+        DEFAULT: colors.coolGray[200], // Same as divider color
       },
 
       spacing: {
