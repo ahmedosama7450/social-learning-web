@@ -21,9 +21,10 @@ module.exports = {
         dark: "#EFF3F4",
       },
 
+      // TODO Maybe just include both cool gray and blue gray making cool gray the default gray
       gray: {
-        DEFAULT: colors.coolGray[200], // Divider color mostly
-        ...colors.coolGray,
+        DEFAULT: colors.blueGray[200], // Divider color mostly
+        ...colors.blueGray,
       },
       red: {
         DEFAULT: colors.red[500], // Error color mostly
@@ -58,7 +59,7 @@ module.exports = {
       },
 
       borderColor: {
-        DEFAULT: colors.coolGray[200], // Same as divider color
+        DEFAULT: colors.blueGray[200], // Same as divider color
       },
 
       spacing: {

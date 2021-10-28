@@ -6,6 +6,8 @@ import { MiniSize, FullMiniSize } from "../../../../lib/types";
 
 export type FieldRoundness = FullMiniSize | "full";
 
+export type FieldBorder = "none" | "extraLight" | "light" | "normal";
+
 export type FieldBodyProps = {
   label?: string;
   extraText?: string;
@@ -16,7 +18,7 @@ export type FieldBodyProps = {
   className?: string;
   /** Removes shadow */
   flat?: boolean;
-  borderless?: boolean;
+  border?: FieldBorder;
   /** Adds a background color other than white */
   filled?: boolean;
   roundness?: FieldRoundness;
@@ -35,7 +37,7 @@ export const FieldBody = <L,>({
 
   className,
   flat = true,
-  borderless = false,
+  border = "normal",
   filled = false,
   roundness = "md",
   size = "md",
@@ -104,23 +106,32 @@ export const FieldBody = <L,>({
 
             filled ? "bg-secondary focus:bg-white" : "bg-white ",
 
-            borderless
-              ? "border-none"
-              : `border ${
-                  errorMsg ? "focus:border-red-300" : "focus:border-primary"
-                }`,
-
             errorMsg
-              ? "text-red-700 border-red-300 focus:ring-red-300"
-              : "text-gray-900 border-gray-300 focus:ring-primary",
+              ? "text-red-700 focus:ring-red-300 focus:border-red-300"
+              : "text-gray-900 focus:ring-primary focus:border-primary",
 
             {
+              // Size
               "text-2xs": size === "sm",
               "text-sm": size === "md",
               "text-base": size === "lg",
 
+              // Border
+              "border-none": border === "none",
+
+              [errorMsg ? "border border-red-100 " : "border border-gray-100"]:
+                border === "extraLight",
+
+              [errorMsg ? "border border-red-200 " : "border border-gray-200"]:
+                border === "light",
+
+              [errorMsg ? "border border-red-300 " : "border border-gray-300"]:
+                border === "normal",
+
+              // Error icon
               "pr-7": showErrorIcon && errorMsg && !trailingAddonProps,
 
+              // Roundness
               [roundness === "sm"
                 ? "rounded-sm"
                 : roundness === "md"

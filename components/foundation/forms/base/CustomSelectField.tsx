@@ -34,7 +34,7 @@ export type CustomSelectFieldProps = Omit<
   onChange: (value: OptionValue) => void;
 };
 
-// TODO long text causes the the field to be wider
+// TODO long text causes the the field to be wider, even wider than parent container
 
 export const CustomSelectField = ({
   options,

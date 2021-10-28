@@ -32,7 +32,7 @@ export const SearchBar = ({ className }: { className?: string }) => {
           className: "pl-10",
           placeholder: t("common:search"),
         }}
-        borderless
+        border="none"
         filled
         roundness="xl"
         leadingAddonProps={{

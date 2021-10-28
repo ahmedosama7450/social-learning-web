@@ -27,6 +27,7 @@ export interface RegisteredControlledFieldProps {
 /**
  * Used to type custom registered uncontrolled fields
  */
+// TODO Probably refactor all registered components to use more strict types
 export interface RegisteredUnControlledFieldProps {
   name: string;
   formMethods: UseFormReturn<any>;
