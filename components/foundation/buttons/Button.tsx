@@ -12,8 +12,8 @@ import {
 
 export type ButtonColor =
   | "primary"
-  | "primary-bordered" // TODO Rename to primary-outlined
-  | "primary-white" // TODO Rename to primary-inverted
+  | "primary-outlined"
+  | "primary-inverted"
   | "secondary"
   | "white"
   | "red"
@@ -76,17 +76,17 @@ const WrappedButton = <T extends ButtonType>(
           // Flat
           "shadow-sm": !flat,
 
-          // TODO Add disabled variants for all colors just like primary and primary-bordered
+          // TODO Add disabled variants for all colors just like primary and primary-outlined
           // Color
           // color handles text, background, border colors including idle, hover, disabled, focus-visible(handled by BaseButton) states
           "text-white bg-primary hover:bg-primary-600 disabled:bg-primary-400 disabled:hover:bg-primary-300":
             color === "primary",
 
           "text-primary border border-primary hover:bg-primary-100 disabled:text-primary-400 disabled:hover:text-primary-300":
-            color === "primary-bordered",
+            color === "primary-outlined",
 
           "text-primary bg-white hover:bg-primary-50":
-            color === "primary-white",
+            color === "primary-inverted",
 
           "text-gray-700 bg-secondary hover:bg-secondary-dark":
             color === "secondary",
@@ -158,8 +158,8 @@ const ButtonIcon = ({
         "text-white": color === "primary" || color === "red",
 
         "text-primary group-hover:text-primary-600":
-          color === "primary-bordered" ||
-          color === "primary-white" ||
+          color === "primary-outlined" ||
+          color === "primary-inverted" ||
           color === "transparent-primary",
 
         "text-gray-500 group-hover:text-gray-600":
@@ -182,8 +182,8 @@ const ButtonIcon = ({
             size === "xs" ? "px-3 py-2" : size === "sm" ? "px-4 py-2" : "dds"
           }`]:
             color === "primary" ||
-            color === "primary-bordered" ||
-            color === "primary-white" ||
+            color === "primary-outlined" ||
+            color === "primary-inverted" ||
             color === "secondary" ||
             color === "white" ||
             color === "red", */
