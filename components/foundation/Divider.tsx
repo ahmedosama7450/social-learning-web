@@ -1,6 +1,6 @@
 import classNames from "classnames";
 
-// TODO Refactor codebase to make use of this divider component instead of divs
+// TODO Refactor codebase to make use of this divider component instead of divs or maybe borders are better ??? Or maybe always prefer borders
 
 export const Divider = ({
   /**

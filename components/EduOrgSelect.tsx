@@ -65,7 +65,7 @@ export const EduOrgSelect = ({
         label={t("edu-orgs:university-label")}
         options={makeUniversitiesOptions(t, eduOrgs.universities)}
         className="col-span-1 sm:col-span-2"
-        border="extraLight"
+        border="light"
         roundness="lg"
       />
 
@@ -80,7 +80,7 @@ export const EduOrgSelect = ({
           eduOrgs.universities[watchUniversity]
         )}
         className="col-span-1"
-        border="extraLight"
+        border="light"
         roundness="lg"
       />
 
@@ -91,7 +91,7 @@ export const EduOrgSelect = ({
         label={t("edu-orgs:year-label")}
         options={makeYearsOptions(t, eduOrgs.colleges[watchCollege])}
         className="col-span-1"
-        border="extraLight"
+        border="light"
         roundness="lg"
       />
     </div>

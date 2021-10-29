@@ -1,12 +1,33 @@
 {
   "title": "Home",
 
-  "post-discussion-title": "Make Discussion",
-  "post-discussion-desc": "Go for a discussion if you want to discuss something",
+  "posting-links": {
+    "discussion": {
+      "title": "Make Discussion",
+      "desc": "Go for a discussion if you want to discuss something"
+    },
+    "question": {
+      "title": "Ask Question",
+      "desc": "Go for a question if you want to ask a question"
+    },
+    "article": {
+      "title": "Write Article",
+      "desc": "Go for an article if you want to write an article"
+    }
+  },
 
-  "post-question-title": "Ask Question",
-  "post-question-desc": "Go for a question if you want to ask a question",
-
-  "post-article-title": "Write Article",
-  "post-article-desc": "Go for an article if you want to write an article"
+  "sorting-options": {
+    "most-active": {
+      "text": "Most Active",
+      "desc": "Most active discussions will show up first"
+    },
+    "most-recent": {
+      "text": "Most Recent",
+      "desc": "Most recent discussions will show up first"
+    },
+    "most-votes": {
+      "text": "Most Votes",
+      "desc": "Discussions with most votes will show up first"
+    }
+  }
 }

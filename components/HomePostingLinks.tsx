@@ -5,7 +5,7 @@ import { IconIdentifier, Icon, BaseButton } from ".";
 import { PropsWithClassName } from "../lib/types";
 
 export const HomePostingLinks = ({ className }: PropsWithClassName<{}>) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("home");
 
   return (
     <div
@@ -14,7 +14,7 @@ export const HomePostingLinks = ({ className }: PropsWithClassName<{}>) => {
         "flex items-center justify-between gap-4"
       )}
     >
-      {homePostingLinks.map(({ icon, titleKey, descriptionKey, href }, i) => (
+      {homePostingLinks.map(({ icon, i18nKey, href }, i) => (
         <BaseButton
           key={i}
           type="next-link"
@@ -24,11 +24,11 @@ export const HomePostingLinks = ({ className }: PropsWithClassName<{}>) => {
           <Icon size="lg" icon={icon} className="text-gray-500" />
 
           <div className="mt-1.5 text-sm sm:text-base font-semibold text-gray-800">
-            {t(`home:${titleKey}`)}
+            {t(`posting-links.${i18nKey}.title`)}
           </div>
 
           <div className="text-xs mt-0.5 text-gray-500 sm:text-gray-600">
-            {t(`home:${descriptionKey}`)}
+            {t(`posting-links.${i18nKey}.desc`)}
           </div>
         </BaseButton>
       ))}
@@ -38,26 +38,22 @@ export const HomePostingLinks = ({ className }: PropsWithClassName<{}>) => {
 
 const homePostingLinks: {
   icon: IconIdentifier;
-  titleKey: string;
-  descriptionKey: string;
+  i18nKey: string;
   href: string;
 }[] = [
   {
     icon: "heroicons-outline:pencil-alt",
-    titleKey: "post-discussion-title",
-    descriptionKey: "post-discussion-desc",
+    i18nKey: "discussion",
     href: "create-discussion",
   },
   {
     icon: "heroicons-outline:light-bulb",
-    titleKey: "post-question-title",
-    descriptionKey: "post-question-desc",
+    i18nKey: "question",
     href: "create-question",
   },
   {
     icon: "heroicons-outline:book-open",
-    titleKey: "post-article-title",
-    descriptionKey: "post-article-desc",
+    i18nKey: "article",
     href: "create-article",
   },
 ];

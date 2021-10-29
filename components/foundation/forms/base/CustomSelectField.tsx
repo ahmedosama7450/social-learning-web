@@ -115,7 +115,7 @@ export const CustomSelectField = ({
                         {({ selected, active }) => (
                           <div
                             className={classNames(
-                              "flex items-center px-2 py-2 h-11 rounded-md",
+                              "flex items-center px-2 py-2 h-11 rounded",
                               {
                                 "bg-gray-100": active,
                               }
