@@ -41,6 +41,6 @@
     - A convenient padding is added when needed
   */
   .layout-boundary {
-    @apply px-3 mx-auto xs:max-w-2xl xs:px-4 sm:px-8 lg:max-w-6xl lg:px-12 xl:max-w-7xl xl:px-1;
+    @apply px-3 mx-auto xs:max-w-2xl xs:px-4 sm:px-8 lg:max-w-6xl lg:px-12 xl:max-w-7xl xl:px-5;
   }
 }

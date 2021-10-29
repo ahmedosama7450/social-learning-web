@@ -1,11 +1,11 @@
 import { useRouter } from "next/router";
-import { forwardRef } from "react";
+import { forwardRef, ReactNode } from "react";
 
 import { BaseButton, BaseButtonProps } from "./BaseButton";
 import { AugmentOptionalField } from "../../../lib/types";
 
 export type ActiveLinkProps = {
-  children: (active: boolean) => React.ReactNode;
+  children: ReactNode | ((active: boolean) => ReactNode);
   /**
    * If true, router asPath is internally used instead of pathname for comparison against href
    */
@@ -34,7 +34,7 @@ export const ActiveLink = forwardRef<HTMLAnchorElement, ActiveLinkProps>(
         }
       >
         {/*TODO What about when baseButtonProps.href is a Url object ? pathname and asPath are strings */}
-        {children(isActive)}
+        {typeof children === "function" ? children(isActive) : children}
       </BaseButton>
     );
   }

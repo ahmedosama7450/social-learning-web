@@ -16,6 +16,13 @@
     }
   },
 
+  "main-tabs": {
+    "newsfeed": "News Feed",
+    "discussions": "Discussions",
+    "questions": "Questions",
+    "articles": "Articles"
+  },
+
   "sorting-options": {
     "most-active": {
       "text": "Most Active",
