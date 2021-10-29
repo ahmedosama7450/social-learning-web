@@ -10,6 +10,8 @@ import {
   ButtonType,
 } from "./BaseButton";
 
+export type ButtonSize = Size | "base";
+
 export type ButtonColor =
   | "primary"
   | "primary-outlined"
@@ -29,7 +31,7 @@ export type ButtonProps<T extends ButtonType> = BaseButtonProps<T> & {
   iconProps?: ButtonIconProps;
   isIconTrailing?: boolean;
 
-  size?: Size;
+  size?: ButtonSize;
   flat?: boolean;
   color?: ButtonColor;
   roundedFull?: boolean;
@@ -43,7 +45,7 @@ const WrappedButton = <T extends ButtonType>(
     iconProps,
     isIconTrailing = false,
 
-    size = "md",
+    size = "base",
     flat = false,
     color = "primary",
     roundedFull = false,
@@ -69,7 +71,8 @@ const WrappedButton = <T extends ButtonType>(
           // Size
           "text-xs px-3 py-2": size === "xs",
           "text-sm px-4 py-2": size === "sm",
-          "text-base px-5 py-2.5": size === "md",
+          "text-md px-4 py-2.5": size === "md",
+          "text-base px-5 py-2.5": size === "base",
           "text-lg px-5 py-3": size === "lg",
           "text-xl px-6 py-3": size === "xl",
 
@@ -152,7 +155,7 @@ const ButtonIcon = ({
   return (
     <Icon
       {...iconProps}
-      size={size === "xl" ? "lg" : size}
+      size={size === "xl" ? "lg" : size === "base" ? "md" : size}
       className={classNames("flex-shrink-0", {
         // Color
         "text-white": color === "primary" || color === "red",
