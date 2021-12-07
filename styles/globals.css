@@ -6,7 +6,7 @@
   :root {
     --sidebar-width: theme("spacing.56");
     --collapsed-sidebar-width: theme("spacing.13");
-    --navbar-height: theme("spacing.12");
+    --navbar-height: theme("spacing.13");
 
     --navbar-margin-bottom: theme("spacing.3");
     --sidebar-margin-right: theme("spacing.4");
@@ -41,6 +41,6 @@
     - A convenient padding is added when needed
   */
   .layout-boundary {
-    @apply px-3 mx-auto xs:max-w-2xl xs:px-4 sm:px-8 lg:max-w-6xl lg:px-12 xl:max-w-7xl xl:px-5;
+    @apply px-3 mx-auto xs:max-w-2xl xs:px-4 sm:px-8 lg:max-w-6xl lg:px-12 xl:max-w-7xl xl:px-1;
   }
 }

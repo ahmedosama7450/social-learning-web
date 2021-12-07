@@ -1,20 +1,30 @@
 fragment User on User {
   id
+  profile {
+    locale
+    bio
+
+    universityId
+    collegeId
+    year
+  }
+
   provider
   username
   firstName
   lastName
+
   avatar
   joinedAt
-  isVerified
   reputation
-  profile {
-    bio
-    locale
-    university
-    college
-    year
-  }
+
+  followersCount
+  followingCount
+  discussionsCount
+  questionsCount
+  articlesCount
+  commentsCount
+  answersCount
 }
 
 query Me {
@@ -23,7 +33,20 @@ query Me {
   }
 }
 
-mutation Login($provider: Provider!, $code: String!) {
+query TempUserInfo {
+  tempUserInfo {
+    id
+
+    firstName
+    lastName
+
+    email
+
+    username
+  }
+}
+
+mutation LoginWithProvider($provider: Provider!, $code: String!) {
   loginWithProvider(provider: $provider, code: $code) {
     accessToken
   }
@@ -33,8 +56,8 @@ mutation Logout {
   logout
 }
 
-mutation CreateProfile($profileCreateInput: ProfileCreateInput!) {
-  createProfile(profileCreateInput: $profileCreateInput) {
-    ...User
+mutation CreateUser($userCreateInput: UserCreateInput!) {
+  createUser(userCreateInput: $userCreateInput) {
+    accessToken
   }
 }

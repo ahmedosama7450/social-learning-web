@@ -1,15 +1,15 @@
 import { GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
+import { useForm, UseFormReturn } from "react-hook-form";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 
 import {
-  useCreateProfileMutation,
+  useCreateUserMutation,
   useLogoutMutation,
-  useMeQuery,
   Locale,
-  ProfileCreateInput,
+  UserCreateInput,
+  useTempUserInfoQuery,
 } from "../__generated__/graphql";
 import {
   Logo,
@@ -30,33 +30,39 @@ import {
   isErrorWithCode,
   setFormValidationErrors,
 } from "../lib/utils";
-import { AUTHENTICATION_ERROR_CODE } from "../lib/backendValues";
+import {
+  AUTHENTICATION_ERROR_CODE,
+  EXISTING_USER_ERROR_CODE,
+} from "../lib/backendValues";
 
-type FormInputs = Omit<ProfileCreateInput, "locale">;
+type FormInputs = Omit<UserCreateInput, "locale">;
 
-const CreateProfile: NextPage = () => {
+const NewUserPage: NextPage = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const formMethods = useForm<FormInputs>();
 
-  const { data: meData, loading: meLoading, error: meError } = useMeQuery();
-  const [
-    createProfile,
-    { called: createProfileCalled, loading: createProfileLoading },
-  ] = useCreateProfileMutation({
-    onCompleted() {
-      // Our job is done here
-      router.replace("/");
-      // TODO Toast successful login
-    },
-    onError(err) {
-      if (!setFormValidationErrors(err, formMethods.setError, t)) {
-        // Unknown error
-        console.log(err);
-        // TODO Toast so the user tries again himself
-      }
-    },
-  });
+  const {
+    data: tempUserInfoData,
+    loading: tempUserInfoLoading,
+    error: tempUserInfoError,
+  } = useTempUserInfoQuery();
+
+  const [createUser, { called: createUserCalled, loading: createUserLoading }] =
+    useCreateUserMutation({
+      onCompleted() {
+        // Our job is done here
+        router.replace("/");
+        // TODO Toast successful login
+      },
+      onError(err) {
+        if (!setFormValidationErrors(err, formMethods.setError, t)) {
+          // Unknown error
+          console.log(err);
+          // TODO Toast so the user tries again himself
+        }
+      },
+    });
 
   // TODO Implement logout loading, probably show a loading dialog or a toast
   const [logout] = useLogoutMutation({
@@ -71,9 +77,9 @@ const CreateProfile: NextPage = () => {
   });
 
   const onSubmit = (data: FormInputs) => {
-    createProfile({
+    createUser({
       variables: {
-        profileCreateInput: {
+        userCreateInput: {
           ...data,
           locale: Locale.Arabic /*TODO choose depending on current locale*/,
         },
@@ -82,23 +88,22 @@ const CreateProfile: NextPage = () => {
   };
 
   // TODO Maybe this logic should be encapsulated as a protected route
-  if (meLoading) {
+  if (tempUserInfoLoading) {
     return <Loader />;
-  } else if (meError) {
-    // This could be an authentication error, which we need to handle
-    if (isErrorWithCode(meError, AUTHENTICATION_ERROR_CODE)) {
+  } else if (tempUserInfoError) {
+    if (isErrorWithCode(tempUserInfoError, AUTHENTICATION_ERROR_CODE)) {
       // Redirect to landing page to login first
       if (isClient()) router.replace("/landing");
+      return <RedirectLoader />;
+    } else if (isErrorWithCode(tempUserInfoError, EXISTING_USER_ERROR_CODE)) {
+      // User is already created, what is he doing here ?
+      if (isClient()) router.replace("/");
       return <RedirectLoader />;
     } else {
       return <Error />;
     }
-  } else if (!meData) {
+  } else if (!tempUserInfoData) {
     return <Error />;
-  } else if (meData.me.profile) {
-    // Profile is already created, what is he doing here ?
-    if (isClient()) router.replace("/");
-    return <RedirectLoader />;
   }
 
   return (
@@ -159,7 +164,7 @@ const CreateProfile: NextPage = () => {
                   innerProps={{
                     id: "firstName",
                     placeholder: t("profile:first-name"),
-                    defaultValue: meData.me.firstName,
+                    defaultValue: tempUserInfoData.tempUserInfo.firstName,
                   }}
                   label={t("profile:first-name")}
                 />
@@ -171,7 +176,7 @@ const CreateProfile: NextPage = () => {
                   innerProps={{
                     id: "lastName",
                     placeholder: t("profile:last-name"),
-                    defaultValue: meData.me.lastName,
+                    defaultValue: tempUserInfoData.tempUserInfo.lastName,
                   }}
                   label={t("profile:last-name")}
                 />
@@ -189,7 +194,7 @@ const CreateProfile: NextPage = () => {
                 innerProps={{
                   id: "username",
                   placeholder: t("profile:username"),
-                  defaultValue: meData.me.username,
+                  defaultValue: tempUserInfoData.tempUserInfo.username,
                 }}
                 label={t("profile:username")}
               />
@@ -209,7 +214,12 @@ const CreateProfile: NextPage = () => {
 
               <EduOrgSelect
                 eduOrgs={eduOrgs}
-                formMethods={formMethods}
+                formMethods={
+                  // TODO Maybe there is a better way ?
+                  formMethods as UseFormReturn<
+                    Pick<UserCreateInput, "universityId" | "collegeId" | "year">
+                  >
+                }
                 structure="normal"
                 className="mt-5"
               />
@@ -219,7 +229,7 @@ const CreateProfile: NextPage = () => {
                 size="lg"
                 className="w-full mt-7"
                 color="primary"
-                loading={createProfileCalled && createProfileLoading}
+                loading={createUserCalled && createUserLoading}
                 innerProps={{ type: "submit" }}
               >
                 {t("common:continue")}
@@ -232,7 +242,7 @@ const CreateProfile: NextPage = () => {
   );
 };
 
-export default CreateProfile;
+export default NewUserPage;
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {

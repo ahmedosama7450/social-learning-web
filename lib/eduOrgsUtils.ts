@@ -92,9 +92,7 @@ export function makeYearsOptions(
 
 export function findExistingTags(
   tags: Tags,
-  universityId: number,
-  collegeId: number,
-  year: number
+  { universityId, collegeId, year }: EduOrg
 ): number[] {
   const existingTagsId: number[] = [];
 
@@ -118,11 +116,7 @@ export function findExistingTags(
           });
         });
       });
-    } else if (
-      universityId === EDU_ORGS_GENERAL_OPTION_VALUE &&
-      collegeId === EDU_ORGS_GENERAL_OPTION_VALUE &&
-      year === EDU_ORGS_GENERAL_OPTION_VALUE
-    ) {
+    } else if (!universityId && !collegeId && !year) {
       existingTagsId.push(tagId);
     }
   }

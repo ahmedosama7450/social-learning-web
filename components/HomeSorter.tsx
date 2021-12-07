@@ -27,7 +27,7 @@ export const HomeSorter = ({ className }: { className?: string }) => {
       asProps={{
         // TODO Typescript: If this was a next-link or a, href isn't inferred
         type: "button",
-        size: "sm",
+        size: "md",
         color: "transparent-darkGray",
         isIconTrailing: true,
         iconProps: { icon: "ri:arrow-down-s-line" },

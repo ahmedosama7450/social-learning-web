@@ -2,6 +2,8 @@
 // EduOrgs
 //-------------------------------------------
 
+export type EduOrgValue = number | null;
+
 export interface College {
   description: string;
   firstYear: number;
@@ -23,9 +25,9 @@ export interface Tag {
   description: string;
   type: TagType;
   eduOrgs?: {
-    universitiesIds: number[];
-    collegesIds: number[];
-    years: number[];
+    universitiesIds: Array<EduOrgValue>;
+    collegesIds: Array<EduOrgValue>;
+    years: Array<EduOrgValue>;
   }[];
 }
 

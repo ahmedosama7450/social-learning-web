@@ -1,6 +1,8 @@
 import React from "react";
 import { Control, UseFormReturn } from "react-hook-form";
 
+import { EduOrgValue } from "./backendTypes";
+
 export type MiniSize = "sm" | "md" | "lg";
 export type FullMiniSize = MiniSize | "xl";
 export type Size = "xs" | FullMiniSize;
@@ -8,9 +10,9 @@ export type FullSize = Size | "2xl" | "3xl" | "4xl" | "5xl" | "6xl";
 export type ExtraFullSize = FullSize | "7xl" | "8xl" | "9xl" | "10xl";
 
 export interface EduOrg {
-  universityId?: number;
-  collegeId?: number;
-  year?: number;
+  universityId?: EduOrgValue;
+  collegeId?: EduOrgValue;
+  year?: EduOrgValue;
 }
 
 export type EduOrgWithTags = EduOrg & { tagsIds?: number[] };

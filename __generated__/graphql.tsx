@@ -29,39 +29,60 @@ export type Scalars = {
 
 
 
-
-
-export type Discussion = {
-  __typename?: 'Discussion';
-  id: Scalars['Int'];
+export type Comment = {
+  __typename?: 'Comment';
+  id: Scalars['ID'];
+  authorId: Scalars['String'];
+  author: User;
+  postId: Scalars['String'];
+  post: Post;
   body: Scalars['String'];
+  attachments?: Maybe<Array<Scalars['String']>>;
+  parentReplyId?: Maybe<Scalars['String']>;
+  parentReply?: Maybe<Comment>;
   createdAt: Scalars['DateTime'];
-  university: Scalars['Int'];
-  college: Scalars['Int'];
-  year: Scalars['Int'];
-  tags: Array<Scalars['String']>;
+  votesCount: Scalars['Int'];
   upvotesCount: Scalars['Int'];
   downvotesCount: Scalars['Int'];
-  commentsCount: Scalars['Int'];
-  authorId: Scalars['Int'];
-  author: User;
 };
 
-export type DiscussionConnection = {
-  __typename?: 'DiscussionConnection';
+export type CommentConnection = {
+  __typename?: 'CommentConnection';
   /** https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types */
-  edges: Array<DiscussionEdge>;
+  edges: Array<CommentEdge>;
   /** https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
   pageInfo: PageInfo;
+  /** Flattened list of Comment type */
+  nodes: Array<Comment>;
 };
 
-export type DiscussionEdge = {
-  __typename?: 'DiscussionEdge';
+export type CommentCreateInput = {
+  postId: Scalars['String'];
+  parentReplyId?: Maybe<Scalars['String']>;
+  body: Scalars['String'];
+  attachments?: Maybe<Array<Scalars['String']>>;
+};
+
+export type CommentEdge = {
+  __typename?: 'CommentEdge';
   /** https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor */
   cursor: Scalars['String'];
   /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
-  node: Discussion;
+  node: Comment;
 };
+
+export type CommentEditInput = {
+  body: Scalars['String'];
+  attachments?: Maybe<Array<Scalars['String']>>;
+};
+
+export enum CommentsSortingOption {
+  MostActive = 'MOST_ACTIVE',
+  MostRecent = 'MOST_RECENT',
+  MostVoted = 'MOST_VOTED'
+}
+
+
 
 export type EduOrgs = {
   __typename?: 'EduOrgs';
@@ -89,12 +110,18 @@ export type LoginResponse = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  /** Create an access token for the user + put it in a cookie. if the user doesn't exist, a new user is created */
+  /** Create an access token for the user and put it in a cookie. if the user doesn't exist, an id is generated to make the token and the user info from provider is saved in a TempUserInfo record */
   loginWithProvider: LoginResponse;
   /** Logout for web client to clear the auth http-only cookie */
   logout: Scalars['Boolean'];
-  /** Calling this mutation if profile is already created will result in an error */
-  createProfile: User;
+  /** Calling this mutation if user is already created will result in an error */
+  createUser: LoginResponse;
+  createPost: Scalars['Boolean'];
+  deletePost: Scalars['Boolean'];
+  editPost: Scalars['Boolean'];
+  createComment: Scalars['Boolean'];
+  deleteComment: Scalars['Boolean'];
+  editComment: Scalars['Boolean'];
 };
 
 
@@ -104,8 +131,41 @@ export type MutationLoginWithProviderArgs = {
 };
 
 
-export type MutationCreateProfileArgs = {
-  profileCreateInput: ProfileCreateInput;
+export type MutationCreateUserArgs = {
+  userCreateInput: UserCreateInput;
+};
+
+
+export type MutationCreatePostArgs = {
+  postCreateInput: PostCreateInput;
+};
+
+
+export type MutationDeletePostArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationEditPostArgs = {
+  id: Scalars['ID'];
+  postEditInput: PostEditInput;
+};
+
+
+export type MutationCreateCommentArgs = {
+  commentCreateInput: CommentCreateInput;
+  isAnswer: Scalars['Boolean'];
+};
+
+
+export type MutationDeleteCommentArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationEditCommentArgs = {
+  id: Scalars['ID'];
+  commentEditInput: CommentEditInput;
 };
 
 /** PageInfo cursor, as defined in https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
@@ -121,27 +181,100 @@ export type PageInfo = {
   endCursor?: Maybe<Scalars['String']>;
 };
 
-export type Profile = {
-  __typename?: 'Profile';
-  bio: Scalars['String'];
-  locale: Locale;
-  university: Scalars['Int'];
-  college: Scalars['Int'];
-  year: Scalars['Int'];
-  userId: Scalars['Int'];
+export type Post = {
+  __typename?: 'Post';
+  id: Scalars['ID'];
+  type: PostType;
+  authorId: Scalars['String'];
+  author: User;
+  title: Scalars['String'];
+  body: Scalars['String'];
+  universityId?: Maybe<Scalars['Int']>;
+  collegeId?: Maybe<Scalars['Int']>;
+  year?: Maybe<Scalars['Int']>;
+  tagsIds?: Maybe<Array<Scalars['String']>>;
+  createdAt: Scalars['DateTime'];
+  attachments?: Maybe<Array<Scalars['String']>>;
+  coverUrl?: Maybe<Scalars['String']>;
+  acceptedAnswerId?: Maybe<Scalars['String']>;
+  acceptedAnswer?: Maybe<Comment>;
+  votesCount: Scalars['Int'];
+  upvotesCount: Scalars['Int'];
+  downvotesCount: Scalars['Int'];
+  viewsCount: Scalars['Int'];
+  sharesCount: Scalars['Int'];
+  commentsCount: Scalars['Int'];
+  answersCount?: Maybe<Scalars['Int']>;
 };
 
-export type ProfileCreateInput = {
-  username: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-  /** This is not a url to the avatar but more of a choice that's determined by the frontend */
-  avatar?: Maybe<Scalars['String']>;
-  bio: Scalars['String'];
+export type PostConnection = {
+  __typename?: 'PostConnection';
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types */
+  edges: Array<PostEdge>;
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
+  pageInfo: PageInfo;
+  /** Flattened list of Post type */
+  nodes: Array<Post>;
+};
+
+export type PostCreateInput = {
+  type: PostType;
+  title: Scalars['String'];
+  body: Scalars['String'];
+  universityId?: Maybe<Scalars['Int']>;
+  collegeId?: Maybe<Scalars['Int']>;
+  year?: Maybe<Scalars['Int']>;
+  tagsIds?: Maybe<Array<Scalars['String']>>;
+  attachments?: Maybe<Array<Scalars['String']>>;
+  coverUrl?: Maybe<Scalars['String']>;
+};
+
+export type PostEdge = {
+  __typename?: 'PostEdge';
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor */
+  cursor: Scalars['String'];
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
+  node: Post;
+};
+
+export type PostEditInput = {
+  title: Scalars['String'];
+  body: Scalars['String'];
+  universityId?: Maybe<Scalars['Int']>;
+  collegeId?: Maybe<Scalars['Int']>;
+  year?: Maybe<Scalars['Int']>;
+  tagsIds?: Maybe<Array<Scalars['String']>>;
+  attachments?: Maybe<Array<Scalars['String']>>;
+  coverUrl?: Maybe<Scalars['String']>;
+};
+
+export enum PostType {
+  Discussion = 'DISCUSSION',
+  Question = 'QUESTION',
+  Article = 'ARTICLE'
+}
+
+export enum PostsSortingOption {
+  Trending = 'TRENDING',
+  MostRecent = 'MOST_RECENT',
+  MostVoted = 'MOST_VOTED'
+}
+
+export type PostsWhereInput = {
+  type: PostType;
+  universityId?: Maybe<Scalars['Int']>;
+  collegeId?: Maybe<Scalars['Int']>;
+  year?: Maybe<Scalars['Int']>;
+  tagsIds?: Maybe<Array<Scalars['String']>>;
+};
+
+export type Profile = {
+  __typename?: 'Profile';
   locale: Locale;
-  university: Scalars['Int'];
-  college: Scalars['Int'];
-  year: Scalars['Int'];
+  bio: Scalars['String'];
+  universityId?: Maybe<Scalars['Int']>;
+  collegeId?: Maybe<Scalars['Int']>;
+  year?: Maybe<Scalars['Int']>;
 };
 
 export enum Provider {
@@ -151,9 +284,21 @@ export enum Provider {
 export type Query = {
   __typename?: 'Query';
   me: User;
+  /** Only exists if the user logged in for the first time and gets removed after the user is created */
+  tempUserInfo: TempUserInfo;
+  fakeLogin: LoginResponse;
   /** cachedVersion is compared to the current version to decide if we need to send data back or not. the version is always sent back */
   eduOrgsInfo: EduOrgsInfo;
-  discussions: DiscussionConnection;
+  post: Post;
+  posts: PostConnection;
+  newsfeed: PostConnection;
+  comment: Comment;
+  comments: CommentConnection;
+};
+
+
+export type QueryFakeLoginArgs = {
+  userId: Scalars['String'];
 };
 
 
@@ -162,31 +307,80 @@ export type QueryEduOrgsInfoArgs = {
 };
 
 
-export type QueryDiscussionsArgs = {
-  first?: Maybe<Scalars['Int']>;
+export type QueryPostArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryPostsArgs = {
+  sorting: PostsSortingOption;
+  postsWhereInput: PostsWhereInput;
+  first: Scalars['Int'];
   after?: Maybe<Scalars['String']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryNewsfeedArgs = {
+  first: Scalars['Int'];
+  after?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryCommentArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryCommentsArgs = {
+  sorting: CommentsSortingOption;
+  postId: Scalars['String'];
+  parentReplyId?: Maybe<Scalars['String']>;
+  queryAnswers: Scalars['Boolean'];
+  first: Scalars['Int'];
+  after?: Maybe<Scalars['String']>;
+};
+
+export type TempUserInfo = {
+  __typename?: 'TempUserInfo';
+  id: Scalars['ID'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
+  username: Scalars['String'];
 };
 
 export type User = {
   __typename?: 'User';
-  id: Scalars['Int'];
+  id: Scalars['ID'];
+  profile: Profile;
   provider: Provider;
   username: Scalars['String'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
-  email?: Maybe<Scalars['String']>;
-  /** isActive is false if the user is banned */
-  isActive: Scalars['Boolean'];
-  /** This is not a url to the avatar but more of a choice that's determined by the frontend */
+  /** This is not a url to the avatar but more of an id of a choice that's determined by the frontend */
   avatar?: Maybe<Scalars['String']>;
   joinedAt: Scalars['DateTime'];
-  isVerified: Scalars['Boolean'];
   reputation: Scalars['Int'];
   followersCount: Scalars['Int'];
   followingCount: Scalars['Int'];
-  profile?: Maybe<Profile>;
+  discussionsCount: Scalars['Int'];
+  questionsCount: Scalars['Int'];
+  articlesCount: Scalars['Int'];
+  commentsCount: Scalars['Int'];
+  answersCount: Scalars['Int'];
+};
+
+export type UserCreateInput = {
+  username: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  /** This is not a url to the avatar but more of an id of a choice that's determined by the frontend */
+  avatar?: Maybe<Scalars['String']>;
+  universityId?: Maybe<Scalars['Int']>;
+  collegeId?: Maybe<Scalars['Int']>;
+  year?: Maybe<Scalars['Int']>;
+  locale: Locale;
+  bio: Scalars['String'];
 };
 
 export type EduOrgsInfoQueryVariables = Exact<{
@@ -196,51 +390,62 @@ export type EduOrgsInfoQueryVariables = Exact<{
 
 export type EduOrgsInfoQuery = { __typename?: 'Query', eduOrgsInfo: { __typename?: 'EduOrgsInfo', version: number, eduOrgs?: Maybe<{ __typename?: 'EduOrgs', universities: any, colleges: any, tags: any }> } };
 
-export type UserFragment = { __typename?: 'User', id: number, provider: Provider, username: string, firstName: string, lastName: string, avatar?: Maybe<string>, joinedAt: any, isVerified: boolean, reputation: number, profile?: Maybe<{ __typename?: 'Profile', bio: string, locale: Locale, university: number, college: number, year: number }> };
+export type UserFragment = { __typename?: 'User', id: string, provider: Provider, username: string, firstName: string, lastName: string, avatar?: Maybe<string>, joinedAt: any, reputation: number, followersCount: number, followingCount: number, discussionsCount: number, questionsCount: number, articlesCount: number, commentsCount: number, answersCount: number, profile: { __typename?: 'Profile', locale: Locale, bio: string, universityId?: Maybe<number>, collegeId?: Maybe<number>, year?: Maybe<number> } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: number, provider: Provider, username: string, firstName: string, lastName: string, avatar?: Maybe<string>, joinedAt: any, isVerified: boolean, reputation: number, profile?: Maybe<{ __typename?: 'Profile', bio: string, locale: Locale, university: number, college: number, year: number }> } };
+export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: string, provider: Provider, username: string, firstName: string, lastName: string, avatar?: Maybe<string>, joinedAt: any, reputation: number, followersCount: number, followingCount: number, discussionsCount: number, questionsCount: number, articlesCount: number, commentsCount: number, answersCount: number, profile: { __typename?: 'Profile', locale: Locale, bio: string, universityId?: Maybe<number>, collegeId?: Maybe<number>, year?: Maybe<number> } } };
 
-export type LoginMutationVariables = Exact<{
+export type TempUserInfoQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TempUserInfoQuery = { __typename?: 'Query', tempUserInfo: { __typename?: 'TempUserInfo', id: string, firstName: string, lastName: string, email?: Maybe<string>, username: string } };
+
+export type LoginWithProviderMutationVariables = Exact<{
   provider: Provider;
   code: Scalars['String'];
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', loginWithProvider: { __typename?: 'LoginResponse', accessToken: string } };
+export type LoginWithProviderMutation = { __typename?: 'Mutation', loginWithProvider: { __typename?: 'LoginResponse', accessToken: string } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 
-export type CreateProfileMutationVariables = Exact<{
-  profileCreateInput: ProfileCreateInput;
+export type CreateUserMutationVariables = Exact<{
+  userCreateInput: UserCreateInput;
 }>;
 
 
-export type CreateProfileMutation = { __typename?: 'Mutation', createProfile: { __typename?: 'User', id: number, provider: Provider, username: string, firstName: string, lastName: string, avatar?: Maybe<string>, joinedAt: any, isVerified: boolean, reputation: number, profile?: Maybe<{ __typename?: 'Profile', bio: string, locale: Locale, university: number, college: number, year: number }> } };
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'LoginResponse', accessToken: string } };
 
 export const UserFragmentDoc = gql`
     fragment User on User {
   id
+  profile {
+    locale
+    bio
+    universityId
+    collegeId
+    year
+  }
   provider
   username
   firstName
   lastName
   avatar
   joinedAt
-  isVerified
   reputation
-  profile {
-    bio
-    locale
-    university
-    college
-    year
-  }
+  followersCount
+  followingCount
+  discussionsCount
+  questionsCount
+  articlesCount
+  commentsCount
+  answersCount
 }
     `;
 export const EduOrgsInfoDocument = gql`
@@ -317,40 +522,78 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
-export const LoginDocument = gql`
-    mutation Login($provider: Provider!, $code: String!) {
+export const TempUserInfoDocument = gql`
+    query TempUserInfo {
+  tempUserInfo {
+    id
+    firstName
+    lastName
+    email
+    username
+  }
+}
+    `;
+
+/**
+ * __useTempUserInfoQuery__
+ *
+ * To run a query within a React component, call `useTempUserInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTempUserInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTempUserInfoQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useTempUserInfoQuery(baseOptions?: Apollo.QueryHookOptions<TempUserInfoQuery, TempUserInfoQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TempUserInfoQuery, TempUserInfoQueryVariables>(TempUserInfoDocument, options);
+      }
+export function useTempUserInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TempUserInfoQuery, TempUserInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TempUserInfoQuery, TempUserInfoQueryVariables>(TempUserInfoDocument, options);
+        }
+export type TempUserInfoQueryHookResult = ReturnType<typeof useTempUserInfoQuery>;
+export type TempUserInfoLazyQueryHookResult = ReturnType<typeof useTempUserInfoLazyQuery>;
+export type TempUserInfoQueryResult = Apollo.QueryResult<TempUserInfoQuery, TempUserInfoQueryVariables>;
+export const LoginWithProviderDocument = gql`
+    mutation LoginWithProvider($provider: Provider!, $code: String!) {
   loginWithProvider(provider: $provider, code: $code) {
     accessToken
   }
 }
     `;
-export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
+export type LoginWithProviderMutationFn = Apollo.MutationFunction<LoginWithProviderMutation, LoginWithProviderMutationVariables>;
 
 /**
- * __useLoginMutation__
+ * __useLoginWithProviderMutation__
  *
- * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useLoginMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useLoginWithProviderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginWithProviderMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [loginMutation, { data, loading, error }] = useLoginMutation({
+ * const [loginWithProviderMutation, { data, loading, error }] = useLoginWithProviderMutation({
  *   variables: {
  *      provider: // value for 'provider'
  *      code: // value for 'code'
  *   },
  * });
  */
-export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+export function useLoginWithProviderMutation(baseOptions?: Apollo.MutationHookOptions<LoginWithProviderMutation, LoginWithProviderMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+        return Apollo.useMutation<LoginWithProviderMutation, LoginWithProviderMutationVariables>(LoginWithProviderDocument, options);
       }
-export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
-export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
-export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export type LoginWithProviderMutationHookResult = ReturnType<typeof useLoginWithProviderMutation>;
+export type LoginWithProviderMutationResult = Apollo.MutationResult<LoginWithProviderMutation>;
+export type LoginWithProviderMutationOptions = Apollo.BaseMutationOptions<LoginWithProviderMutation, LoginWithProviderMutationVariables>;
 export const LogoutDocument = gql`
     mutation Logout {
   logout
@@ -381,36 +624,36 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
-export const CreateProfileDocument = gql`
-    mutation CreateProfile($profileCreateInput: ProfileCreateInput!) {
-  createProfile(profileCreateInput: $profileCreateInput) {
-    ...User
+export const CreateUserDocument = gql`
+    mutation CreateUser($userCreateInput: UserCreateInput!) {
+  createUser(userCreateInput: $userCreateInput) {
+    accessToken
   }
 }
-    ${UserFragmentDoc}`;
-export type CreateProfileMutationFn = Apollo.MutationFunction<CreateProfileMutation, CreateProfileMutationVariables>;
+    `;
+export type CreateUserMutationFn = Apollo.MutationFunction<CreateUserMutation, CreateUserMutationVariables>;
 
 /**
- * __useCreateProfileMutation__
+ * __useCreateUserMutation__
  *
- * To run a mutation, you first call `useCreateProfileMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateProfileMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUserMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createProfileMutation, { data, loading, error }] = useCreateProfileMutation({
+ * const [createUserMutation, { data, loading, error }] = useCreateUserMutation({
  *   variables: {
- *      profileCreateInput: // value for 'profileCreateInput'
+ *      userCreateInput: // value for 'userCreateInput'
  *   },
  * });
  */
-export function useCreateProfileMutation(baseOptions?: Apollo.MutationHookOptions<CreateProfileMutation, CreateProfileMutationVariables>) {
+export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<CreateUserMutation, CreateUserMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateProfileMutation, CreateProfileMutationVariables>(CreateProfileDocument, options);
+        return Apollo.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, options);
       }
-export type CreateProfileMutationHookResult = ReturnType<typeof useCreateProfileMutation>;
-export type CreateProfileMutationResult = Apollo.MutationResult<CreateProfileMutation>;
-export type CreateProfileMutationOptions = Apollo.BaseMutationOptions<CreateProfileMutation, CreateProfileMutationVariables>;
+export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
+export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
+export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;

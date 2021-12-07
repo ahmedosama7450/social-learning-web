@@ -6,22 +6,18 @@ import { useEffect } from "react";
 import { RegisteredCustomSelectField } from ".";
 import { EDU_ORGS_GENERAL_OPTION_VALUE } from "../lib/backendValues";
 import { EduOrgs } from "../lib/backendTypes";
-import { PropsWithClassName } from "../lib/types";
+import { PropsWithClassName, EduOrg } from "../lib/types";
 import {
   makeCollegesOptions,
   makeUniversitiesOptions,
   makeYearsOptions,
 } from "../lib/eduOrgsUtils";
 
-export interface EduOrgSelectFormValues {
-  university: number;
-  college: number;
-  year: number;
-}
+export type EduOrgSelectFormValues = EduOrg;
 
 export type EduOrgSelectProps = PropsWithClassName<{
   eduOrgs: EduOrgs;
-  formMethods: UseFormReturn<EduOrgSelectFormValues>;
+  formMethods: UseFormReturn<EduOrg>;
   structure: "normal" | "aside";
 }>;
 
@@ -35,13 +31,13 @@ export const EduOrgSelect = ({
 
   const { control, setValue, watch } = formMethods;
 
-  const watchUniversity = watch("university", EDU_ORGS_GENERAL_OPTION_VALUE);
-  const watchCollege = watch("college", EDU_ORGS_GENERAL_OPTION_VALUE);
+  const watchUniversity = watch("universityId", EDU_ORGS_GENERAL_OPTION_VALUE);
+  const watchCollege = watch("collegeId", EDU_ORGS_GENERAL_OPTION_VALUE);
 
   // Reset college and year when university changes
   useEffect(() => {
     // TODO If the currently selected college exists in the new university, leave it as it is. Otherwise, set to general value
-    setValue("college", EDU_ORGS_GENERAL_OPTION_VALUE);
+    setValue("collegeId", EDU_ORGS_GENERAL_OPTION_VALUE);
     setValue("year", EDU_ORGS_GENERAL_OPTION_VALUE);
   }, [watchUniversity, setValue]);
 
@@ -59,7 +55,7 @@ export const EduOrgSelect = ({
       })}
     >
       <RegisteredCustomSelectField
-        name="university"
+        name="universityId"
         defaultValue={EDU_ORGS_GENERAL_OPTION_VALUE}
         control={control}
         label={t("edu-orgs:university-label")}
@@ -70,14 +66,14 @@ export const EduOrgSelect = ({
       />
 
       <RegisteredCustomSelectField
-        name="college"
+        name="collegeId"
         defaultValue={EDU_ORGS_GENERAL_OPTION_VALUE}
         control={control}
         label={t("edu-orgs:college-label")}
         options={makeCollegesOptions(
           t,
           eduOrgs.colleges,
-          eduOrgs.universities[watchUniversity]
+          watchUniversity ? eduOrgs.universities[watchUniversity] : undefined
         )}
         className="col-span-1"
         border="light"
@@ -89,7 +85,10 @@ export const EduOrgSelect = ({
         defaultValue={EDU_ORGS_GENERAL_OPTION_VALUE}
         control={control}
         label={t("edu-orgs:year-label")}
-        options={makeYearsOptions(t, eduOrgs.colleges[watchCollege])}
+        options={makeYearsOptions(
+          t,
+          watchCollege ? eduOrgs.colleges[watchCollege] : undefined
+        )}
         className="col-span-1"
         border="light"
         roundness="lg"

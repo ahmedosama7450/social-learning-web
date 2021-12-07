@@ -6,7 +6,10 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import Script from "next/script";
 
-import { Provider, useLoginMutation } from "../__generated__/graphql";
+import {
+  Provider,
+  useLoginWithProviderMutation,
+} from "../__generated__/graphql";
 
 declare global {
   interface Window {
@@ -16,13 +19,14 @@ declare global {
 
 const LandingPage: NextPage = () => {
   const router = useRouter();
-  const [loginWithProvider, { loading, error, called }] = useLoginMutation({
-    onCompleted({ loginWithProvider }) {
-      if (loginWithProvider) {
-        router.replace("/");
-      }
-    },
-  });
+  const [loginWithProvider, { loading, error, called }] =
+    useLoginWithProviderMutation({
+      onCompleted({ loginWithProvider }) {
+        if (loginWithProvider) {
+          router.replace("/");
+        }
+      },
+    });
 
   const [scriptStatus, setScriptStatus] = useState<
     "loading" | "loaded" | "error"

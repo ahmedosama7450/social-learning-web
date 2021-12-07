@@ -4,17 +4,11 @@ import { useEffect } from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 import { Disclosure } from "@headlessui/react";
 
-import {
-  BaseButton,
-  EduOrgSelectFormValues,
-  Tag,
-  TagActionType,
-  Icon,
-} from ".";
+import { BaseButton, Tag, TagActionType, Icon } from ".";
 import { Tags } from "../lib/backendTypes";
 import { EDU_ORGS_GENERAL_OPTION_VALUE } from "../lib/backendValues";
 import { findExistingTags } from "../lib/eduOrgsUtils";
-import { PropsWithClassName } from "../lib/types";
+import { PropsWithClassName, EduOrgWithTags } from "../lib/types";
 
 export interface TagsSelectProps {
   value: number[];
@@ -160,9 +154,7 @@ const TagsContainer = ({
   );
 };
 
-export type TagsSelectFormValues = EduOrgSelectFormValues & {
-  tags: number[];
-};
+export type TagsSelectFormValues = EduOrgWithTags;
 
 export type RegisteredTagsSelectProps = Omit<
   TagsSelectProps,
@@ -175,30 +167,29 @@ export const RegisteredTagsSelect = ({
 }: RegisteredTagsSelectProps) => {
   const { watch, setValue } = formMethods;
 
-  const watchUniversity = watch("university", EDU_ORGS_GENERAL_OPTION_VALUE);
-  const watchCollege = watch("college", EDU_ORGS_GENERAL_OPTION_VALUE);
+  const watchUniversity = watch("universityId", EDU_ORGS_GENERAL_OPTION_VALUE);
+  const watchCollege = watch("collegeId", EDU_ORGS_GENERAL_OPTION_VALUE);
   const watchYear = watch("year", EDU_ORGS_GENERAL_OPTION_VALUE);
 
   // Reset tags when edu org changes
   useEffect(() => {
-    setValue("tags", []);
+    setValue("tagsIds", []);
   }, [watchUniversity, watchCollege, watchYear, setValue]);
 
   return (
     <Controller
-      name="tags"
+      name="tagsIds"
       defaultValue={[]}
       control={formMethods.control}
       render={({ field }) => (
         <TagsSelect
-          value={field.value}
+          value={field.value || []}
           onChange={field.onChange}
-          existingTagsIds={findExistingTags(
-            rest.tags,
-            watchUniversity,
-            watchCollege,
-            watchYear
-          )}
+          existingTagsIds={findExistingTags(rest.tags, {
+            universityId: watchUniversity,
+            collegeId: watchCollege,
+            year: watchYear,
+          })}
           {...rest}
         />
       )}
