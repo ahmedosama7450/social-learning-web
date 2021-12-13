@@ -4,7 +4,7 @@ import { UserAvatar, UserReputation } from "../..";
 import { UserFragment } from "../../../__generated__/graphql";
 
 export type DetailedUserAvatarProps = {
-  user: UserFragment;
+  user: Pick<UserFragment, "firstName" | "lastName" | "avatar" | "reputation">;
   className?: string;
   /** Hide details when screen size is less than xs breakpoint */
   hideDetailsBelowXs?: boolean;

@@ -44,16 +44,16 @@ const homePostingLinks: {
   {
     icon: "heroicons-outline:pencil-alt",
     i18nKey: "discussion",
-    href: "create-discussion",
+    href: "create/discussion",
   },
   {
     icon: "heroicons-outline:light-bulb",
     i18nKey: "question",
-    href: "create-question",
+    href: "create/question",
   },
   {
     icon: "heroicons-outline:book-open",
     i18nKey: "article",
-    href: "create-article",
+    href: "create/article",
   },
 ];

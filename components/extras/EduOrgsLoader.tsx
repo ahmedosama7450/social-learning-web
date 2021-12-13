@@ -22,7 +22,7 @@ export const EduOrgsLoader = ({
     return <Error />;
   }
 
-  if (!eduOrgsInfoData || !eduOrgsInfoData.eduOrgsInfo.eduOrgs) {
+  if (!eduOrgsInfoData?.eduOrgsInfo.eduOrgs) {
     // TODO Implement caching for edu orgs
     return <>Data is in cache</>;
   }

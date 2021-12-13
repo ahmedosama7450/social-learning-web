@@ -90,3 +90,25 @@ export type PropsWithRequiredChildren<T> = T & { children: React.ReactNode };
 
 // TODO Refactor existing types to use this utility
 export type PropsWithClassName<T> = T & { className?: string };
+
+/**
+ * See https://stackoverflow.com/a/52761156/9006761
+ */
+export type OverloadedReturnType<T> = T extends {
+  (...args: any[]): infer R;
+  (...args: any[]): infer R;
+  (...args: any[]): infer R;
+  (...args: any[]): infer R;
+}
+  ? R
+  : T extends {
+      (...args: any[]): infer R;
+      (...args: any[]): infer R;
+      (...args: any[]): infer R;
+    }
+  ? R
+  : T extends { (...args: any[]): infer R; (...args: any[]): infer R }
+  ? R
+  : T extends (...args: any[]) => infer R
+  ? R
+  : any;
