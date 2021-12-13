@@ -50,7 +50,7 @@ module.exports = {
 
     extend: {
       fontFamily: {
-        sans: ["Cairo", "sans-serif", ...defaultTheme.fontFamily.sans],
+        sans: ["Open Sans", "sans-serif", ...defaultTheme.fontFamily.sans],
       },
 
       fontSize: {
