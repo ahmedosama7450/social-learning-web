@@ -24,12 +24,12 @@ export type LayoutProps = PropsWithRequiredChildren<NavbarProps>;
 export const Layout = ({ children, title, user }: LayoutProps) => {
   return (
     <div className="min-h-screen bg-white">
-      <header className="sticky top-0 z-50 h-[var(--navbar-height)] bg-white border-b border-gray-100">
+      <header className="sticky top-0 z-50 h-[var(--navbar-height)] bg-white border-b border-gray-200">
         <Navbar user={user} title={title} className="h-full layout-boundary" />
       </header>
 
       <div className="flex items-start layout-boundary">
-        <Sidebar className="sticky top-[var(--navbar-height)] pt-[var(--navbar-margin-bottom)] h-[calc(100vh-var(--navbar-height))] overflow-y-auto flex-shrink-0 border-r border-gray-100 " />
+        <Sidebar className="sticky top-[var(--navbar-height)] pt-[var(--navbar-margin-bottom)] h-[calc(100vh-var(--navbar-height))] overflow-y-auto flex-shrink-0 border-r border-gray-100" />
 
         <main className="flex-grow">{children}</main>
       </div>
