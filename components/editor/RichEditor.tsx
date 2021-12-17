@@ -145,7 +145,7 @@ export const RichEditor = ({
         <Toolbar configuration={configuration} />
 
         <div
-          className={classNames("flex-grow py-3", {
+          className={classNames("grow py-3", {
             "px-1.5": configuration.structure === "main",
             "px-3 border-r border-l borer-b rounded-b border-gray-100":
               configuration.structure === "secondary",

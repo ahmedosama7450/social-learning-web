@@ -81,7 +81,7 @@ export const CustomSelectField = ({
                   )}
                 >
                   {selectedOption.imageSrc && (
-                    <div className="relative flex-shrink-0 w-5 h-5 mr-2 bg-gray-200 rounded-full">
+                    <div className="relative shrink-0 w-5 h-5 mr-2 bg-gray-200 rounded-full">
                       <Image
                         src={selectedOption.imageSrc}
                         alt="Select Icon"
@@ -122,7 +122,7 @@ export const CustomSelectField = ({
                             )}
                           >
                             {option.imageSrc && (
-                              <div className="relative flex-shrink-0 w-6 h-6 mr-2 bg-gray-200 rounded-full">
+                              <div className="relative shrink-0 w-6 h-6 mr-2 bg-gray-200 rounded-full">
                                 <Image
                                   src={option.imageSrc}
                                   alt="Select Icon"
@@ -144,7 +144,7 @@ export const CustomSelectField = ({
 
                             {selected && (
                               <Icon
-                                className="flex-shrink-0 ml-auto text-gray-500"
+                                className="shrink-0 ml-auto text-gray-500"
                                 icon="ri:check-line"
                                 size="md"
                               />

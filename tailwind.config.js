@@ -2,9 +2,11 @@ const colors = require("tailwindcss/colors");
 const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
-  mode: "jit",
-  purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
-  darkMode: false,
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+  ],
+
   theme: {
     colors: {
       transparent: "transparent",
@@ -21,10 +23,10 @@ module.exports = {
         dark: "#EFF3F4",
       },
 
-      // TODO Maybe just include both cool gray and blue gray making cool gray the default gray
+      // TODO Maybe just include both gray and slate making gray the default gray
       gray: {
-        DEFAULT: colors.coolGray[200], // Divider color mostly
-        ...colors.coolGray,
+        DEFAULT: colors.gray[200], // Divider color mostly
+        ...colors.gray,
       },
       red: {
         DEFAULT: colors.red[500], // Error color mostly
@@ -59,7 +61,7 @@ module.exports = {
       },
 
       borderColor: {
-        DEFAULT: colors.coolGray[200], // Same as divider color
+        DEFAULT: colors.gray[200], // Same as divider color
       },
 
       spacing: {
@@ -68,7 +70,15 @@ module.exports = {
     },
   },
 
-  // TODO We don't need to do this with jit mode
+  plugins: [
+    require("@tailwindcss/forms"),
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/line-clamp"), // TODO not used yet
+  ],
+};
+
+/*
+  We don't need to do this with jit mode
   variants: {
     extend: {
       ringWidth: ["focus-visible"],
@@ -77,11 +87,4 @@ module.exports = {
       ringOffsetColor: ["focus-visible"],
     },
   },
-
-  plugins: [
-    require("@tailwindcss/forms"),
-    require("@tailwindcss/typography"),
-    require("@tailwindcss/aspect-ratio"), // TODO not used yet
-    require("@tailwindcss/line-clamp"), // TODO not used yet
-  ],
-};
+*/

@@ -72,7 +72,7 @@ export const UserAvatarPicker = ({
                 {({ active, checked }) => (
                   <>
                     {checked && (
-                      <span className="absolute top-0 right-0 z-50 mt-0.5 mr-0.5 transform translate-x-1/2 -translate-y-1/2 bg-white border border-primary-300 rounded-full">
+                      <span className="absolute top-0 right-0 z-50 mt-0.5 mr-0.5 translate-x-1/2 -translate-y-1/2 bg-white border border-primary-300 rounded-full">
                         <Icon
                           icon="ri:check-line"
                           size="sm"

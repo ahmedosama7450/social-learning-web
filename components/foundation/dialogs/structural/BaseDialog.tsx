@@ -101,7 +101,7 @@ export function BaseDialog<T = DefaultResultDataType>({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <div className="inline-block w-full max-w-lg my-8 overflow-hidden text-left align-middle transition-all transform bg-white rounded-lg shadow-xl">
+              <div className="inline-block w-full max-w-lg my-8 overflow-hidden text-left align-middle transition-all bg-white rounded-lg shadow-xl">
                 {content(dialogState)}
               </div>
             </Transition.Child>

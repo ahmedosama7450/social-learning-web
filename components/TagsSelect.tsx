@@ -68,7 +68,7 @@ export const TagsSelect = ({
                     icon="ri:arrow-down-s-fill"
                     size="md"
                     vFlip={!open}
-                    className="flex-shrink-0 -ml-1 text-gray-500"
+                    className="shrink-0 -ml-1 text-gray-500"
                   />
 
                   <div className="text-xs font-medium tracking-wide text-gray-600">

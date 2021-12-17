@@ -156,7 +156,7 @@ const ButtonIcon = ({
     <Icon
       {...iconProps}
       size={size === "xl" ? "lg" : size === "base" ? "md" : size}
-      className={classNames("flex-shrink-0", {
+      className={classNames("shrink-0", {
         // Color
         "text-white": color === "primary" || color === "red",
 

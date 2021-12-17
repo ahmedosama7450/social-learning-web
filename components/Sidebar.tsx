@@ -38,7 +38,7 @@ export const Sidebar = ({
             return (
               <li
                 key={i}
-                className={classNames("flex-shrink-0", {
+                className={classNames("shrink-0", {
                   // Last item in collapsed sidebar shouldn't divider
                   [i !== sidebarItems.length - 1 || !responsive
                     ? "border-b border-gray-100 pb-2.5 mb-1"
@@ -67,7 +67,7 @@ export const Sidebar = ({
                         icon={active ? solidIcon : outlinedIcon}
                         size="md"
                         className={classNames(
-                          "flex-shrink-0",
+                          "shrink-0",
                           active
                             ? "text-gray-600"
                             : "text-gray-500 group-hover:text-gray-700"

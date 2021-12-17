@@ -98,7 +98,7 @@ export const Navbar = ({
           <DetailedUserAvatar hideDetailsBelowXs user={user} />
 
           <Icon
-            className="flex-shrink-0 hidden text-gray-500 sm:block"
+            className="shrink-0 hidden text-gray-500 sm:block"
             icon="ri:arrow-down-s-line"
             size="md"
           />

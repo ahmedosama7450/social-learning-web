@@ -79,7 +79,7 @@ export const RegularDropdown = <T extends ElementType>({
                           <Icon
                             icon={icon}
                             size="md"
-                            className="self-start flex-shrink-0 text-gray-500"
+                            className="self-start shrink-0 text-gray-500"
                           />
                         )}
 
@@ -109,7 +109,7 @@ export const RegularDropdown = <T extends ElementType>({
                           icon="ri:check-line"
                           size="md"
                           className={classNames(
-                            "flex-shrink-0 ml-auto text-gray-500",
+                            "shrink-0 ml-auto text-gray-500",
                             {
                               invisible: !selected,
                             }

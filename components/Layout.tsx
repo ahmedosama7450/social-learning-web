@@ -29,9 +29,9 @@ export const Layout = ({ children, title, user }: LayoutProps) => {
       </header>
 
       <div className="flex items-start layout-boundary">
-        <Sidebar className="sticky top-[var(--navbar-height)] pt-[var(--navbar-margin-bottom)] h-[calc(100vh-var(--navbar-height))] overflow-y-auto flex-shrink-0 border-r border-gray-100" />
+        <Sidebar className="sticky top-[var(--navbar-height)] pt-[var(--navbar-margin-bottom)] h-[calc(100vh-var(--navbar-height))] overflow-y-auto shrink-0 border-r border-gray-100" />
 
-        <main className="flex-grow">{children}</main>
+        <main className="grow">{children}</main>
       </div>
     </div>
   );

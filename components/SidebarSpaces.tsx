@@ -46,7 +46,7 @@ export const SidebarSpaces = ({ className }: PropsWithClassName<{}>) => {
             avatarUrl={avatarUrl}
             size="lg"
             roundedFull
-            className="flex-shrink-0"
+            className="shrink-0"
           />
           <span className="text-xs font-medium text-gray-600 hover:text-gray-900">
             {name}

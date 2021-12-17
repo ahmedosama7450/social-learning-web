@@ -20,12 +20,12 @@ export const DetailedUserAvatar = ({
       <UserAvatar
         avatar={user.avatar}
         size="xl"
-        className="flex-shrink-0"
+        className="shrink-0"
         roundedFull={false}
       />
 
       <div
-        className={classNames("flex-grow w-20 text-left", {
+        className={classNames("grow w-20 text-left", {
           "hidden xs:block": hideDetailsBelowXs,
         })}
       >
