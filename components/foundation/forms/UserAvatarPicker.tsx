@@ -15,17 +15,16 @@ import {
 import {
   SelectivePartial,
   RegisteredControlledFieldProps,
+  PropsWithClassName,
+  StateProps,
 } from "../../../lib/types";
 
-export interface UserAvatarPickerProps {
-  value: string;
-  onChange: (avatar: string) => void;
-  className?: string;
-}
+export type UserAvatarPickerProps = PropsWithClassName<StateProps<string>>;
 
 export const UserAvatarPicker = ({
   value,
   onChange,
+
   className,
 }: UserAvatarPickerProps) => {
   const [internalValue, setInternalValue] = useState(value);

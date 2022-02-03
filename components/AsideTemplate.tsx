@@ -13,7 +13,7 @@ export const AsideTemplate = ({
   children,
 }: AsideTemplateProps) => {
   return (
-    <div className="pb-5 rounded-xl bg-secondary">
+    <div className="pb-5 rounded-xl bg-secondary shadow-sm">
       {/* Header */}
       <div className="flex border-b mb-2.5 items-center justify-between px-3 py-2.5">
         <h3 className="text-lg font-bold tracking-wide text-gray-700">

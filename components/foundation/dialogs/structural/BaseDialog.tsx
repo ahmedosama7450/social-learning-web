@@ -31,7 +31,6 @@ export interface BaseDialogProps<T = DefaultResultDataType> {
   onToggle?: (ds: DialogState<T>) => void;
 }
 
-// TODO Maybe we should accept render as children. It's like if you want to insert a dialog, just wrap it in a dialog tag. so, dialog children will become content, instead
 // TODO Provide a size prop (Examine tailwind new dialog examples)
 export function BaseDialog<T = DefaultResultDataType>({
   children,

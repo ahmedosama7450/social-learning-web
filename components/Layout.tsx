@@ -24,7 +24,7 @@ export type LayoutProps = PropsWithRequiredChildren<NavbarProps>;
 export const Layout = ({ children, title, user }: LayoutProps) => {
   return (
     <div className="min-h-screen bg-white">
-      <header className="sticky top-0 z-50 h-[var(--navbar-height)] bg-white border-b border-gray-200">
+      <header className="sticky top-0 z-50 h-[var(--navbar-height)] bg-white shadow-sm">
         <Navbar user={user} title={title} className="h-full layout-boundary" />
       </header>
 

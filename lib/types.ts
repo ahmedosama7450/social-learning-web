@@ -86,6 +86,11 @@ export type ButtonClickLister = ClickListener<HTMLButtonElement>;
  */
 export type StateDispatcher<T> = React.Dispatch<React.SetStateAction<T>>;
 
+export type StateProps<T> = {
+  value: T;
+  onChange: StateDispatcher<T>;
+};
+
 export type PropsWithRequiredChildren<T> = T & { children: React.ReactNode };
 
 // TODO Refactor existing types to use this utility
