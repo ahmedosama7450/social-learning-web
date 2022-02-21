@@ -68,3 +68,23 @@ function traverseObject(
 export function isErrorWithCode(err: ApolloError, code: string) {
   return err.graphQLErrors[0]?.extensions?.code === code;
 }
+
+/* 
+Using FileReader api 
+@See https://stackoverflow.com/questions/31742072/filereader-vs-window-url-createobjecturl
+
+export function readFile(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.addEventListener(
+      "load",
+      () => {
+        if (reader.result && !(reader.result instanceof ArrayBuffer))
+          resolve(reader.result);
+        else reject("file can not be read");
+      },
+      false
+    );
+    reader.readAsDataURL(file);
+  });
+} */

@@ -19,5 +19,14 @@
     }
   },
 
-  "tags": "Tags"
+  "tags": "Tags",
+
+  "cropper": {
+    "title": "Crop image",
+    "aspect-buttons": {
+      "none": "None",
+      "square": "Square",
+      "wide": "Wide"
+    }
+  }
 }

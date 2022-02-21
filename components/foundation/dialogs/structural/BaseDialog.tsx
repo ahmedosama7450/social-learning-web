@@ -28,7 +28,7 @@ export type DialogReactNode<T = DefaultResultDataType, S = T> = (
 export interface BaseDialogProps<T = DefaultResultDataType, S = T> {
   /** Mostly a button. Invoke ds.toggle() in its onClick listener */
   children: DialogReactNode<T, S>;
-  content: DialogReactNode<T, S>;
+  content: DialogReactNode<T, S>; // TODO Provide ReactNode union
 
   initialFocus?: React.MutableRefObject<HTMLElement>;
   /** If true, dialog closes with outside click */
@@ -47,7 +47,7 @@ export function BaseDialog<T = DefaultResultDataType, S = T>({
   content,
 
   initialFocus,
-  autoClose = true,
+  autoClose = false,
   resultDataHandler,
 
   onToggle,

@@ -12,8 +12,7 @@ export const FileField = ({ children, ...inputProps }: FileFieldProps) => {
 
   return (
     <>
-      <input {...inputProps} type="file" className="hidden" ref={ref} />
-
+      <input {...inputProps} type="file" className="sr-only" ref={ref} />
       {children(() => ref.current?.click())}
     </>
   );
