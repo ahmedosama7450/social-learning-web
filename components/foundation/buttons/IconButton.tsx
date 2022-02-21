@@ -24,8 +24,7 @@ export type IconButtonProps<T extends ButtonType> = BaseButtonProps<T> & {
 
   roundedFull?: boolean;
   color?: IconButtonColor;
-  /** Adds background color */
-  dense?: boolean;
+  bgColor?: "transparent" | "secondary" | "overlay" | "primary";
   /**
    * fill-hover changes background color
    * simple-hover changes text color
@@ -40,7 +39,7 @@ const WrappedIconButton = <T extends ButtonType>(
 
     roundedFull = true,
     color = "gray",
-    dense = false,
+    bgColor = "transparent",
     hoverType = "fill",
 
     className,
@@ -72,8 +71,13 @@ const WrappedIconButton = <T extends ButtonType>(
           "text-gray-500": color === "darkGray",
           "text-gray-600": color === "extraDarkGray",
 
-          // Dense
-          "bg-secondary p-1.5": dense,
+          // bg color
+          [`bg-secondary ${iconProps.size === "xs" ? "p-1" : "p-1.5"}`]:
+            bgColor === "secondary",
+          [`bg-gray-800/75 ${iconProps.size === "xs" ? "p-1" : "p-1.5"}`]:
+            bgColor === "overlay",
+          [`bg-primary ${iconProps.size === "xs" ? "p-1" : "p-1.5"}`]:
+            bgColor === "primary",
 
           // Hover type
           [color === "darkGray"
@@ -82,12 +86,17 @@ const WrappedIconButton = <T extends ButtonType>(
 
           "hover:text-white": hoverType === "simpleWhite",
 
-          "hover:bg-gray-200": hoverType === "fill" && dense,
+          [bgColor === "secondary"
+            ? "hover:bg-gray-200"
+            : bgColor === "primary"
+            ? "hover:bg-primary-500"
+            : "hover:bg-gray-800/90"]:
+            hoverType === "fill" && bgColor !== "transparent",
 
           // TODO Focus (from BaseButton) isn't really looking great and is behind hover background
           [`pseudo-bg hover:before:bg-gray-50 ${
             roundedFull ? "before:rounded-full" : "before:rounded"
-          }`]: hoverType === "fill" && !dense,
+          }`]: hoverType === "fill" && bgColor === "transparent",
         }
       )}
     >

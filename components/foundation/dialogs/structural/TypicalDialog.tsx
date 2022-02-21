@@ -8,17 +8,17 @@ import {
 import { RegularDialog } from "./RegularDialog";
 import { Button, ButtonColor, IconButton } from "../../..";
 
-export type TypicalDialogProps<T = DefaultResultDataType> = {
+export type TypicalDialogProps<T = DefaultResultDataType, S = T> = {
   headerProps?: TypicalDialogHeaderProps;
-  footerProps?: TypicalDialogFooterProps<T>;
-} & BaseDialogProps<T>;
+  footerProps?: TypicalDialogFooterProps<T, S>;
+} & BaseDialogProps<T, S>;
 
-export function TypicalDialog<T = DefaultResultDataType>({
+export function TypicalDialog<T = DefaultResultDataType, S = T>({
   content,
   headerProps,
   footerProps,
   ...baseProps
-}: TypicalDialogProps<T>) {
+}: TypicalDialogProps<T, S>) {
   return (
     <RegularDialog
       {...baseProps}
@@ -39,26 +39,26 @@ export function TypicalDialog<T = DefaultResultDataType>({
   );
 }
 
-interface TypicalDialogFooterProps<T = DefaultResultDataType> {
+interface TypicalDialogFooterProps<T = DefaultResultDataType, S = T> {
   positiveButton?: {
     text: string;
-    listener: (dialogState: DialogState<T>) => void;
+    listener: (dialogState: DialogState<T, S>) => void;
     color?: ButtonColor;
   };
   negativeButton?: {
     text: string;
-    listener?: (dialogState: DialogState<T>) => void;
+    listener?: (dialogState: DialogState<T, S>) => void;
   };
 }
 
 // TODO Probably provide another variant where the negative button is on the left and transparent like mantine dialog(https://mantine.dev/)
-function TypicalDialogFooter<T = DefaultResultDataType>({
+function TypicalDialogFooter<T = DefaultResultDataType, S = T>({
   dialogState,
   positiveButton,
   negativeButton,
-}: TypicalDialogFooterProps<T> & { dialogState: DialogState<T> }) {
+}: TypicalDialogFooterProps<T, S> & { dialogState: DialogState<T, S> }) {
   return (
-    <div className="flex justify-end gap-3 px-4 py-3 bg-gray-50">
+    <div className="flex justify-end gap-3 border-t bg-gray-50 px-4 py-3">
       {negativeButton && (
         <Button
           type="button"
@@ -71,7 +71,7 @@ function TypicalDialogFooter<T = DefaultResultDataType>({
           }}
           color="white"
           size="sm"
-          className="flex-1 w-auto sm:flex-initial"
+          className="w-auto flex-1 sm:flex-initial"
         >
           {negativeButton.text}
         </Button>
@@ -85,7 +85,7 @@ function TypicalDialogFooter<T = DefaultResultDataType>({
           }}
           color={positiveButton.color || "primary"}
           size="sm"
-          className="flex-1 w-auto sm:flex-initial"
+          className="w-auto flex-1 sm:flex-initial"
         >
           {positiveButton.text}
         </Button>
@@ -99,13 +99,13 @@ interface TypicalDialogHeaderProps {
   hasCloseButton?: boolean;
 }
 
-function TypicalDialogHeader<T = DefaultResultDataType>({
+function TypicalDialogHeader<T = DefaultResultDataType, S = T>({
   dialogState,
   title,
   hasCloseButton = true,
-}: TypicalDialogHeaderProps & { dialogState: DialogState<T> }) {
+}: TypicalDialogHeaderProps & { dialogState: DialogState<T, S> }) {
   return (
-    <div className="flex items-center justify-between px-4 py-3 border-b">
+    <div className="flex items-center justify-between border-b px-4 py-3">
       <Dialog.Title as="h3" className="text-lg font-medium text-gray-600">
         {title}
       </Dialog.Title>
@@ -117,7 +117,7 @@ function TypicalDialogHeader<T = DefaultResultDataType>({
             dialogState.toggle();
           }}
           iconProps={{ icon: "ri:close-line", size: "md" }}
-          color="darkGray"
+          color="gray"
         />
       )}
     </div>

@@ -50,18 +50,16 @@ export type SelectiveRequired<T, K extends keyof T> = Pick<Required<T>, K> &
 /**
  * Type utility to change the type of the specified field F of an interface T to the given type N (Plus making it required)
  */
-export type RetypeField<T, F extends keyof T, N> = Omit<T, F> &
-  {
-    [key in F]-?: N;
-  };
+export type RetypeField<T, F extends keyof T, N> = Omit<T, F> & {
+  [key in F]-?: N;
+};
 
 /**
  * Same as RetypeField except It makes the field optional
  */
-export type RetypeOptionalField<T, F extends keyof T, N> = Omit<T, F> &
-  {
-    [key in F]?: N;
-  };
+export type RetypeOptionalField<T, F extends keyof T, N> = Omit<T, F> & {
+  [key in F]?: N;
+};
 
 /**
  * Type utility that adds N as union to the specified field F of an interface T (Plus making it required)
@@ -86,7 +84,7 @@ export type ButtonClickLister = ClickListener<HTMLButtonElement>;
  */
 export type StateDispatcher<T> = React.Dispatch<React.SetStateAction<T>>;
 
-export type StateProps<T> = {
+export type PropsWithState<T, K> = K & {
   value: T;
   onChange: StateDispatcher<T>;
 };
@@ -117,3 +115,22 @@ export type OverloadedReturnType<T> = T extends {
   : T extends (...args: any[]) => infer R
   ? R
   : any;
+
+/* 
+export type GeometricSize = {
+  width: number;
+  height: number;
+};
+
+export type Point = {
+  x: number;
+  y: number;
+};
+
+export type Rect = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}; 
+*/

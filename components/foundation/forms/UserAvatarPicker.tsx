@@ -16,10 +16,12 @@ import {
   SelectivePartial,
   RegisteredControlledFieldProps,
   PropsWithClassName,
-  StateProps,
+  PropsWithState,
 } from "../../../lib/types";
 
-export type UserAvatarPickerProps = PropsWithClassName<StateProps<string>>;
+export type UserAvatarPickerProps = PropsWithClassName<
+  PropsWithState<string, {}>
+>;
 
 export const UserAvatarPicker = ({
   value,
@@ -71,7 +73,7 @@ export const UserAvatarPicker = ({
                 {({ active, checked }) => (
                   <>
                     {checked && (
-                      <span className="absolute top-0 right-0 z-50 mt-0.5 mr-0.5 translate-x-1/2 -translate-y-1/2 bg-white border border-primary-300 rounded-full">
+                      <span className="border-primary-300 absolute top-0 right-0 z-50 mt-0.5 mr-0.5 translate-x-1/2 -translate-y-1/2 rounded-full border bg-white">
                         <Icon
                           icon="ri:check-line"
                           size="sm"
@@ -81,8 +83,8 @@ export const UserAvatarPicker = ({
                     )}
                     <UserAvatar
                       className={classNames({
-                        "ring-2 ring-primary": checked,
-                        "ring ring-primary-600": active,
+                        "ring-primary ring-2": checked,
+                        "ring-primary-600 ring": active,
                       })}
                       avatar={avatar}
                       roundedFull={false}

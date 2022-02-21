@@ -29,7 +29,7 @@ export const Navbar = ({
         {/* Logo when screen size > xl 
             Width is set so that It aligns with the complete sidebar
         */}
-        <div className="hidden xl:w-[var(--sidebar-width)] xl:block">
+        <div className="hidden xl:block xl:w-[var(--sidebar-width)]">
           <Logo className="max-w-max" />
         </div>
 
@@ -59,7 +59,7 @@ export const Navbar = ({
         </div>
 
         {/* When sidebar shows starting from xs, the title is aligned with layout content */}
-        <div className="ml-2.5 text-xl font-semibold text-gray-600 xs:ml-[var(--sidebar-margin-right)]">
+        <div className="xs:ml-[var(--sidebar-margin-right)] ml-2.5 text-xl font-semibold text-gray-600">
           {title}
         </div>
       </div>
@@ -76,7 +76,7 @@ export const Navbar = ({
             size: "md",
           }}
           color="darkGray"
-          dense
+          bgColor="secondary"
         />
 
         {/*TODO Will be turned into a notifications dropdown */}
@@ -87,18 +87,18 @@ export const Navbar = ({
             size: "md",
           }}
           color="darkGray"
-          dense
+          bgColor="secondary"
         />
 
         {/*TODO Will be turned into a profile dropdown */}
         <BaseButton
           type="button"
-          className="flex items-center gap-3 rounded-sm pseudo-bg-sm before:rounded-sm hover:before:ring-1 hover:before:ring-gray"
+          className="flex items-center gap-3 rounded-sm pseudo-bg-sm hover:before:ring-gray before:rounded-sm hover:before:ring-1"
         >
           <DetailedUserAvatar hideDetailsBelowXs user={user} />
 
           <Icon
-            className="shrink-0 hidden text-gray-500 sm:block"
+            className="hidden text-gray-500 shrink-0 sm:block"
             icon="ri:arrow-down-s-line"
             size="md"
           />

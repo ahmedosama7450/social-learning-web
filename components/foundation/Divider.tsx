@@ -20,8 +20,12 @@ export const Divider = ({
       className={classNames(
         className,
         light ? "bg-gray-100" : "bg-gray-200",
-        vertical ? "w-px" : "w-full h-px"
+        vertical ? "w-px" : "h-px w-full"
       )}
     />
   );
+};
+
+export const TypicalVerticalDivider = () => {
+  return <Divider vertical={true} className="h-6" />;
 };

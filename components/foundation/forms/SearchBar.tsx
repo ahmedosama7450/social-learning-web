@@ -20,7 +20,7 @@ export const SearchBar = ({ className }: { className?: string }) => {
           size: "md",
         }}
         color="darkGray"
-        dense
+        bgColor="secondary"
       />
 
       <InputField

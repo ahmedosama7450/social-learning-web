@@ -15,8 +15,8 @@ import { IconButton } from "../buttons/IconButton";
 
 // TODO Increase width, pluse add max width
 
-export type SlideOverProps<T = DefaultResultDataType> = {
-  header?: DialogReactNode<T>;
+export type SlideOverProps<T = DefaultResultDataType, S = T> = {
+  header?: DialogReactNode<T, S>;
   headerDivider?: boolean;
 
   rightToLeft?: boolean;
@@ -24,9 +24,9 @@ export type SlideOverProps<T = DefaultResultDataType> = {
 
   hasCloseButton?: boolean;
   innerCloseButton?: boolean;
-} & BaseDialogProps<T>;
+} & BaseDialogProps<T, S>;
 
-export function SlideOver<T = DefaultResultDataType>({
+export function SlideOver<T = DefaultResultDataType, S = T>({
   header,
   headerDivider = false,
 
@@ -41,10 +41,10 @@ export function SlideOver<T = DefaultResultDataType>({
   initialFocus,
   autoClose = true,
   resultDataHandler,
-}: SlideOverProps<T>) {
+}: SlideOverProps<T, S>) {
   const [isOpen, setOpen] = useState(false);
 
-  const dialogState: DialogState<T> = {
+  const dialogState: DialogState<T, S> = {
     isOpen,
     toggle: () => setOpen((wasOpen) => !wasOpen),
     resultDataHandler,
@@ -74,7 +74,7 @@ export function SlideOver<T = DefaultResultDataType>({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="absolute inset-0 transition-opacity bg-gray-500 bg-opacity-75" />
+              <Dialog.Overlay className="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
             </Transition.Child>
             <div
               className={classNames("fixed inset-y-0 flex max-w-full", {
@@ -111,8 +111,8 @@ export function SlideOver<T = DefaultResultDataType>({
                     >
                       <div
                         className={classNames("absolute top-0 flex pt-4", {
-                          "left-0 pr-2 -ml-8 sm:-ml-10 sm:pr-4": rightToLeft,
-                          "right-0 pl-2 -mr-8 sm:-mr-10 sm:pl-4": !rightToLeft,
+                          "left-0 -ml-8 pr-2 sm:-ml-10 sm:pr-4": rightToLeft,
+                          "right-0 -mr-8 pl-2 sm:-mr-10 sm:pl-4": !rightToLeft,
                         })}
                       >
                         <IconButton
@@ -128,9 +128,9 @@ export function SlideOver<T = DefaultResultDataType>({
                   <div className="h-full overflow-y-auto bg-white shadow-xl">
                     {header && (
                       <div
-                        className={classNames("px-3 sm:px-6 py-5", {
+                        className={classNames("px-3 py-5 sm:px-6", {
                           "border-b": headerDivider,
-                          "flex justify-between items-center":
+                          "flex items-center justify-between":
                             hasCloseButton && innerCloseButton,
                         })}
                       >

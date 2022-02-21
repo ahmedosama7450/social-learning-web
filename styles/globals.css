@@ -15,11 +15,29 @@
   body {
     @apply overflow-y-scroll;
   }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: theme("colors.primary.DEFAULT");
+    cursor: pointer;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: theme("colors.primary.DEFAULT");
+    cursor: pointer;
+  }
 }
 
 @layer utilities {
   .form-label {
-    @apply block text-sm font-medium text-gray-700 w-max;
+    @apply block w-max text-sm font-medium text-gray-700;
   }
 
   /* After applying this class, use before classes to style the background */
@@ -41,6 +59,6 @@
     - A convenient padding is added when needed
   */
   .layout-boundary {
-    @apply px-3 mx-auto xs:max-w-2xl xs:px-4 sm:px-8 lg:max-w-6xl lg:px-12 xl:max-w-7xl xl:px-1;
+    @apply xs:max-w-2xl xs:px-4 mx-auto px-3 sm:px-8 lg:max-w-6xl lg:px-12 xl:max-w-7xl xl:px-1;
   }
 }

@@ -19,10 +19,10 @@ export const LayoutWithAside = ({
   // TODO Is this okay to store JSX in a variable (What about performance ?)
   const content = (
     <div className="flex items-start">
-      <div className="grow w-[67%] px-[var(--sidebar-margin-right)]">
+      <div className="w-[67%] grow px-[var(--sidebar-margin-right)]">
         {children}
       </div>
-      <aside className="hidden lg:block grow w-[33%] pt-[var(--navbar-margin-bottom)] sticky top-[var(--navbar-height)]">
+      <aside className="sticky top-[var(--navbar-height)] hidden w-[33%] grow pt-[var(--navbar-margin-bottom)] lg:block">
         {asideContent}
       </aside>
     </div>

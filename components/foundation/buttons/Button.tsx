@@ -19,6 +19,7 @@ export type ButtonColor =
   | "secondary"
   | "white"
   | "red"
+  | "overlay"
   | "transparent-primary"
   | "transparent-gray"
   | "transparent-darkGray"
@@ -65,16 +66,16 @@ const WrappedButton = <T extends ButtonType>(
       className={classNames(
         className,
         // TODO Experiment with inline icon instead of using flex (I want to see how it will look, flex still works fine)
-        "flex items-center justify-center group gap-2",
+        "group flex items-center justify-center gap-2",
 
         {
           // Size
-          "text-xs px-3 py-2": size === "xs",
-          "text-sm px-4 py-2": size === "sm",
+          "px-3 py-2 text-xs": size === "xs",
+          "px-4 py-2 text-sm": size === "sm",
           "text-md px-4 py-2.5": size === "md",
-          "text-base px-5 py-2.5": size === "base",
-          "text-lg px-5 py-3": size === "lg",
-          "text-xl px-6 py-3": size === "xl",
+          "px-5 py-2.5 text-base": size === "base",
+          "px-5 py-3 text-lg": size === "lg",
+          "px-6 py-3 text-xl": size === "xl",
 
           // Flat
           "shadow-sm": !flat,
@@ -82,39 +83,41 @@ const WrappedButton = <T extends ButtonType>(
           // TODO Add disabled variants for all colors just like primary and primary-outlined
           // Color
           // color handles text, background, border colors including idle, hover, disabled, focus-visible(handled by BaseButton) states
-          "text-white bg-primary hover:bg-primary-600 disabled:bg-primary-400 disabled:hover:bg-primary-300":
+          "bg-primary hover:bg-primary-600 disabled:bg-primary-400 disabled:hover:bg-primary-300 text-white":
             color === "primary",
 
-          "text-primary border border-primary hover:bg-primary-100 disabled:text-primary-400 disabled:hover:text-primary-300":
+          "text-primary border-primary hover:bg-primary-100 disabled:text-primary-400 disabled:hover:text-primary-300 border":
             color === "primary-outlined",
 
-          "text-primary bg-white hover:bg-primary-50":
+          "text-primary hover:bg-primary-50 bg-white":
             color === "primary-inverted",
 
-          "text-gray-700 bg-secondary hover:bg-secondary-dark":
+          "bg-secondary hover:bg-secondary-dark text-gray-700":
             color === "secondary",
 
-          "text-gray-700 bg-white border border-gray-300 hover:bg-gray-50":
+          "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50":
             color === "white",
 
-          "text-white bg-red-600 hover:bg-red-700": color === "red",
+          "bg-red-600 text-white hover:bg-red-700": color === "red",
 
-          "shadow-none px-0 py-0 text-primary hover:text-primary-600":
+          "bg-gray-800/75 text-white hover:bg-gray-800/90": color === "overlay",
+
+          "text-primary hover:text-primary-600 px-0 py-0 shadow-none":
             color === "transparent-primary",
 
-          "shadow-none px-0 py-0 text-gray-500 hover:text-gray-700":
+          "px-0 py-0 text-gray-500 shadow-none hover:text-gray-700":
             color === "transparent-gray",
 
-          "shadow-none px-0 py-0 text-gray-600 hover:text-gray-800":
+          "px-0 py-0 text-gray-600 shadow-none hover:text-gray-800":
             color === "transparent-darkGray",
 
-          "shadow-none px-0 py-0 text-gray-700 hover:text-gray-900":
+          "px-0 py-0 text-gray-700 shadow-none hover:text-gray-900":
             color === "transparent-extraDarkGray",
 
-          "shadow-none px-0 py-0 text-red-600 hover:text-red-700":
+          "px-0 py-0 text-red-600 shadow-none hover:text-red-700":
             color === "transparent-red",
 
-          "shadow-none px-0 py-0 text-link hover:text-linkHover":
+          "text-link hover:text-linkHover px-0 py-0 shadow-none":
             color === "transparent-link",
         },
 
@@ -158,7 +161,8 @@ const ButtonIcon = ({
       size={size === "xl" ? "lg" : size === "base" ? "md" : size}
       className={classNames("shrink-0", {
         // Color
-        "text-white": color === "primary" || color === "red",
+        "text-white":
+          color === "primary" || color === "red" || color === "overlay",
 
         "text-primary group-hover:text-primary-600":
           color === "primary-outlined" ||
