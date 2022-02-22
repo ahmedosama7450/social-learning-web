@@ -1,5 +1,6 @@
 import classNames from "classnames";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
+import scrollIntoView from "scroll-into-view-if-needed";
 import {
   BaseSelection,
   createEditor,
@@ -7,11 +8,11 @@ import {
   Editor,
   Element,
   NodeEntry,
-  Range,
+  Range as SlateRange,
   Text,
 } from "slate";
 import { withHistory } from "slate-history";
-import { Editable, Slate, withReact } from "slate-react";
+import { Editable, ReactEditor, Slate, withReact } from "slate-react";
 
 import {
   BallonToolbar,
@@ -28,41 +29,46 @@ import {
   withMarks,
   withSeparator,
   withTrailingBlock,
+  withImages,
+  withVoids,
 } from "..";
-import { PropsWithClassName, StateDispatcher } from "../../lib/types";
-import { renderElement } from "./renderElement";
-import { renderLeaf } from "./renderLeaf";
+import { PropsWithClassName, PropsWithState } from "../../lib/types";
+import { useConstant } from "../hooks/useConstant";
+import { renderElement } from "./renderers/renderElement";
+import { renderLeaf } from "./renderers/renderLeaf";
 import { handleBreakKeys } from "./utils/handleBreakKeys";
 import { handleHotkeys } from "./utils/handleHotkeys";
 
-export type RichEditorProps = PropsWithClassName<{
-  value: Descendant[];
-  onChange: StateDispatcher<Descendant[]>;
-  placeholder?: string;
+export type RichEditorProps = PropsWithClassName<
+  PropsWithState<
+    Descendant[],
+    {
+      placeholder?: string;
 
-  configuration: {
-    structure: "main" | "secondary";
-    multipleHeadings: boolean;
-    separator: boolean;
-  };
+      configuration: {
+        structure: "main" | "secondary";
+        multipleHeadings: boolean;
+        separator: boolean;
+        images: boolean;
+      };
 
-  titleTextareaProps?: TitleTextareaProps;
-}>;
+      titleTextareaProps?: TitleTextareaProps;
+    }
+  >
+>;
 
-// @refresh reset
 export const RichEditor = ({
+  className,
+
   value,
   onChange: setValue,
+
   placeholder,
-
   configuration,
-
   titleTextareaProps,
-
-  className,
 }: RichEditorProps) => {
-  const editor = useMemo(() => {
-    const plugins = withBlocks(
+  const editor = useConstant(() => {
+    let plugins = withBlocks(
       withMarks(
         withTrailingBlock(
           withMarkdownShortcuts(
@@ -72,8 +78,23 @@ export const RichEditor = ({
       )
     );
 
-    return configuration.separator ? withSeparator(plugins) : plugins;
-  }, [configuration.separator]);
+    if (configuration.separator) {
+      plugins = withSeparator(plugins);
+    }
+
+    if (configuration.images) {
+      plugins = withImages(plugins);
+    }
+
+    if (configuration.separator || configuration.images) {
+      plugins = withVoids(plugins);
+    }
+
+    return plugins;
+  });
+
+  // TODO I am not sure which one to use, useMemo vs useConstant. needs more research
+  /* const editor = useMemo(// Code here, [configuration.images, configuration.separator]); */
 
   const [linkInputSelection, setLinkInputSelection] =
     useState<BaseSelection>(null);
@@ -95,9 +116,9 @@ export const RichEditor = ({
       if (
         linkInputSelection &&
         Text.isText(node) &&
-        Range.includes(linkInputSelection, path)
+        SlateRange.includes(linkInputSelection, path)
       ) {
-        if (Range.isCollapsed(linkInputSelection)) {
+        if (SlateRange.isCollapsed(linkInputSelection)) {
           // Try to find a link, and mark it as selection from start to end
           const linkElement = Editor.above(editor, {
             at: linkInputSelection,
@@ -147,14 +168,14 @@ export const RichEditor = ({
         <div
           className={classNames("grow py-3", {
             "px-1.5": configuration.structure === "main",
-            "px-3 border-r border-l borer-b rounded-b border-gray-100":
+            "borer-b rounded-b border-r border-l border-gray-100 px-3":
               configuration.structure === "secondary",
           })}
         >
           {titleTextareaProps && <TitleTextarea {...titleTextareaProps} />}
 
           <Editable
-            className="mt-3 prose max-w-none 2xl:prose-lg prose-primary"
+            className="prose 2xl:prose-lg prose-primary mt-3 max-w-none"
             style={{ wordBreak: "break-word" }}
             placeholder={placeholder}
             spellCheck={false}
@@ -176,9 +197,50 @@ export const RichEditor = ({
               if (handleHotkeys(editor, showLinkInput, event)) return;
               if (handleBreakKeys(editor, event)) return;
             }}
+            scrollSelectionIntoView={(_editor, domRange) => {
+              // Don't scroll into images, back to default if not an image
+              let isImage = false;
+              if (
+                editor.selection &&
+                SlateRange.isCollapsed(editor.selection)
+              ) {
+                const [match] = Editor.nodes(editor, {
+                  match: (n) => Element.isElement(n) && n.type === "image",
+                  voids: true, // TODO removing this doesn't change result, I guess. Why ??
+                });
+
+                isImage = !!match;
+              }
+
+              if (!isImage) {
+                defaultScrollSelectionIntoView(editor, domRange);
+              }
+            }}
           />
         </div>
       </div>
     </Slate>
   );
+};
+
+// TODO Taken from slate source code as It's not exported. Make a PR to export it
+const defaultScrollSelectionIntoView = (
+  editor: ReactEditor,
+  domRange: Range
+) => {
+  // This was affecting the selection of multiple blocks and dragging behavior,
+  // so enabled only if the selection has been collapsed.
+  if (
+    !editor.selection ||
+    (editor.selection && SlateRange.isCollapsed(editor.selection))
+  ) {
+    const leafEl = domRange.startContainer.parentElement!;
+    leafEl.getBoundingClientRect =
+      domRange.getBoundingClientRect.bind(domRange);
+    scrollIntoView(leafEl, {
+      scrollMode: "if-needed",
+    });
+    //@ts-ignore
+    delete leafEl.getBoundingClientRect;
+  }
 };

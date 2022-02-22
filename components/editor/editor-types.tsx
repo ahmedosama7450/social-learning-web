@@ -1,6 +1,7 @@
 import { BaseEditor, Text, Element } from "slate";
 import { HistoryEditor } from "slate-history";
 import { ReactEditor } from "slate-react";
+import { CropData } from "../foundation/forms/ImageCropperDialog";
 
 declare module "slate" {
   interface CustomTypes {
@@ -15,8 +16,9 @@ declare module "slate" {
       | BulletedListElement
       | NumberedListElement
       | ListItemElement
+      | LinkElement
       | SeparatorElement
-      | LinkElement;
+      | ImageElement;
 
     Text: {
       text: string;
@@ -74,6 +76,13 @@ export type SeparatorElement = {
 };
 
 export type LinkElement = { type: "link"; url: string; children: Text[] };
+
+export type ImageElement = {
+  type: "image";
+  src: string;
+  cropData?: CropData;
+  children: Text[];
+};
 
 /* export type MentionElement = {
   type: "mention";

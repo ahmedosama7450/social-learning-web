@@ -72,12 +72,12 @@ const WrappedIconButton = <T extends ButtonType>(
           "text-gray-600": color === "extraDarkGray",
 
           // bg color
-          [`bg-secondary ${iconProps.size === "xs" ? "p-1" : "p-1.5"}`]:
-            bgColor === "secondary",
-          [`bg-gray-800/75 ${iconProps.size === "xs" ? "p-1" : "p-1.5"}`]:
-            bgColor === "overlay",
-          [`bg-primary ${iconProps.size === "xs" ? "p-1" : "p-1.5"}`]:
-            bgColor === "primary",
+          "bg-secondary": bgColor === "secondary",
+          "bg-gray-800/75": bgColor === "overlay",
+          "bg-primary": bgColor === "primary",
+
+          [iconProps.size === "xs" ? "p-1" : "p-1.5"]:
+            bgColor !== "transparent",
 
           // Hover type
           [color === "darkGray"
@@ -89,7 +89,7 @@ const WrappedIconButton = <T extends ButtonType>(
           [bgColor === "secondary"
             ? "hover:bg-gray-200"
             : bgColor === "primary"
-            ? "hover:bg-primary-500"
+            ? "hover:bg-primary-600"
             : "hover:bg-gray-800/90"]:
             hoverType === "fill" && bgColor !== "transparent",
 

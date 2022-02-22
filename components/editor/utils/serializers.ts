@@ -1,6 +1,7 @@
 import { htmlEscape } from "escape-goat";
 import { Descendant, Text } from "slate";
 
+// TODO This has not been tested yet!
 export function serializeToHtml(nodes: Descendant[]) {
   return nodes.map((n) => serializeToHtmlHelper(n)).join("");
 }
@@ -47,6 +48,8 @@ function serializeToHtmlHelper(node: Descendant): string {
       return `<a href="${htmlEscape(node.url)}">${children}</a>`;
     case "separator":
       return `<hr/>`;
+    case "image":
+      return `<img src="${node.src}"/>`; // TODO Use next.js image component. What about cropData ?
     default:
       return `<p>${children}</p>`;
   }

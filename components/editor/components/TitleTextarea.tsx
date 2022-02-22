@@ -1,14 +1,14 @@
 import { useEffect, useRef } from "react";
 
-import { PropsWithClassName, StateDispatcher } from "../../../lib/types";
+import { PropsWithClassName, PropsWithState } from "../../../lib/types";
 
-export type TitleTextareaProps = {
-  value: string;
-  onChange: StateDispatcher<string>;
-
-  placeholder?: string;
-  maxLength?: number;
-};
+export type TitleTextareaProps = PropsWithState<
+  string,
+  {
+    placeholder?: string;
+    maxLength?: number;
+  }
+>;
 
 export const TitleTextarea = ({
   value,
@@ -37,7 +37,7 @@ export const TitleTextarea = ({
     <div className={className}>
       <textarea
         ref={textareaRef}
-        className="block w-full p-0 overflow-hidden text-2xl font-semibold text-gray-900 break-words border-none resize-none placeholder-gray-900/50 focus:ring-0 max-h-36"
+        className="block max-h-36 w-full resize-none overflow-hidden break-words border-none p-0 text-2xl font-semibold text-gray-900 placeholder-gray-900/50 focus:ring-0"
         placeholder={placeholder}
         value={value}
         onChange={(event) => setValue(event.target.value)}

@@ -9,6 +9,7 @@ import {
 } from "slate";
 
 import { ElementType, TextMark, ToggleableBlockType } from "../..";
+import { CropData } from "../../foundation/forms/ImageCropperDialog";
 
 export const EditorUtils = {
   //-------------------------------------------
@@ -217,6 +218,18 @@ export const EditorUtils = {
   },
 
   //-------------------------------------------
+  // Images
+  //-------------------------------------------
+  insertImage(editor: Editor, src: string, cropData?: CropData) {
+    Transforms.insertNodes(editor, {
+      type: "image",
+      src: src,
+      cropData,
+      children: [{ text: "" }],
+    });
+  },
+
+  //-------------------------------------------
   // Others
   //-------------------------------------------
 
@@ -296,3 +309,13 @@ export const EditorUtils = {
             italic: undefined,
           }
         : */
+
+/*
+
+  isImageUrl(url: string) {
+    if (!isUrl(url)) return false;
+    const ext = new URL(url).pathname.split(".").pop();
+    return ext && imageExtensions.includes(ext);
+  },
+
+*/

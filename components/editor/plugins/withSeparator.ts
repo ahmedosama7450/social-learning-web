@@ -1,7 +1,5 @@
 import { Editor, Element, Path, Transforms } from "slate";
 
-import { EditorUtils } from "../utils/editor-utils";
-
 export const withSeparator = (editor: Editor) => {
   const { isVoid, normalizeNode, deleteBackward } = editor;
 
@@ -39,36 +37,6 @@ export const withSeparator = (editor: Editor) => {
     }
 
     normalizeNode(entry);
-  };
-
-  editor.deleteBackward = (unit) => {
-    //-------------------------------------------
-    // Instead of deleting the separator, select it. Second time deletes it
-    //-------------------------------------------
-    const entry = EditorUtils.getBlockAbove(editor);
-
-    if (entry) {
-      const [node, path] = entry;
-
-      if (Editor.isEmpty(editor, node)) {
-        try {
-          const [previousNode, previousPath] = Editor.node(
-            editor,
-            Path.previous(path)
-          );
-
-          if (
-            Element.isElement(previousNode) &&
-            previousNode.type === "separator"
-          ) {
-            Transforms.select(editor, previousPath);
-            return;
-          }
-        } catch (e) {}
-      }
-    }
-
-    deleteBackward(unit);
   };
 
   return editor;
