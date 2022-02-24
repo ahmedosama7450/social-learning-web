@@ -50,30 +50,40 @@ export type SelectiveRequired<T, K extends keyof T> = Pick<Required<T>, K> &
 /**
  * Type utility to change the type of the specified field F of an interface T to the given type N (Plus making it required)
  */
-export type RetypeField<T, F extends keyof T, N> = Omit<T, F> & {
-  [key in F]-?: N;
+export type RetypeField<T, F extends keyof NonNullable<T>, N> = Omit<
+  NonNullable<T>,
+  F
+> & {
+  [key in NonNullable<F>]-?: N;
 };
 
 /**
  * Same as RetypeField except It makes the field optional
  */
-export type RetypeOptionalField<T, F extends keyof T, N> = Omit<T, F> & {
-  [key in F]?: N;
+export type RetypeOptionalField<T, F extends keyof NonNullable<T>, N> = Omit<
+  NonNullable<T>,
+  F
+> & {
+  [key in NonNullable<F>]?: N;
 };
 
 /**
  * Type utility that adds N as union to the specified field F of an interface T (Plus making it required)
  */
-export type AugmentField<T, F extends keyof T, N> = RetypeField<T, F, N | T[F]>;
+export type AugmentField<T, F extends keyof NonNullable<T>, N> = RetypeField<
+  T,
+  F,
+  N | NonNullable<T>[F]
+>;
 
 /**
  * Same as AugmentField except It makes the field optional
  */
-export type AugmentOptionalField<T, F extends keyof T, N> = RetypeOptionalField<
+export type AugmentOptionalField<
   T,
-  F,
-  N | T[F]
->;
+  F extends keyof NonNullable<T>,
+  N
+> = RetypeOptionalField<T, F, N | NonNullable<T>[F]>;
 
 export type ClickListener<T extends HTMLElement> = React.MouseEventHandler<T>;
 
