@@ -23,7 +23,7 @@ export const TitleTextarea = ({
 
   placeholder,
   maxLength,
-  errorMsg = "This is required",
+  errorMsg,
 
   ref,
   ...rest
