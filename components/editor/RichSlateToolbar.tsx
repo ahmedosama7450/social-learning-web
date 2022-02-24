@@ -4,159 +4,143 @@ import React from "react";
 import { HistoryEditor } from "slate-history";
 import { useSlateStatic } from "slate-react";
 
-import {
-  EditorUtils,
-  RichEditorProps,
-  ToolbarButton,
-  TypicalVerticalDivider,
-} from "../..";
-import { ImagePicker } from "../../foundation/forms/ImagePicker";
+import { EditorUtils, ToolbarButton, TypicalVerticalDivider } from "..";
+import { PropsWithClassName } from "../../lib/types";
+import { ImagePicker } from "../foundation/forms/ImagePicker";
+import { useRichSlateConfiguration } from "./hooks/useRichSlateConfiguration";
 
-export const Toolbar = ({
-  configuration: { structure, multipleHeadings, separator, images },
-}: Pick<RichEditorProps, "configuration">) => {
+export type RichSlateToolbarProps = PropsWithClassName<{}>;
+
+export const RichSlateToolbar = ({ className }: RichSlateToolbarProps) => {
   const { t } = useTranslation("editor");
   const editor = useSlateStatic();
+  const { multipleHeadings, separator, images } = useRichSlateConfiguration();
 
   return (
     <div
-      className={classNames("z-40", {
-        "sticky top-[var(--navbar-height)] bg-white pt-[var(--navbar-margin-bottom)]":
-          structure === "main",
-      })}
+      className={classNames(
+        className,
+        "bg-secondary flex items-center gap-1 border border-gray-100 px-1 py-1"
+      )}
     >
-      <div
-        className={classNames(
-          "bg-secondary flex items-center gap-1 border border-gray-100 px-1 py-1",
-          {
-            "rounded-lg": structure === "main",
-            "rounded-t": structure === "secondary",
-          }
-        )}
-      >
-        {multipleHeadings ? (
-          <>
-            <ToolbarButton
-              tooltip={t("heading1")}
-              icon="ri:h-1"
-              listener={(editor) => {
-                EditorUtils.toggleBlock(editor, "heading1");
-              }}
-              selected={(editor) =>
-                EditorUtils.isBlockActive(editor, "heading1")
-              }
-            />
-
-            <ToolbarButton
-              tooltip={t("heading2")}
-              icon="ri:h-2"
-              listener={(editor) => {
-                EditorUtils.toggleBlock(editor, "heading2");
-              }}
-              selected={(editor) =>
-                EditorUtils.isBlockActive(editor, "heading2")
-              }
-            />
-          </>
-        ) : (
+      {multipleHeadings ? (
+        <>
           <ToolbarButton
-            tooltip={t("heading")}
-            icon="ri:heading"
+            tooltip={t("heading1")}
+            icon="ri:h-1"
+            listener={(editor) => {
+              EditorUtils.toggleBlock(editor, "heading1");
+            }}
+            selected={(editor) => EditorUtils.isBlockActive(editor, "heading1")}
+          />
+
+          <ToolbarButton
+            tooltip={t("heading2")}
+            icon="ri:h-2"
             listener={(editor) => {
               EditorUtils.toggleBlock(editor, "heading2");
             }}
             selected={(editor) => EditorUtils.isBlockActive(editor, "heading2")}
           />
-        )}
-
+        </>
+      ) : (
         <ToolbarButton
-          tooltip={t("quote")}
-          icon="ri:double-quotes-l"
+          tooltip={t("heading")}
+          icon="ri:heading"
           listener={(editor) => {
-            EditorUtils.toggleBlock(editor, "quote");
+            EditorUtils.toggleBlock(editor, "heading2");
           }}
-          selected={(editor) => EditorUtils.isBlockActive(editor, "quote")}
+          selected={(editor) => EditorUtils.isBlockActive(editor, "heading2")}
         />
+      )}
 
+      <ToolbarButton
+        tooltip={t("quote")}
+        icon="ri:double-quotes-l"
+        listener={(editor) => {
+          EditorUtils.toggleBlock(editor, "quote");
+        }}
+        selected={(editor) => EditorUtils.isBlockActive(editor, "quote")}
+      />
+
+      <ToolbarButton
+        tooltip={t("code-block")}
+        icon="ri:code-s-line"
+        listener={(editor) => {
+          EditorUtils.toggleBlock(editor, "code-block");
+        }}
+        selected={(editor) => EditorUtils.isBlockActive(editor, "code-block")}
+      />
+
+      <ToolbarButton
+        tooltip={t("bulleted-list")}
+        icon="ri:list-unordered"
+        listener={(editor) => {
+          EditorUtils.toggleBlock(editor, "bulleted-list");
+        }}
+        selected={(editor) =>
+          EditorUtils.isBlockActive(editor, "bulleted-list")
+        }
+      />
+
+      <ToolbarButton
+        tooltip={t("numbered-list")}
+        icon="ri:list-ordered"
+        listener={(editor) => {
+          EditorUtils.toggleBlock(editor, "numbered-list");
+        }}
+        selected={(editor) =>
+          EditorUtils.isBlockActive(editor, "numbered-list")
+        }
+      />
+
+      {(separator || images) && <TypicalVerticalDivider />}
+
+      {separator && (
         <ToolbarButton
-          tooltip={t("code-block")}
-          icon="ri:code-s-line"
+          tooltip={t("separator")}
+          icon="ri:separator"
           listener={(editor) => {
-            EditorUtils.toggleBlock(editor, "code-block");
-          }}
-          selected={(editor) => EditorUtils.isBlockActive(editor, "code-block")}
-        />
-
-        <ToolbarButton
-          tooltip={t("bulleted-list")}
-          icon="ri:list-unordered"
-          listener={(editor) => {
-            EditorUtils.toggleBlock(editor, "bulleted-list");
-          }}
-          selected={(editor) =>
-            EditorUtils.isBlockActive(editor, "bulleted-list")
-          }
-        />
-
-        <ToolbarButton
-          tooltip={t("numbered-list")}
-          icon="ri:list-ordered"
-          listener={(editor) => {
-            EditorUtils.toggleBlock(editor, "numbered-list");
-          }}
-          selected={(editor) =>
-            EditorUtils.isBlockActive(editor, "numbered-list")
-          }
-        />
-
-        {(separator || images) && <TypicalVerticalDivider />}
-
-        {separator && (
-          <ToolbarButton
-            tooltip={t("separator")}
-            icon="ri:separator"
-            listener={(editor) => {
-              EditorUtils.insertSeparator(editor);
-            }}
-          />
-        )}
-
-        {images && (
-          <ImagePicker
-            onCropped={async ({ src, cropData }) => {
-              EditorUtils.insertImage(editor, src, cropData);
-            }}
-          >
-            {(openFileBrowser) => (
-              <ToolbarButton
-                tooltip={t("image")}
-                icon="ri:image-line"
-                listener={() => {
-                  openFileBrowser();
-                }}
-              />
-            )}
-          </ImagePicker>
-        )}
-
-        <TypicalVerticalDivider />
-
-        <ToolbarButton
-          tooltip={t("undo")}
-          icon="ri:arrow-go-back-line"
-          listener={(editor) => {
-            HistoryEditor.undo(editor);
+            EditorUtils.insertSeparator(editor);
           }}
         />
+      )}
 
-        <ToolbarButton
-          tooltip={t("redo")}
-          icon="ri:arrow-go-forward-line"
-          listener={(editor) => {
-            HistoryEditor.redo(editor);
+      {images && (
+        <ImagePicker
+          onCropped={async ({ src, cropData }) => {
+            EditorUtils.insertImage(editor, src, cropData);
           }}
-        />
-      </div>
+        >
+          {(openFileBrowser) => (
+            <ToolbarButton
+              tooltip={t("image")}
+              icon="ri:image-line"
+              listener={() => {
+                openFileBrowser();
+              }}
+            />
+          )}
+        </ImagePicker>
+      )}
+
+      <TypicalVerticalDivider />
+
+      <ToolbarButton
+        tooltip={t("undo")}
+        icon="ri:arrow-go-back-line"
+        listener={(editor) => {
+          HistoryEditor.undo(editor);
+        }}
+      />
+
+      <ToolbarButton
+        tooltip={t("redo")}
+        icon="ri:arrow-go-forward-line"
+        listener={(editor) => {
+          HistoryEditor.redo(editor);
+        }}
+      />
     </div>
   );
 };
