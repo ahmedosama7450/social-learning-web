@@ -1,4 +1,5 @@
 import { ApolloError } from "@apollo/client";
+import { getType } from "jest-get-type";
 import { TFunction } from "next-i18next";
 import { UseFormSetError } from "react-hook-form";
 
@@ -48,12 +49,12 @@ export function setFormValidationErrors(
  * Note: Arrays are not recursively traversed
  */
 function traverseObject(
-  obj: object,
+  obj: Record<string, any>,
   execute: (key: string, value: any) => void
 ) {
   for (const key in obj) {
-    const maybeNestedObj = (obj as any)[key];
-    if (typeof maybeNestedObj === "object" && !Array.isArray(maybeNestedObj)) {
+    const maybeNestedObj = obj[key];
+    if (getType(maybeNestedObj) === "object") {
       // Keep going deeper
       traverseObject(maybeNestedObj, execute);
     } else {

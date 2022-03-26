@@ -1,3 +1,5 @@
 {
-  "min-size": "Min size validation"
+  "min-size": "Min size validation",
+
+  "general-error": "Something went wrong"
 }
