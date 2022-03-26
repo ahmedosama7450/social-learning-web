@@ -28,7 +28,8 @@ export const WrappedLoadingButton = <T extends ButtonType>(
     <Button
       {...buttonProps}
       ref={ref}
-      innerProps={{ ...innerProps, disabled: loading }}
+      // @ts-ignore
+      innerProps={{ ...innerProps, disabled: innerProps?.disabled || loading }}
       iconProps={
         // TODO do we need animate className ??
         !loading ? iconProps : { icon: "eos-icons:loading" }
