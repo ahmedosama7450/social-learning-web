@@ -1,8 +1,6 @@
 import classNames from "classnames";
 import { useTranslation } from "react-i18next";
-
-import { Button, BaseButton, Avatar } from ".";
-import { PropsWithClassName } from "../lib/types";
+import { Button, BaseButton, Avatar, PropsWithClassName } from "overwind-ui";
 
 /*
   TODO This component is more of a placeholder for now and no functionality is implemented yet!
@@ -40,10 +38,10 @@ export const SidebarSpaces = ({ className }: PropsWithClassName<{}>) => {
           key={index}
           type="next-link"
           href={href}
-          className="flex items-center gap-2 mt-3.5"
+          className="mt-3.5 flex items-center gap-2"
         >
           <Avatar
-            avatarUrl={avatarUrl}
+            avatarSrc={avatarUrl}
             size="lg"
             roundedFull
             className="shrink-0"

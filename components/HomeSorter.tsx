@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 
-import { Button, IconIdentifier, RegularDropdown } from ".";
+import { Button, IconIdentifier, RegularDropdown } from "overwind-ui";
 
 export const HOME_SORTING_QUERY_NAME = "sorting";
 

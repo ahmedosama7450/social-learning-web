@@ -1,8 +1,12 @@
 import classNames from "classnames";
 import { useTranslation } from "next-i18next";
+import {
+  ActiveLink,
+  Icon,
+  IconIdentifier,
+  PropsWithClassName,
+} from "overwind-ui";
 
-import { ActiveLink, Icon, IconIdentifier } from ".";
-import { PropsWithClassName } from "../lib/types";
 import { SidebarSpaces } from "./SidebarSpaces";
 
 // TODO Maybe hover effects need to stand out more, Idk. It looks simple and neat as it is, though
@@ -24,7 +28,7 @@ export const Sidebar = ({
       className={classNames(
         className,
         responsive
-          ? "hidden xs:flex xs:flex-col xs:w-[var(--collapsed-sidebar-width)] xl:w-[var(--sidebar-width)] xl:pr-4"
+          ? "hidden xs:flex xs:w-[var(--collapsed-sidebar-width)] xs:flex-col xl:w-[var(--sidebar-width)] xl:pr-4"
           : "flex flex-col"
       )}
     >
@@ -41,15 +45,15 @@ export const Sidebar = ({
                 className={classNames("shrink-0", {
                   // Last item in collapsed sidebar shouldn't divider
                   [i !== sidebarItems.length - 1 || !responsive
-                    ? "border-b border-gray-100 pb-2.5 mb-1"
-                    : "xl:border-b xl:border-gray-100 xl:pb-2.5 xl:mb-1"]: divider,
+                    ? "mb-1 border-b border-gray-100 pb-2.5"
+                    : "xl:mb-1 xl:border-b xl:border-gray-100 xl:pb-2.5"]: divider,
                 })}
               >
                 <ActiveLink
                   href={href}
                   className={(active) =>
                     classNames(
-                      "flex items-center gap-3 group",
+                      "group flex items-center gap-3",
 
                       responsive
                         ? "rounded-full p-2 xl:rounded xl:py-2.5 xl:pl-1"
@@ -85,7 +89,7 @@ export const Sidebar = ({
                           }
                         )}
                       >
-                        {t("common:sidebar.items." + titleKey)}
+                        {t("common:sidebar.items." + titleKey).toString()}
                       </div>
                     </>
                   )}

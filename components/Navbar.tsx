@@ -1,16 +1,13 @@
 import classNames from "classnames";
-
 import {
   BaseButton,
   Icon,
   IconButton,
-  Logo,
-  SearchBar,
-  DetailedUserAvatar,
   SlideOver,
-  Sidebar,
-} from ".";
-import { PropsWithClassName } from "../lib/types";
+  PropsWithClassName,
+} from "overwind-ui";
+
+import { Logo, SearchBar, DetailedUserAvatar, Sidebar } from ".";
 import { UserFragment } from "../__generated__/graphql";
 
 export interface NavbarProps {
@@ -39,7 +36,7 @@ export const Navbar = ({
 
             - Before xs, nothing needs to be done because there the sidebar is hidden
         */}
-        <div className="xs:flex xs:justify-center xs:w-[var(--collapsed-sidebar-width)] xl:hidden">
+        <div className="xs:flex xs:w-[var(--collapsed-sidebar-width)] xs:justify-center xl:hidden">
           <SlideOver
             header={() => <Logo />}
             headerDivider
@@ -59,7 +56,7 @@ export const Navbar = ({
         </div>
 
         {/* When sidebar shows starting from xs, the title is aligned with layout content */}
-        <div className="xs:ml-[var(--sidebar-margin-right)] ml-2.5 text-xl font-semibold text-gray-600">
+        <div className="ml-2.5 text-xl font-semibold text-gray-600 xs:ml-[var(--sidebar-margin-right)]">
           {title}
         </div>
       </div>
@@ -93,12 +90,12 @@ export const Navbar = ({
         {/*TODO Will be turned into a profile dropdown */}
         <BaseButton
           type="button"
-          className="flex items-center gap-3 rounded-sm pseudo-bg-sm hover:before:ring-gray before:rounded-sm hover:before:ring-1"
+          className="pseudo-bg-sm flex items-center gap-3 rounded-sm before:rounded-sm hover:before:ring-1 hover:before:ring-gray"
         >
           <DetailedUserAvatar hideDetailsBelowXs user={user} />
 
           <Icon
-            className="hidden text-gray-500 shrink-0 sm:block"
+            className="hidden shrink-0 text-gray-500 sm:block"
             icon="ri:arrow-down-s-line"
             size="md"
           />

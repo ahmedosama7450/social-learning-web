@@ -1,5 +1,4 @@
-import { IconButton, IconButtonProps } from ".";
-import { PropsWithRequiredChildren } from "../lib/types";
+import { IconButton, IconButtonProps, PropsWithRequiredChildren} from "overwind-ui";
 
 export type AsideTemplateProps = PropsWithRequiredChildren<{
   title: string;

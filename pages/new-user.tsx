@@ -1,39 +1,41 @@
 import { GetStaticProps, NextPage } from "next";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { useForm, UseFormReturn } from "react-hook-form";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
-
 import {
-  useCreateUserMutation,
-  useLogoutMutation,
-  Locale,
-  UserCreateInput,
-  useTempUserInfoQuery,
-} from "../__generated__/graphql";
-import {
-  Logo,
   Button,
+  ConfirmationDialog,
   LoadingButton,
   RegisteredInputField,
   RegisteredTextareaField,
-  RegisteredUserAvatarPicker,
-  Loader,
-  RedirectLoader,
-  Error,
-  ConfirmationDialog,
-  EduOrgsLoader,
+} from "overwind-ui";
+
+import {
   EduOrgSelect,
+  EduOrgsLoader,
+  Error,
+  Loader,
+  Logo,
+  RedirectLoader,
+  RegisteredUserAvatarPicker,
 } from "../components";
+import {
+  AUTHENTICATION_ERROR_CODE,
+  EXISTING_USER_ERROR_CODE,
+} from "../lib/backendValues";
 import {
   isClient,
   isErrorWithCode,
   setFormValidationErrors,
 } from "../lib/utils";
 import {
-  AUTHENTICATION_ERROR_CODE,
-  EXISTING_USER_ERROR_CODE,
-} from "../lib/backendValues";
+  Locale,
+  useCreateUserMutation,
+  useLogoutMutation,
+  UserCreateInput,
+  useTempUserInfoQuery,
+} from "../__generated__/graphql";
 
 type FormInputs = Omit<UserCreateInput, "locale">;
 
@@ -109,12 +111,15 @@ const NewUserPage: NextPage = () => {
   return (
     <EduOrgsLoader>
       {(eduOrgs) => (
-        <div className="pb-16 bg-white">
+        <div className="bg-white pb-16">
           <header className="py-3.5">
-            <nav className="flex items-center justify-between max-w-6xl px-3 mx-auto sm:px-10">
+            <nav className="mx-auto flex max-w-6xl items-center justify-between px-3 sm:px-10">
               <Logo />
               <ConfirmationDialog
-                messageKey="common:confirm-logout"
+                title={t("common:confirm-title")}
+                message={t("common:confirm-logout")}
+                confirmButtonText={t("common:confirm")}
+                cancelButtonText={t("common:cancel")}
                 confirmListener={() => {
                   logout();
                 }}
@@ -139,17 +144,17 @@ const NewUserPage: NextPage = () => {
               </ConfirmationDialog>
             </nav>
           </header>
-          <main className="max-w-2xl px-3 mx-auto mt-4 sm:px-8">
+          <main className="mx-auto mt-4 max-w-2xl px-3 sm:px-8">
             {/* TODO Add an illustration img here */}
-            <h2 className="text-2xl font-bold text-center text-gray-900 sm:text-3xl">
-              {t("profile:create-profile-title")}
+            <h2 className="text-center text-2xl font-bold text-gray-900 sm:text-3xl">
+              {t("profile:create-profile-title").toString()}
             </h2>
-            <p className="mt-2 mb-6 text-lg text-center text-gray-600 sm:mt-3 sm:mb-8 sm:text-xl">
-              {t("profile:create-profile-under-title")}
+            <p className="mt-2 mb-6 text-center text-lg text-gray-600 sm:mt-3 sm:mb-8 sm:text-xl">
+              {t("profile:create-profile-under-title").toString()}
             </p>
             <form
               onSubmit={formMethods.handleSubmit(onSubmit)}
-              className="p-3 border rounded shadow-sm sm:p-4"
+              className="rounded border p-3 shadow-sm sm:p-4"
             >
               <RegisteredUserAvatarPicker
                 name="avatar"
@@ -227,7 +232,7 @@ const NewUserPage: NextPage = () => {
               <LoadingButton
                 type="button"
                 size="lg"
-                className="w-full mt-7"
+                className="mt-7 w-full"
                 color="primary"
                 loading={createUserCalled && createUserLoading}
                 innerProps={{ type: "submit" }}

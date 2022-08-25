@@ -1,6 +1,6 @@
 import { TFunction } from "next-i18next";
 
-import { CustomSelectFieldOption } from "../components";
+import { CustomSelectFieldOption } from "overwind-ui";
 import {
   College,
   Colleges,

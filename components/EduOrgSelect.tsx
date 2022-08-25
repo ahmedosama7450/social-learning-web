@@ -2,11 +2,11 @@ import classNames from "classnames";
 import { useTranslation } from "next-i18next";
 import { UseFormReturn } from "react-hook-form";
 import { useEffect } from "react";
+import { RegisteredCustomSelectField, PropsWithClassName } from "overwind-ui";
 
-import { RegisteredCustomSelectField } from ".";
 import { EDU_ORGS_GENERAL_OPTION_VALUE } from "../lib/backendValues";
 import { EduOrgs } from "../lib/backendTypes";
-import { PropsWithClassName, EduOrg } from "../lib/types";
+import { EduOrg } from "../lib/types";
 import {
   makeCollegesOptions,
   makeUniversitiesOptions,
@@ -50,7 +50,7 @@ export const EduOrgSelect = ({
   return (
     <div
       className={classNames(className, {
-        "grid grid-cols-1 sm:grid-cols-2 gap-5": structure === "normal",
+        "grid grid-cols-1 gap-5 sm:grid-cols-2": structure === "normal",
         "space-y-3.5": structure === "aside",
       })}
     >

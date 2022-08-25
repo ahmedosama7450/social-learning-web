@@ -1,8 +1,7 @@
 import classNames from "classnames";
 import { useTranslation } from "next-i18next";
 
-import { BaseButton } from "..";
-import { ClickListener } from "../../lib/types";
+import { BaseButton, ClickListener } from "overwind-ui";
 
 // TODO Make a better logo (Better icon, Better name)
 

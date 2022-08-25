@@ -3,12 +3,13 @@ import { TFunction, useTranslation } from "next-i18next";
 import { useEffect } from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 import { Disclosure } from "@headlessui/react";
+import { BaseButton, PropsWithClassName, Icon } from "overwind-ui";
 
-import { BaseButton, Tag, TagActionType, Icon } from ".";
+import { Tag, TagActionType } from ".";
 import { Tags } from "../lib/backendTypes";
+import { EduOrgWithTags } from "../lib/types";
 import { EDU_ORGS_GENERAL_OPTION_VALUE } from "../lib/backendValues";
 import { findExistingTags } from "../lib/eduOrgsUtils";
-import { PropsWithClassName, EduOrgWithTags } from "../lib/types";
 
 export interface TagsSelectProps {
   value: number[];
@@ -37,7 +38,7 @@ export const TagsSelect = ({
       {existingTagsIds.length === 0 ? (
         // TODO Create a better empty state
         <div className={classNames(className, "text-sm text-gray-700")}>
-          {t("edu-orgs:tags-empty-state")}
+          {t("edu-orgs:tags-empty-state").toString()}
         </div>
       ) : (
         <div className={className}>
@@ -60,7 +61,7 @@ export const TagsSelect = ({
             <Disclosure.Button
               as={BaseButton}
               type="button"
-              className="flex items-center w-full pb-1 border-b"
+              className="flex w-full items-center border-b pb-1"
             >
               {({ open }) => (
                 <>
@@ -68,11 +69,11 @@ export const TagsSelect = ({
                     icon="ri:arrow-down-s-fill"
                     size="md"
                     vFlip={!open}
-                    className="shrink-0 -ml-1 text-gray-500"
+                    className="-ml-1 shrink-0 text-gray-500"
                   />
 
                   <div className="text-xs font-medium tracking-wide text-gray-600">
-                    {t("Existing Tags")}
+                    {t("Existing Tags").toString()}
                   </div>
                 </>
               )}

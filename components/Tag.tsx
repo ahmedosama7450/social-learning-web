@@ -1,8 +1,7 @@
 import classNames from "classnames";
+import { IconButton, PropsWithClassName } from "overwind-ui";
 
-import { IconButton } from ".";
 import { TagType } from "../lib/backendTypes";
-import { PropsWithClassName } from "../lib/types";
 
 export type TagActionType = "add" | "remove";
 
@@ -28,7 +27,7 @@ export const Tag = ({
     <div
       className={classNames(
         className,
-        "px-1.5 py-0.5 rounded-md flex items-center justify-center",
+        "flex items-center justify-center rounded-md px-1.5 py-0.5",
 
         // Color
         {

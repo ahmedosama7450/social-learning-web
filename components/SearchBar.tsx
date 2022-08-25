@@ -1,15 +1,18 @@
-import { useTranslation } from "next-i18next";
 import classNames from "classnames";
 
-import { Icon, InputField, IconButton } from "../../.";
+import { Icon ,InputField,IconButton} from "overwind-ui";
 
 // TODO Implement search functionality
 
 // TODO Search bar is too big on firefox (probably a line height inconsistency)
 
-export const SearchBar = ({ className }: { className?: string }) => {
-  const { t } = useTranslation();
-
+export const SearchBar = ({
+  placeholder,
+  className,
+}: {
+  placeholder?: string;
+  className?: string;
+}) => {
   return (
     <>
       <IconButton
@@ -29,8 +32,8 @@ export const SearchBar = ({ className }: { className?: string }) => {
           "hidden md:block md:w-48 lg:w-72 xl:w-96"
         )}
         innerProps={{
+          placeholder,
           className: "pl-10",
-          placeholder: t("common:search"),
         }}
         border="none"
         filled

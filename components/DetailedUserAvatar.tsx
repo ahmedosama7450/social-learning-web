@@ -1,7 +1,7 @@
 import classNames from "classnames";
 
-import { UserAvatar, UserReputation } from "../..";
-import { UserFragment } from "../../../__generated__/graphql";
+import { UserAvatar, UserReputation } from "../components";
+import { UserFragment } from "../__generated__/graphql";
 
 export type DetailedUserAvatarProps = {
   user: Pick<UserFragment, "firstName" | "lastName" | "avatar" | "reputation">;

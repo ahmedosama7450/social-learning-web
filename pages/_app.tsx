@@ -1,10 +1,9 @@
-import "../styles/globals.css";
-import "tippy.js/dist/tippy.css";
+import "../styles/index.css";
 
-import Script from "next/script";
 import { AppProps } from "next/app";
 import { ApolloProvider } from "@apollo/client";
 import { appWithTranslation } from "next-i18next";
+import { OverwindProvider } from "overwind-ui";
 
 import { useApollo } from "../lib/apolloClient";
 
@@ -21,12 +20,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ApolloProvider client={apolloClient}>
-      <Script
-        src="/node_modules/focus-visible/dist/focus-visible.min.js"
-        strategy="beforeInteractive"
-      />
-
-      <Component {...pageProps} />
+      <OverwindProvider>
+        <Component {...pageProps} />
+      </OverwindProvider>
     </ApolloProvider>
   );
 }

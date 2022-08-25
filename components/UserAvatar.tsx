@@ -1,6 +1,6 @@
-import { AvatarProps, Avatar } from "./Avatar";
+import { AvatarProps, Avatar } from "overwind-ui";
 
-export type UserAvatarProps = Omit<AvatarProps, "avatarUrl"> & {
+export type UserAvatarProps = Omit<AvatarProps, "avatarSrc"> & {
   /**
    * This is not a url, but more of an identifier for the avatar
    * If the passed in avatar doesn't exist in avatars map, a default avatar is used
@@ -16,7 +16,7 @@ export const UserAvatar = ({
     <Avatar
       {...avatarProps}
       // avatars must match this path
-      avatarUrl={`/avatars/${
+      avatarSrc={`/avatars/${
         avatar !== null && avatar in USER_AVATARS_MAP
           ? USER_AVATARS_MAP[avatar]
           : USER_AVATARS_MAP[DEFAULT_USER_AVATAR]

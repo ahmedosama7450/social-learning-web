@@ -1,8 +1,7 @@
 import classNames from "classnames";
 import { useTranslation } from "next-i18next";
 
-import { ActiveLink } from ".";
-import { PropsWithClassName } from "../lib/types";
+import { ActiveLink, PropsWithClassName } from "overwind-ui";
 
 export const HomeTabs = ({ className }: PropsWithClassName<{}>) => {
   const { t } = useTranslation("home");
@@ -17,12 +16,12 @@ export const HomeTabs = ({ className }: PropsWithClassName<{}>) => {
               classNames(
                 "block px-2 pb-1.5 text-md",
                 active
-                  ? "border-b-4 border-primary text-gray-900 font-medium"
+                  ? "border-b-4 border-primary font-medium text-gray-900"
                   : "text-gray-500 hover:text-gray-900"
               )
             }
           >
-            {t(`main-tabs.${titleKey}`)}
+            {t(`main-tabs.${titleKey}`).toString()}
           </ActiveLink>
         </li>
       ))}

@@ -1,4 +1,5 @@
-import { PropsWithRequiredChildren } from "../lib/types";
+import { PropsWithRequiredChildren } from "overwind-ui";
+
 import { Navbar, NavbarProps } from "./Navbar";
 import { Sidebar } from "./Sidebar";
 
@@ -25,11 +26,11 @@ export const Layout = ({ children, title, user }: LayoutProps) => {
   return (
     <div className="min-h-screen bg-white">
       <header className="sticky top-0 z-50 h-[var(--navbar-height)] bg-white shadow-sm">
-        <Navbar user={user} title={title} className="h-full layout-boundary" />
+        <Navbar user={user} title={title} className="layout-boundary h-full" />
       </header>
 
-      <div className="flex items-start layout-boundary">
-        <Sidebar className="sticky top-[var(--navbar-height)] pt-[var(--navbar-margin-bottom)] h-[calc(100vh-var(--navbar-height))] overflow-y-auto shrink-0 border-r border-gray-100" />
+      <div className="layout-boundary flex items-start">
+        <Sidebar className="sticky top-[var(--navbar-height)] h-[calc(100vh-var(--navbar-height))] shrink-0 overflow-y-auto border-r border-gray-100 pt-[var(--navbar-margin-bottom)]" />
 
         <main className="grow">{children}</main>
       </div>

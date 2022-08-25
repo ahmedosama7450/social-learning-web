@@ -1,6 +1,6 @@
 import { useEduOrgsInfoQuery } from "../../__generated__/graphql";
-import { Loader } from "../foundation/Loader";
-import { Error } from "../foundation/Error";
+import { Loader } from "../Loader";
+import {Error} from "../Error";
 import { EduOrgs } from "../../lib/backendTypes";
 
 export const EduOrgsLoader = ({

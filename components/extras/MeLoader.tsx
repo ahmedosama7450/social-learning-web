@@ -1,6 +1,6 @@
 import { useMeQuery, UserFragment } from "../../__generated__/graphql";
-import { Loader } from "../foundation/Loader";
-import { Error } from "../foundation/Error";
+import { Loader } from "..";
+import { Error } from "..";
 
 export const MeLoader = ({
   children,

@@ -5,19 +5,19 @@ import classNames from "classnames";
 import { useTranslation } from "next-i18next";
 
 import {
-  Button,
-  TypicalDialog,
   UserAvatar,
   USER_AVATARS_MAP,
   DEFAULT_USER_AVATAR,
-  Icon,
-} from "../..";
+} from ".";
 import {
+  TypicalDialog,
+  Button,
+  Icon,
   SelectivePartial,
   RegisteredControlledFieldProps,
   PropsWithClassName,
   PropsWithState,
-} from "../../../lib/types";
+} from "overwind-ui";
 
 export type UserAvatarPickerProps = PropsWithClassName<
   PropsWithState<string, {}>

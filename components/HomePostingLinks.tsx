@@ -1,8 +1,12 @@
 import classNames from "classnames";
 import { useTranslation } from "next-i18next";
 
-import { IconIdentifier, Icon, BaseButton } from ".";
-import { PropsWithClassName } from "../lib/types";
+import {
+  IconIdentifier,
+  Icon,
+  BaseButton,
+  PropsWithClassName,
+} from "overwind-ui";
 
 export const HomePostingLinks = ({ className }: PropsWithClassName<{}>) => {
   const { t } = useTranslation("home");
@@ -19,16 +23,16 @@ export const HomePostingLinks = ({ className }: PropsWithClassName<{}>) => {
           key={i}
           type="next-link"
           href={href}
-          className="flex flex-col items-center justify-center flex-1 h-32 px-1.5 text-center border border-gray-200 rounded sm:px-3 bg-secondary hover:bg-gray-100"
+          className="flex h-32 flex-1 flex-col items-center justify-center rounded border border-gray-200 bg-secondary px-1.5 text-center hover:bg-gray-100 sm:px-3"
         >
           <Icon size="lg" icon={icon} className="text-gray-500" />
 
-          <div className="mt-1.5 text-sm sm:text-base font-semibold text-gray-800">
-            {t(`posting-links.${i18nKey}.title`)}
+          <div className="mt-1.5 text-sm font-semibold text-gray-800 sm:text-base">
+            {t(`posting-links.${i18nKey}.title`).toString()}
           </div>
 
-          <div className="text-xs mt-0.5 text-gray-500 sm:text-gray-600">
-            {t(`posting-links.${i18nKey}.desc`)}
+          <div className="mt-0.5 text-xs text-gray-500 sm:text-gray-600">
+            {t(`posting-links.${i18nKey}.desc`).toString()}
           </div>
         </BaseButton>
       ))}
